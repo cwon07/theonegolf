@@ -14,8 +14,81 @@
   }
 }
 
+html,
 body {
+  height: 100%; /* Ensure full height */
+  margin: 0;    /* Remove any default margin */
+  padding: 0;   /* Remove any default padding */
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1; /* Take up remaining space */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-container {
+  flex: 1;
+  overflow-y: auto; /* Scroll content if needed */
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 600px) {
+  /* Mobile adjustments */
+  .content-container {
+    width: 90%; /* Wider for mobile */
+    padding: 1rem;
+    height: calc(100vh - 60px); /* Adjusted height */
+  }
+
+  .content-container h2 {
+    font-size: 1.5rem; /* Smaller heading */
+  }
+
+  .content-container p {
+    font-size: 0.9rem; /* Smaller text */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tablet adjustments */
+  .content-container {
+    width: 85%;
+    padding: 1.5rem;
+  }
+
+  .content-container h2 {
+    font-size: 1.75rem;
+  }
+
+  .content-container p {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop adjustments */
+  .content-container {
+    width: 80%;
+    padding: 2rem;
+  }
+
+  .content-container h2 {
+    font-size: 2rem;
+  }
+
+  .content-container p {
+    font-size: 1.125rem;
+  }
 }
