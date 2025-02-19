@@ -1,9 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const router = useRouter();
+
+  const handleAdminLoginClick = () => {
+    router.push('/admin');
+  };
+
   return (
     <header
       style={{
@@ -14,20 +20,33 @@ export default function Header() {
         borderBottom: "2px solid #ddd",
       }}
     >
+      <div 
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center' 
+        }}>
+      
       {/* Logo on the left */}
-      <Link href="/" style={{ display: "flex", alignItems: "center" }}>
         <Image src="/logo.svg" alt="Logo" width={50} height={50} />
-      </Link>
+      </div>
 
       {/* Centered Title */}
-      <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
-        <h1 style={{ margin: 0, fontSize: "1.5rem", textAlign: "center", flexGrow: 1 }}>
-            The Monday Club
+        <h1
+          onClick={() => router.push('/')} 
+          style={{ 
+            cursor: "pointer", 
+            margin: "0 auto", 
+            fontSize: "1.5rem", 
+            textAlign: "center", 
+            flexGrow: 1, 
+          }}
+        >
+          The Monday Club
         </h1>
-      </Link>
 
       {/* Admin Login Button on the right */}
       <button
+        onClick={handleAdminLoginClick}
         style={{
           background: "#007bff",
           color: "#fff",
@@ -36,7 +55,6 @@ export default function Header() {
           borderRadius: "5px",
           cursor: "pointer",
         }}
-        onClick={() => alert("Admin Login Clicked")}
       >
         Admin Login
       </button>
