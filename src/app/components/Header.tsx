@@ -7,7 +7,7 @@ export default function Header() {
   const router = useRouter();
 
   const handleAdminLoginClick = () => {
-    router.push('/admin');
+    router.push('/admin/login');
   };
 
   return (
