@@ -1,5 +1,6 @@
 import math
 #Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+#npm run dev
 
 members_M = [
 ['王惠風'],
