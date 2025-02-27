@@ -28,22 +28,25 @@ export default function Home() {
           alignItems: "center", 
         }}
       >
+        
       <div
-        style={{
-          width: "80%", // Adjust the width to your preference
-          maxWidth: "900px", // Max width to prevent it from growing too large
-          minHeight:"400px",
-          maxHeight:"calc(100vh - 120px)", // Fixed height
-          padding: "2rem",
-          borderRadius: "12px", // Round corners
-          border: "2px solid slategray", // Slate grey border
-          boxSizing: "border-box", // Ensure padding is inside the border
-          backgroundColor: "white",
-          overflowY: "auto", // Enables vertical scrolling if content exceeds height
-          transition: "all 0.3s ease-in-out", // Smooth transition for responsiveness
-        }}
+          style={{
+            width: "80%", // Responsive width
+            maxWidth: "900px", // Prevents it from growing too large
+            minHeight: "60vh", // Ensures enough height on small screens
+            maxHeight: "calc(100vh - 120px)", // Prevents it from exceeding screen height
+            padding: "2rem",
+            borderRadius: "12px",
+            border: "2px solid #778899", // Softer slate gray color
+            boxSizing: "border-box",
+            backgroundColor: "white",
+            overflowY: "auto", // Enables scrolling when needed
+            transition: "all 0.3s ease-in-out",
+            display: "flex", // Allows flexible internal positioning
+            flexDirection: "column", // Stacks content vertically
+          }}
       >
-            {selectedMenu === "rules" && (
+            {selectedMenu === "general-rules" && (
               <div>
                 <h2>Tournaments and Gatherings</h2>
                 <p>5 - 9 月比賽（4 times）</p>
