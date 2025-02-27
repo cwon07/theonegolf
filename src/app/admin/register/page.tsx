@@ -24,14 +24,14 @@ export default function AdminRegister() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/admin/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
       });
 
       const data = await res.json();
-
+      
       if (!res.ok) {
         setMessage(data.error || "Something went wrong");
         return;

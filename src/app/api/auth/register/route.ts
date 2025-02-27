@@ -15,7 +15,10 @@ const Admin = mongoose.models.Admin || mongoose.model("Admin", AdminSchema);
 
 export async function POST(req: Request) {
   try {
-    const { username, password, email } = await req.json();
+    
+    const body = await req.json(); // Ensure JSON is properly parsed
+    console.log("Request body:", body);
+    const { username, password, email } = body;
 
     // Validate request data
     if (!username || !password || !email) {
@@ -38,8 +41,10 @@ export async function POST(req: Request) {
     await newAdmin.save();
 
     return NextResponse.json({ message: "Admin registered successfully" }, { status: 201 });
+    
   } catch (error) {
     console.error("Error registering admin:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+   return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+   
   }
 }
