@@ -148,16 +148,10 @@ export default function Home() {
                 <p>19,楊紫均,35,Sandy Yang</p>
               </div>
             )}
-            {selectedMenu === "currentEvent" && (
+            {selectedMenu === "event-results" && (
               <div>
-                <h2>Current Event</h2>
-                <p>Details about the current event...</p>
-              </div>
-            )}
-            {selectedMenu === "pastEventResults" && (
-              <div>
-                <h2>Past Event Results</h2>
-                <p>Here are the results from past events...</p>
+                <h2>Event Results</h2>
+                <p>Need to add something to select events</p>
               </div>
             )}
           </div>

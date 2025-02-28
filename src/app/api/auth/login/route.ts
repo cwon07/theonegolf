@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { connectToDatabase } from "@/app/lib/database/index"
+import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/app/lib/database/index";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -12,47 +12,41 @@ const AdminSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-
 const Admin = mongoose.models.Admin || mongoose.model("Admin", AdminSchema);
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    const { email, password } = req.body;
+export async function POST(req: Request) {
+  try {
+    const { username, password } = await req.json();
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Both email and password are required" });
+    if (!username || !password) {
+      return NextResponse.json({ error: "Both email and password are required" }, { status: 400 });
     }
 
-    try {
-      await connectToDatabase();
+    await connectToDatabase();
 
-      // Find the admin by email
-      const admin = await Admin.findOne({ email });
-      if (!admin) {
-        return res.status(404).json({ error: "Admin not found" });
-      }
-
-      // Compare provided password with the stored hashed password
-      const isPasswordCorrect = await bcrypt.compare(password, admin.password);
-      if (!isPasswordCorrect) {
-        return res.status(401).json({ error: "Invalid password" });
-      }
-
-      // Generate a JWT token
-      const token = jwt.sign(
-        { id: admin._id, username: admin.username, email: admin.email },
-        process.env.JWT_SECRET as string, // Set JWT secret in .env
-        { expiresIn: "1h" } // Set token expiration time
-      );
-
-      // Send the token as a response
-      return res.status(200).json({ message: "Login successful", token });
-    } catch (error) {
-      console.error("Error:", error);
-      return res.status(500).json({ error: "Internal server error" });
+    // Find the admin by email
+    const admin = await Admin.findOne({ username });
+    if (!admin) {
+      return NextResponse.json({ error: "Admin not found" }, { status: 404 });
     }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    return res.status(405).json({ error: `Method ${req.method} not allowed` });
+
+    // Compare provided password with the stored hashed password
+    const isPasswordCorrect = await bcrypt.compare(password, admin.password);
+    if (!isPasswordCorrect) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign(
+      { id: admin._id, username: admin.username, email: admin.email },
+      process.env.JWT_SECRET as string, // Ensure JWT_SECRET is set in .env
+      { expiresIn: "1h" }
+    );
+
+    // Return the token in the response
+    return NextResponse.json({ message: "Login successful", token }, { status: 200 });
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

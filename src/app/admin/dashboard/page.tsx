@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -13,11 +13,12 @@ export default function AdminDashboard() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token"); // Get the stored token
+    console.log("Retrieved token:", token); // ✅ Debugging log
 
     if (!token) {
       // If no token, redirect to login page
-      router.push("/admin");
+      router.push("/admin/login");
     }
 
     // Optionally, you can verify the token with your API to check its validity

@@ -1,34 +1,48 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Prevent multiple requests
+  const router = useRouter(); // Use Next.js router for navigation
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage(""); // Reset error message on new attempt
 
-    const response = await fetch("auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      // Store the JWT token in localStorage or cookies
-      localStorage.setItem("token", data.token);
-
-      // Redirect to the admin dashboard (or wherever you want)
-      window.location.href = "/admin/dashboard";
-    } else {
-      setErrorMessage(data.error || "Login failed");
+      if (response.ok) {
+        // Store the JWT token (Use sessionStorage instead of localStorage for better security)
+        console.log("Storing token in sessionStorage:", data.token);
+        sessionStorage.setItem("token", data.token);
+        console.log("Reloading window to reflect admin name change...");
+        router.push("/");  
+        //router.push("/");
+      } else {
+        console.error("Login failed:", data.error);
+        setErrorMessage(data.error || "Invalid username or password.");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      setErrorMessage("Network error. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,7 +97,7 @@ export default function AdminLogin() {
         <div className="mt-4 text-center">
           <p>
             Don't have an account?{" "}
-            <Link href="/admin/register" legacyBehavior>
+            <Link href="/" legacyBehavior>
               <a className="text-blue-500 hover:underline">Click here to register</a>
             </Link>
           </p>
