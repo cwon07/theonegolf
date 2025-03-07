@@ -97,7 +97,7 @@ export default function AdminLogin() {
         <div className="mt-4 text-center">
           <p>
             Don't have an account?{" "}
-            <Link href="/" legacyBehavior>
+            <Link href="/admin/register" legacyBehavior>
               <a className="text-blue-500 hover:underline">Click here to register</a>
             </Link>
           </p>

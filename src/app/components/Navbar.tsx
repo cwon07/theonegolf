@@ -43,6 +43,16 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
     }
   }, []);
 
+  const handleAdminClick  = () => {
+    if (adminName) {
+      // Navigate to the admin dashboard if logged in
+      router.push("/admin/dashboard");
+    } else {
+      // Redirect to login page if not logged in
+      router.push("/admin/login");
+    }
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -108,6 +118,29 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       <button onClick={() => onSelectMenu("event-results")} style={navLinkStyle}>
         Event Results
       </button>
+
+      {/* Admin Login Button on the right */}
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        {adminName ? (
+          <span style={{ fontWeight: "bold", color: "#0000FE" }}>
+            Welcome, {adminName}
+          </span>
+        ) : (
+          <button
+            onClick={handleAdminClick}
+            style={{
+              background: "#007bff",
+              color: "#fff",
+              border: "none",
+              padding: "0.5rem 1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Admin Login
+          </button>
+        )}
+      </div>
 
       {/* Admin Dropdown (Only if Admin is Logged In) */}
       {adminName && (

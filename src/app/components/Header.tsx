@@ -44,15 +44,7 @@ export default function Header() {
     checkAdminStatus();
   }, []);
 
-  const handleAdminClick  = () => {
-    if (adminName) {
-      // Navigate to the admin dashboard if logged in
-      router.push("/admin/dashboard");
-    } else {
-      // Redirect to login page if not logged in
-      router.push("/admin/login");
-    }
-  };
+  
 
   const handleLogoClick = () => {
     // Open the modal to show the larger logo
@@ -82,28 +74,7 @@ export default function Header() {
     <Image src="/Monday_Club_Logo.png" alt="Logo" width={150} height={150} priority/>
   </div>
 
-      {/* Admin Login Button on the right */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        {adminName ? (
-          <span style={{ fontWeight: "bold", color: "#0000FE" }}>
-            Welcome, {adminName}
-          </span>
-        ) : (
-          <button
-            onClick={handleAdminClick}
-            style={{
-              background: "#007bff",
-              color: "#fff",
-              border: "none",
-              padding: "0.5rem 1rem",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Admin Login
-          </button>
-        )}
-      </div>
+      
 
       {/* Modal for the Larger Logo */}
       {isModalOpen && (

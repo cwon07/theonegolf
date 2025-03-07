@@ -1,6 +1,5 @@
 "use client"
 
-import { createUser } from "./lib/actions/user.actions";
 import { useState } from "react";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
@@ -13,39 +12,27 @@ export default function Home() {
   };
 
   return (
-    <>
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <Header />
-      <Navbar onSelectMenu={handleSelectMenu} />
+    <>  
+      <div className="min-h-screen flex flex-col">
+       
+        {/* Header + Navbar combined with logo on the left */}
+        <div className="flex items-center justify-between bg-gray-400 text-white p-4">
+          {/* Logo on the left */}
+          <div className="flex items-center space-x-4">
+          <Header />
+          </div>
+          {/* Navbar */}
+          <Navbar onSelectMenu={handleSelectMenu} />
+        </div>
 
-
+      {/* Main Content Area */}
       <div 
-        style={{ 
-          padding: "1rem", 
-          flexGrow: 1, // Ensures the content div grows to fill available space
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center", 
-        }}
-      >
+        className="flex justify-center items-center p-4 flex-grow">
+        <div
+            className="w-full max-w-4xl min-h-[60vh] max-h-[calc(100vh-120px)] p-8 bg-white border-2 border-slate-300 rounded-xl shadow-lg overflow-y-auto transition-all duration-300 ease-in-out flex flex-col"
+        >
+          <h2 className="text-2xl font-bold text-center">Welcome to Monday Club</h2>
         
-      <div
-          style={{
-            width: "80%", // Responsive width
-            maxWidth: "900px", // Prevents it from growing too large
-            minHeight: "60vh", // Ensures enough height on small screens
-            maxHeight: "calc(100vh - 120px)", // Prevents it from exceeding screen height
-            padding: "2rem",
-            borderRadius: "12px",
-            border: "2px solid #778899", // Softer slate gray color
-            boxSizing: "border-box",
-            backgroundColor: "white",
-            overflowY: "auto", // Enables scrolling when needed
-            transition: "all 0.3s ease-in-out",
-            display: "flex", // Allows flexible internal positioning
-            flexDirection: "column", // Stacks content vertically
-          }}
-      >
             {selectedMenu === "general-rules" && (
               <div>
                 <h2>Tournaments and Gatherings</h2>
@@ -154,37 +141,9 @@ export default function Home() {
                 <p>Need to add something to select events</p>
               </div>
             )}
-          </div>
+         </div> 
         </div>
-      </div>
-
-      {/* <main style={{ padding: "2rem" }}>
-        <form
-          action="/api/createUser"
-          method="post"
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-        >
-          <div>
-            <label htmlFor="username">Username</label>
-            <input id="username" name="username" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input id="firstName" name="firstName" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input id="lastName" name="lastName" type="text" required />
-          </div>
-          <div>
-            <label htmlFor="email">Email Address</label>
-            <input id="email" name="email" type="email" required />
-          </div>
-          <button type="submit" style={{ marginTop: "1rem" }}>
-            Submit
-          </button>
-        </form>
-      </main> */}
+      </div>  
     </>
   );
 }
