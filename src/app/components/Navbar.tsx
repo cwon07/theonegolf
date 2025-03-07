@@ -17,10 +17,12 @@ interface DecodedToken {
 
 const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isEventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [isAdminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [adminName, setAdminName] = useState<string | null>(null);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRefevent = useRef<HTMLDivElement>(null);
   const adminDropdownRef = useRef<HTMLDivElement>(null);
   
 
@@ -58,6 +60,9 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (dropdownRefevent.current && !dropdownRefevent.current.contains(event.target as Node)) {
+        setEventDropdownOpen(false);
       }
       if (adminDropdownRef.current && !adminDropdownRef.current.contains(event.target as Node)) {
         setAdminDropdownOpen(false);
@@ -115,9 +120,28 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       <button onClick={() => onSelectMenu("members")} style={navLinkStyle}>
         Members
       </button>
-      <button onClick={() => onSelectMenu("event-results")} style={navLinkStyle}>
-        Event Results
-      </button>
+
+      {/* Events Dropdown */}
+      <div className="relative" ref={dropdownRefevent}>
+        <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
+          Events ▼
+        </button>
+        {isEventDropdownOpen && (
+          <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col">
+            <button
+              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+              onClick={() => onSelectMenu("current-event")}>
+              Current Event
+            </button>
+            <button
+              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+              onClick={() => onSelectMenu("past-events")}            >
+              Past Events
+            </button>
+
+          </div>
+        )}
+      </div>
 
 
       {/* Admin Dropdown (Only if Admin is Logged In) */}

@@ -135,10 +135,16 @@ export default function Home() {
                 <p>19,楊紫均,35,Sandy Yang</p>
               </div>
             )}
-            {selectedMenu === "event-results" && (
+            {selectedMenu === "current-event" && (
               <div>
-                <h2>Event Results</h2>
-                <p>Need to add something to select events</p>
+                <h2>Current Event</h2>
+                <p>Need to display group with tee times and members in the groups. Also empty fields for score recording and winner recording</p>
+              </div>
+            )}
+            {selectedMenu === "past-events" && (
+              <div>
+                <h2>Past Events</h2>
+                <p>Need to display past event - date, group, player scores, and winners</p>
               </div>
             )}
          </div> 
