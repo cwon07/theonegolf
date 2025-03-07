@@ -59,19 +59,18 @@ export default function Header() {
   return (
     <header
       style={{
+        flex: 1,
         display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "1rem",
-        borderBottom: "2px solid #ddd",
-        width: "100%",
+        justifyContent: "flex-start",
+        paddingLeft: "1rem",
+        cursor: "pointer"
       }}
     >
     <div 
-        style={{ flex: 1, display: "flex", justifyContent: "center", cursor: "pointer" }}
+        style={{ flex: 1, display: "flex", justifyContent: "flex-start", paddingLeft: "12rem", cursor: "pointer" }}
         onClick={handleLogoClick} // Trigger onClick event here
       >
-    <Image src="/Monday_Club_Logo.png" alt="Logo" width={150} height={150} priority/>
+    <Image src="/Monday_Club_Logo.png" alt="Logo" width={100} height={100} priority/>
   </div>
 
       
@@ -85,7 +84,7 @@ export default function Header() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark background
+            backgroundColor: "white", 
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

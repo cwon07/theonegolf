@@ -77,8 +77,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
         justifyContent: "center",
         gap: "2rem",
         padding: "1rem 0",
-        backgroundColor: "#f8f9fa",
-        borderBottom: "2px solid #ddd",
+        backgroundColor: "white",
         position: "relative",
       }}
     >
