@@ -76,14 +76,15 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
         display: "flex",
         justifyContent: "center",
         gap: "2rem",
-        padding: "1rem 0",
+        padding: "1rem",
+        paddingRight: "12rem",
         backgroundColor: "white",
         position: "relative",
       }}
     >
       {/* Rules Dropdown */}
       <div className="relative" ref={dropdownRef}>
-        <button onClick={() => setDropdownOpen(!isDropdownOpen)} className="font-bold p-2">
+        <button onClick={() => setDropdownOpen(!isDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
           Rules ▼
         </button>
         {isDropdownOpen && (
@@ -118,28 +119,6 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
         Event Results
       </button>
 
-      {/* Admin Login Button on the right */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        {adminName ? (
-          <span style={{ fontWeight: "bold", color: "#0000FE" }}>
-            Welcome, {adminName}
-          </span>
-        ) : (
-          <button
-            onClick={handleAdminClick}
-            style={{
-              background: "#007bff",
-              color: "#fff",
-              border: "none",
-              padding: "0.5rem 1rem",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Admin Login
-          </button>
-        )}
-      </div>
 
       {/* Admin Dropdown (Only if Admin is Logged In) */}
       {adminName && (
@@ -173,6 +152,30 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           )}
         </div>
       )}
+
+      {/* Admin Login Button on the right */}
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        {adminName ? (
+          <span style={{ fontWeight: "bold", color: "#0000FE", fontSize: "1.2rem" }}>
+            Welcome, {adminName}
+          </span>
+        ) : (
+          <button
+            onClick={handleAdminClick}
+            style={{
+              background: "#007bff",
+              color: "#fff",
+              border: "none",
+              fontSize: "1.2rem",
+              padding: "0.5rem 1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Admin Login
+          </button>
+        )}
+      </div>
     </nav>
   );
 };
@@ -181,7 +184,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 const navLinkStyle = {
   textDecoration: "none",
   color: "#333",
-  fontSize: "1rem",
+  fontSize: "1.2rem",
   fontWeight: "bold",
   cursor: "pointer",
   padding: "0.5rem 1rem",
@@ -195,6 +198,7 @@ const dropdownStyle = {
   position: "absolute" as const,
   top: "100%",
   left: 0,
+  fontSize: "1.2rem",
   background: "white",
   color: "#0000FE",
   border: "1px solid #ddd",
@@ -214,7 +218,7 @@ const dropdownItemStyle = {
   border: "none",
   background: "white",
   color: "#333",
-  fontSize: "1rem",
+  fontSize: "1.2rem",
   width: "100%",
   transition: "background 0.2s ease",
   hover: {

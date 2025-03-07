@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const [tournament, setTournament] = useState({
+  const [event, setEvent] = useState({
     date: "",
     time: "",
     malePlayers: "",
@@ -20,20 +20,42 @@ export default function AdminDashboard() {
       // If no token, redirect to login page
       router.push("/admin/login");
     }
-
-    // Optionally, you can verify the token with your API to check its validity
-    // You can use `fetch` to verify the token against your backend before allowing access
   }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setTournament({ ...tournament, [e.target.name]: e.target.value });
+    setEvent({ ...event, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Tournament Created:", tournament);
-    alert("Tournament created successfully!");
-    // TODO: Send this data to a backend (e.g., API call to save in a database)
+    console.log("Tournament Created:", event);
+
+    // Send the event data to the API
+    const eventData = {
+      date: event.date,
+      time: event.time,
+      malePlayers: event.malePlayers.split(",").map((player) => player.trim()),
+      femalePlayers: event.femalePlayers.split(",").map((player) => player.trim()),
+    };
+
+    try {
+      const response = await fetch("/api/event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventData),
+      });
+
+      if (response.ok) {
+        alert("Tournament created successfully!");
+      } else {
+        alert("Failed to create event.");
+      }
+    } catch (error) {
+      console.error("Error creating event:", error);
+      alert("An error occurred while creating the event.");
+    }
   };
 
   return (
@@ -43,11 +65,11 @@ export default function AdminDashboard() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block font-semibold">Date:</label>
-            <input 
-              type="date" 
-              name="date" 
-              value={tournament.date} 
-              onChange={handleChange} 
+            <input
+              type="date"
+              name="date"
+              value={event.date}
+              onChange={handleChange}
               className="w-full p-2 border rounded-md"
               required
             />
@@ -55,11 +77,11 @@ export default function AdminDashboard() {
 
           <div>
             <label className="block font-semibold">Time:</label>
-            <input 
-              type="time" 
-              name="time" 
-              value={tournament.time} 
-              onChange={handleChange} 
+            <input
+              type="time"
+              name="time"
+              value={event.time}
+              onChange={handleChange}
               className="w-full p-2 border rounded-md"
               required
             />
@@ -67,12 +89,12 @@ export default function AdminDashboard() {
 
           <div>
             <label className="block font-semibold">Male Players (comma-separated):</label>
-            <textarea 
-              name="malePlayers" 
-              value={tournament.malePlayers} 
-              onChange={handleChange} 
-              className="w-full p-2 border rounded-md" 
-              rows={3} 
+            <textarea
+              name="malePlayers"
+              value={event.malePlayers}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              rows={3}
               placeholder="Enter names, separated by commas"
               required
             />
@@ -80,19 +102,19 @@ export default function AdminDashboard() {
 
           <div>
             <label className="block font-semibold">Female Players (comma-separated):</label>
-            <textarea 
-              name="femalePlayers" 
-              value={tournament.femalePlayers} 
-              onChange={handleChange} 
-              className="w-full p-2 border rounded-md" 
-              rows={3} 
+            <textarea
+              name="femalePlayers"
+              value={event.femalePlayers}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              rows={3}
               placeholder="Enter names, separated by commas"
               required
             />
           </div>
 
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-            Create Tournament
+            Create Tournament Event
           </button>
         </form>
       </div>

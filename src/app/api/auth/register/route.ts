@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/app/lib/database";
+import { connectToDatabase } from "@/app/lib/database/index";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
