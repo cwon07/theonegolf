@@ -117,7 +117,9 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       </div>
 
       {/* Other Menu Items */}
-      <button onClick={() => onSelectMenu("members")} style={navLinkStyle}>
+      <button
+         className="font-bold p-2 text-[1.2rem]" // Tailwind hover effect for the dropdown item
+        onClick={() => router.push("/members")}>
         Members
       </button>
 
@@ -158,18 +160,30 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
             <div style={dropdownStyle}>
               <button
                 className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-                onClick={() => router.push("/admin/dashboard")}
-              >
+                onClick={() => router.push("/admin/dashboard")}>
                 Create Golf Event
               </button>
               <button
                 className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-                onClick={() => {
+                >
+                Update Golf Event
+              </button>
+              <button
+                className="p-2 hover:bg-gray-100"
+                onClick={() => router.push("/admin/create_member")}>
+                Create Member
+              </button>
+              <button
+                className="p-2 hover:bg-gray-100">
+                Update Member
+              </button>
+              <button
+                className="p-2 hover:bg-gray-100"
+                  onClick={() => {
                   sessionStorage.removeItem("token");
                   setAdminName(null);
                   window.location.reload();
-                }}
-              >
+                }}>
                 Logout
               </button>
             </div>
