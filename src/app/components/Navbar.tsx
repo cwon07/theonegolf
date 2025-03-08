@@ -108,7 +108,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
             </button>
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => onSelectMenu("etiquette")}
+              onClick={() => onSelectMenu("handicap-rules")}
             >
               差點調整
             </button>
