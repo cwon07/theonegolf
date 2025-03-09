@@ -132,7 +132,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col">
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => onSelectMenu("current-event")}>
+              onClick={() => router.push("/eventsview")}>
               Current Event
             </button>
             <button

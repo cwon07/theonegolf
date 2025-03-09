@@ -1,10 +1,11 @@
 import mongoose, { Schema, Document, model } from "mongoose";
+import Member from "@/app/lib/database/models/members.model";
 
 export interface IEvent extends Document {
   date: string; // "YYYY-MM-DD"
   time: string; // "HH:MM AM/PM"
-  malePlayers: string[]; // Array of names
-  femalePlayers: string[]; // Array of names
+  group_count: number;
+  players: Number[]
 }
 
 const eventSchema = new Schema<IEvent>({
@@ -27,24 +28,7 @@ const eventSchema = new Schema<IEvent>({
       message: "Invalid time format. Should be in 'hh:mm AM/PM' format.",
     },
   },
-  malePlayers: {
-    type: [String],
-    required: true,
-    validate: {
-      validator: (value: string[]) =>
-        value.every((name) => /^[A-Za-z]+\s[A-Za-z]+$/.test(name)),
-      message: "Each male player's name must be in 'First Last' format",
-    },
-  },
-  femalePlayers: {
-    type: [String],
-    required: true,
-    validate: {
-      validator: (value: string[]) =>
-        value.every((name) => /^[A-Za-z]+\s[A-Za-z]+$/.test(name)),
-      message: "Each female player's name must be in 'First Last' format",
-    },
-  },
+  group_count: {  type: Number, required: true}
 });
 
 const Event =

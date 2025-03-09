@@ -8,8 +8,8 @@ export default function AdminDashboard() {
   const [event, setEvent] = useState({
     date: "",
     time: "",
-    malePlayers: "",
-    femalePlayers: "",
+    group_count: "",
+    players: "",
   });
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export default function AdminDashboard() {
     const eventData = {
       date: event.date,
       time: event.time,
-      malePlayers: event.malePlayers.split(",").map((player) => player.trim()),
-      femalePlayers: event.femalePlayers.split(",").map((player) => player.trim()),
+      group_count: Number(event.group_count),
+      players: event.players.split(",").map((player) => player.trim()),
     };
 
     try {
@@ -86,29 +86,27 @@ export default function AdminDashboard() {
               required
             />
           </div>
-
           <div>
-            <label className="block font-semibold">Male Players (comma-separated):</label>
-            <textarea
-              name="malePlayers"
-              value={event.malePlayers}
+            <label className="block font-semibold">Group Count:</label>
+            <input
+              type="number"
+              name="group_count"
+              value={event.group_count}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
-              rows={3}
-              placeholder="Enter names, separated by commas"
               required
+              min="1"
             />
           </div>
-
           <div>
-            <label className="block font-semibold">Female Players (comma-separated):</label>
+            <label className="block font-semibold">Players (comma-separated):</label>
             <textarea
-              name="femalePlayers"
-              value={event.femalePlayers}
+              name="players"
+              value={event.players}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
               rows={3}
-              placeholder="Enter names, separated by commas"
+              placeholder="Enter player IDs, separated by commas"
               required
             />
           </div>
