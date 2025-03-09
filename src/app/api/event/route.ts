@@ -61,6 +61,15 @@ export async function POST(req: Request) {
       await group.save();
       console.log(`Group ${i + 1} created with time: ${groupTime}`);
       
+            function shuffleArray(array: any[]) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+      }
+
+      shuffleArray(players); 
+
       // Distribute players into rounds for this group
       const groupPlayers = players.slice(playerIndex, playerIndex + 4); // Each group gets 4 players
       playerIndex += 4; // Move the player index forward by 4

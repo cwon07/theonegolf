@@ -62,7 +62,7 @@ export default function EventsView() {
                                     round.members.map((member: any) => (
                                       <li key={member._id} className="flex justify-between items-center">
                                         {/* Display member name and Front 9, Back 9 in the same row */}
-                                        <span className="font-medium">{member.name}</span>
+                                        <span className="font-medium">{member.name} (ID: {member.id})</span>
                                         <span className="ml-4">
                                           Front: {round.front_9 ?? "N/A"}, Back: {round.back_9 ?? "N/A"}
                                         </span>
