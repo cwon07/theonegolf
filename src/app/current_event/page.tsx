@@ -131,29 +131,43 @@ export default function EventsView() {
 
                           {/* Render Rounds */}
                           {group.rounds && group.rounds.length > 0 && (
-                            <div className="mt-2">
+                            <div className="mt-4">
+                              <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                                <span>Name (ID)</span>
+                                <span>Front</span>
+                                <span>Back</span>
+                                <span>Total</span>
+                              </div>
                               {group.rounds.map((round: any) => (
                                 <div key={round._id || `round-${group._id}-${Math.random()}`} className="mt-2">
                                   <ul className="list-none space-y-1">
-                                    {round.members &&
-                                      round.members.map((member: any) => (
-                                        <li key={member._id || `member-${round._id}-${Math.random()}`} className="flex justify-between items-center border-b pb-1">
-                                          {/* Conditional Styling for Member Name */}
-                                          <span
-                                            className={`font-medium ${
-                                              member.sex === "Male" ? "text-blue-500" : "text-pink-500"
-                                            }`}
-                                          >
-                                            {member.name} (ID: {member.id})
-                                          </span>
-                                          <span className="ml-4">
-                                            {round.front_9 && round.back_9
-                                              ? `${round.front_9} ${round.back_9}`
-                                              : "N/A N/A"}
-                                          </span>
-                                        </li>
-                                      ))}
-                                  </ul>
+                                  {/* Member Data */}
+                                  {round.members &&
+                                    round.members.map((member: any) => (
+                                      <li
+                                        key={member._id || `member-${round._id}-${Math.random()}`}
+                                        className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800"
+                                        >
+                                        {/* Conditional Styling for Member Name */}
+                                        <span
+                                          className={`font-medium text-left ${
+                                            member.sex === "Male" ? "text-blue-500" : "text-pink-500"
+                                          }`}
+                                        >
+                                          {member.name} (ID: {member.id})
+                                        </span>
+
+                                        {/* Scores with Alignment */}
+                                        <span className="text-left w-16">{round.front_9 ?? ""}</span>
+                                        <span className="text-left w-16">{round.back_9 ?? ""}</span>
+                                        <span className="text-left w-16">
+                                          {round.front_9 && round.back_9
+                                            ? Number(round.front_9) + Number(round.back_9)
+                                            : ""}
+                                        </span>
+                                      </li>
+                                    ))}
+                                </ul>
                                 </div>
                               ))}
                             </div>
