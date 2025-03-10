@@ -1,8 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { FC, useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 // Define the types for the event structure
+interface DecodedToken {
+  id: string;
+  username: string;
+  email: string;
+  exp: number;
+}
+
 interface Member {
   id: number;
   name: string;
@@ -39,6 +48,25 @@ export default function EventsView() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [memberIds, setMemberIds] = useState<string>(""); // Store comma-separated member IDs
+  const [adminName, setAdminName] = useState<string | null>(null);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+          try {
+            const decoded: DecodedToken = jwtDecode(token);
+            if (decoded.exp * 1000 > Date.now()) {
+              setAdminName(decoded.username);
+            } else {
+              sessionStorage.removeItem("token");
+              setAdminName(null);
+            }
+          } catch (error) {
+            console.error("Error decoding token:", error);
+            setAdminName(null);
+          }
+        }
+      }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -60,32 +88,14 @@ export default function EventsView() {
     fetchEvents();
   }, []);
 
+
+  
   if (loading) return <p>Loading events...</p>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">Golf Tournament Events</h1>
-
-        {/* Input field and button for swapping members */}
-        <div className="mb-4">
-          <input
-            type="text"
-            value={memberIds}
-            onChange={(e) => setMemberIds(e.target.value)}
-            placeholder="Enter member IDs to swap, e.g., 123, 456"
-            className="p-2 border rounded-md"
-          />
-          <button
-            onClick={() => { 
-              console.log("Button clicked!");  // Test if button click triggers
-              //handleSwapMembers();  // Call your handler function
-            }}
-            className="ml-2 p-2 bg-blue-500 text-white rounded-md"
-          >
-            Swap Members
-          </button>
-        </div>
 
         {events.length === 0 ? (
           <p>No events found.</p>
@@ -102,8 +112,22 @@ export default function EventsView() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                       {event.groups.map((group: any, groupIndex: number) => (
                         <div key={group._id || `group-${event._id}-${groupIndex}`} className="p-4 border rounded-md shadow-sm bg-gray-50">
-                          <p className="font-medium">Date: {group.date}</p>
-                          <p className="font-medium">Tee Time: {group.time}</p>
+                          {/* Date, Tee Time, and Update Button in a single row */}
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <p className="font-medium">Date: {group.date}</p>
+                              <p className="font-medium">Tee Time: {group.time}</p>
+                            </div>
+                            {/* Update Group Button (Blue) */}
+                            {adminName && (
+                              <button
+                                //onClick={() => handleUpdateGroup(group._id)}
+                                className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+                              >
+                                Update Group
+                              </button>
+                            )}
+                          </div>
 
                           {/* Render Rounds */}
                           {group.rounds && group.rounds.length > 0 && (
