@@ -16,7 +16,7 @@ export default function EventsView() {
         if (response.ok) {
           setEvents(data);
         } else {
-          console.error("Failed to fetch events:", data.error);
+          console.error("Failed to fetch events:", data?.error || "Unknown error");
         }
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -69,15 +69,18 @@ export default function EventsView() {
                           <p className="font-medium">Group Time: {group.time}</p>
 
                           {/* Render Rounds */}
-                          {group.rounds && group.rounds.length > 0 && (
+                            {Array.isArray(group.rounds) && group.rounds.length > 0 && (
                             <div className="mt-2">
                               <h4 className="font-semibold">Rounds</h4>
-                              {group.rounds.map((round: any) => (
-                                <div key={round._id} className="mt-2">
+                              {group.rounds.map((round: any, roundIndex: number) => (
+                                <div key={round._id || `round-${roundIndex}`} className="mt-2">
                                   <ul className="list-disc pl-5">
-                                    {round.members &&
-                                      round.members.map((member: any) => (
-                                        <li key={member._id} className="flex justify-between items-center">
+                                    {Array.isArray(round.members) &&
+                                      round.members.map((member: any, memberIndex: number) => (
+                                        <li
+                                          key={member._id || `member-${roundIndex}-${memberIndex}`}
+                                          className="flex justify-between items-center"
+                                        >
                                           {/* Display member name and Front 9, Back 9 in the same row */}
                                           <span className="font-medium">{member.name} (ID: {member.id})</span>
                                           <span className="ml-4">
@@ -89,7 +92,7 @@ export default function EventsView() {
                                 </div>
                               ))}
                             </div>
-                          )}
+                            )}
                         </div>
                       ))}
                     </div>

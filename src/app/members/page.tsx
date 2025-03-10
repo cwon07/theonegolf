@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Header from "@/app/components/Header";
+import Navbar from "@/app/components/Navbar";
 
 export default function MembersPage() {
   const [members, setMembers] = useState([]);
@@ -26,8 +28,22 @@ export default function MembersPage() {
     fetchMembers();
   }, []);
 
+  const handleSelectMenu = (menu: string) => {
+    console.log("Selected menu:", menu);
+  };
+  
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+    <div className="min-h-screen bg-white">
+    {/* Header & Navbar */}
+    <div className="bg-white shadow-md">
+      <div className="container mx-auto flex items-center justify-between p-4">
+        <Header />
+        <Navbar onSelectMenu={handleSelectMenu}/>
+      </div>
+    </div>
+
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-white">
       <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">All Members</h1>
 
@@ -52,6 +68,7 @@ export default function MembersPage() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
