@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document, model } from "mongoose";
-import Member from "@/app/lib/database/models/members.model";
 
 export interface IEvent extends Document {
   date: string; // "YYYY-MM-DD"

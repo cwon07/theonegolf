@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "@/app/components/Header"
+import Navbar from "@/app/components/Navbar"
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -25,6 +27,10 @@ export default function AdminDashboard() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEvent({ ...event, [e.target.name]: e.target.value });
   };
+
+  const handleSelectMenu = (menu: string) => {
+    console.log("Selected menu:", menu);
+  };  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +65,17 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+
+    <div className="min-h-screen bg-white">
+    {/* Header + Navbar */}
+    <div className="bg-white shadow-md">
+      <div className="container mx-auto flex items-center justify-between p-4">
+        <Header />
+        <Navbar onSelectMenu={handleSelectMenu} />
+      </div>
+    </div>
+
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-white">
       <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">Create Golf Tournament Event</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -116,6 +132,7 @@ export default function AdminDashboard() {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 }
