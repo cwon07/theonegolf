@@ -1,16 +1,24 @@
 import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/app/lib/database"; // Adjust the path as needed
 import Event from "@/app/lib/database/models/event.model"; // Your Event model
 import Group from "@/app/lib/database/models/group.model"; // Your Group model
 import Round from "@/app/lib/database/models/round.model"; // Your Round model
 import Member from "@/app/lib/database/models/members.model"; // Your Member model
 
+// GET Route - Fetch Events
 export async function GET(req: Request) {
   try {
+    await connectToDatabase(); // Connect to the database
+
     // Fetch all events
-    const events = await Event.find();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ensure we compare only the date part
+
+    // Fetch only future events
+    const events = await Event.find({ date: { $gte: today.toISOString().split("T")[0] } });
 
     if (events.length === 0) {
-      return NextResponse.json({ error: "No events found" }, { status: 404 });
+      return NextResponse.json({ error: "No upcoming events found" }, { status: 404 });
     }
 
     const eventDetails = await Promise.all(
@@ -24,16 +32,16 @@ export async function GET(req: Request) {
             // Get rounds using the group rounds _ids
             const rounds = await Round.find({ _id: { $in: group.rounds } });
 
-            console.log(`Rounds found for group ${group._id}:`, rounds);
-
             // For each round, fetch member details (round.members is a single memberId)
             const roundsWithMembers = await Promise.all(
               rounds.map(async (round) => {
-                const member = await Member.findOne({ id: round.members }); // Find member by memberId
+                const member = await Member.findOne({ id: round.members }).select("id name sex");
 
                 return {
-                  ...round,
-                  members: member ? [member] : [], // Wrap the member in an array
+                  ...round.toObject(),
+                  members: member
+                    ? [{ id: member.id, name: member.name, sex: member.sex }]
+                    : [], // Return `id`, `name`, & `sex`
                 };
               })
             );

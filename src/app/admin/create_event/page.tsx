@@ -39,7 +39,7 @@ export default function AdminDashboard() {
     };
 
     try {
-      const response = await fetch("/api/event", {
+      const response = await fetch("/api/create_event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

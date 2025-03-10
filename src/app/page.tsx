@@ -85,20 +85,7 @@ export default function Home() {
               <div>
                 <h2>月賽規則詳解</h2>
               </div>
-            )}         
-            
-            {selectedMenu === "current-event" && (
-              <div>
-                <h2>Current Event</h2>
-                <p>Need to display group with tee times and members in the groups. Also empty fields for score recording and winner recording</p>
-              </div>
-            )}
-            {selectedMenu === "past-events" && (
-              <div>
-                <h2>Past Events</h2>
-                <p>Need to display past event - date, group, player scores, and winners</p>
-              </div>
-            )}
+            )}                               
          </div> 
         </div>
       </div>  

@@ -132,12 +132,12 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col">
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => router.push("/eventsview")}>
+              onClick={() => router.push("/current_event")}>
               Current Event
             </button>
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => onSelectMenu("past-events")}            >
+              onClick={() => router.push("/past_events")}>
               Past Events
             </button>
 
@@ -160,7 +160,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
             <div style={dropdownStyle}>
               <button
                 className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-                onClick={() => router.push("/admin/dashboard")}>
+                onClick={() => router.push("/admin/create_event")}>
                 Create Golf Event
               </button>
               <button

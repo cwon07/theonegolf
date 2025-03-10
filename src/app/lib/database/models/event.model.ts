@@ -28,7 +28,8 @@ const eventSchema = new Schema<IEvent>({
       message: "Invalid time format. Should be in 'hh:mm AM/PM' format.",
     },
   },
-  group_count: {  type: Number, required: true}
+  group_count: {  type: Number, required: true},
+  players: {type: [Number], required: true},
 });
 
 const Event =
