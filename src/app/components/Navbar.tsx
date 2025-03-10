@@ -46,10 +46,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
   }, []);
 
   const handleAdminClick  = () => {
-    if (adminName) {
-      // Navigate to the admin dashboard if logged in
-      router.push("/admin/dashboard");
-    } else {
+    if (!adminName) {
       // Redirect to login page if not logged in
       router.push("/admin/login");
     }
@@ -89,26 +86,32 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
     >
       {/* Rules Dropdown */}
       <div className="relative" ref={dropdownRef}>
-        <button onClick={() => setDropdownOpen(!isDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
+        <button onClick={() => {router.push("/"); setDropdownOpen(!isDropdownOpen);}} className="font-bold p-2 text-[1.2rem]">
           Rules ▼
         </button>
         {isDropdownOpen && (
           <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col">
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => onSelectMenu("general-rules")}
+              onClick={() => {
+                onSelectMenu("general-rules");
+              }}
             >
               月賽
             </button>
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => onSelectMenu("competition-rules")}
+              onClick={() => {
+                onSelectMenu("competition-rules")
+              }}
             >
               Competition Rules
             </button>
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => onSelectMenu("handicap-rules")}
+              onClick={() => {
+                onSelectMenu("handicap-rules")
+              }}
             >
               差點調整
             </button>
@@ -118,8 +121,8 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 
       {/* Other Menu Items */}
       <button
-         className="font-bold p-2 text-[1.2rem]" // Tailwind hover effect for the dropdown item
-        onClick={() => router.push("/members")}>
+        className="font-bold p-2 text-[1.2rem]" // Tailwind hover effect for the dropdown item
+        onClick={() => router.push("/list_members")}>
         Members
       </button>
 

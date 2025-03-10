@@ -54,7 +54,7 @@ export default function AdminDashboard() {
     };
 
     try {
-      const response = await fetch("/api/members", {
+      const response = await fetch("/api/create_member", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

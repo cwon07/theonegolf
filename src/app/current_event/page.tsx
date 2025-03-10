@@ -47,8 +47,8 @@ interface RoundWithGroup {
 export default function EventsView() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [memberIds, setMemberIds] = useState<string>(""); // Store comma-separated member IDs
   const [adminName, setAdminName] = useState<string | null>(null);
+  const router = useRouter();
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -87,8 +87,6 @@ export default function EventsView() {
 
     fetchEvents();
   }, []);
-
-
   
   if (loading) return <p>Loading events...</p>;
 
@@ -112,19 +110,21 @@ export default function EventsView() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                       {event.groups.map((group: any, groupIndex: number) => (
                         <div key={group._id || `group-${event._id}-${groupIndex}`} className="p-4 border rounded-md shadow-sm bg-gray-50">
-                          {/* Date, Tee Time, and Update Button in a single row */}
                           <div className="flex justify-between items-center">
                             <div>
                               <p className="font-medium">Date: {group.date}</p>
                               <p className="font-medium">Tee Time: {group.time}</p>
                             </div>
-                            {/* Update Group Button (Blue) */}
-                            {adminName && (
+                            {adminName && `group-${event._id}-${groupIndex}` && (
                               <button
-                                //onClick={() => handleUpdateGroup(group._id)}
+                              onClick={() => router.push(`/admin/update_group?groupId=${group._doc._id}`)}
+                              //onClick={() => {
+                                //  const derivedGroupId = group._doc._id;
+                                //  console.log('Derived groupId:', group._doc._id);
+                                //}}
                                 className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
                               >
-                                Update Group
+                                Update
                               </button>
                             )}
                           </div>
