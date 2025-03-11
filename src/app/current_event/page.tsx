@@ -108,10 +108,10 @@ export default function EventsView() {
 
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-4">Golf Tournament Events</h1>
+        <h1 className="text-2xl font-bold text-center mb-4">高爾夫賽事&球叙</h1>
 
         {events.length === 0 ? (
-          <p>No events found.</p>
+          <p>目前無賽事&球叙</p>
         ) : (
           <div className="space-y-4">
             {events.map((event: any, eventIndex: number) => (
@@ -121,12 +121,12 @@ export default function EventsView() {
                   eventIndex === events.length - 1 ? "" : "border-b border-gray-300 pb-4"
                 }`}
               >
-                <h2 className="text-xl font-semibold">Golf Event Date: {event.date}</h2>
+                <h2 className="text-xl font-semibold">日期: {event.date}</h2>
 
                 {/* Render Groups in 3 columns */}
                 {event.groups && event.groups.length > 0 && (
                   <div className="mt-4">
-                    <h3 className="font-bold">Groups</h3>
+                    <h3 className="font-bold">球組</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                       {event.groups.map((group: any, groupIndex: number) => (
                         <div
@@ -135,7 +135,7 @@ export default function EventsView() {
                         >
                           <div className="flex justify-between items-center">
                             <div>
-                              <p className="font-bold">Date: {group.date}</p>
+                              <p className="font-bold">日期: {group.date}</p>
                               <p className="font-bold">Tee Time: {group.time}</p>
                             </div>
                             {adminName && `group-${event._id}-${groupIndex}` && (
@@ -152,10 +152,10 @@ export default function EventsView() {
                           {group.rounds && group.rounds.length > 0 && (
                             <div className="mt-4">
                               <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                <span>Name (ID)</span>
-                                <span>Front</span>
-                                <span>Back</span>
-                                <span>Total</span>
+                                <span>姓名 (ID)</span>
+                                <span>前9洞</span>
+                                <span>後9洞</span>
+                                <span>總成績</span>
                               </div>
                               {group.rounds.map((round: any) => (
                                 <div

@@ -85,35 +85,27 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       }}
     >
       {/* Rules Dropdown */}
-      <div className="relative" ref={dropdownRef}>
+      <div className="font-bold relative text-[1.2rem]" ref={dropdownRef}>
         <button onClick={() => {setDropdownOpen(!isDropdownOpen);}} className="font-bold p-2 text-[1.2rem]">
-          Rules ▼
+          晚宴 & 規則▼
         </button>
         {isDropdownOpen && (
-          <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col">
+          <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => {
                 router.push("/rules_and_gathering");
               }}
             >
-              月賽
+              月賽規則 & 晚宴
             </button>
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => {
-                onSelectMenu("competition-rules")
+                router.push("/handicap");
               }}
             >
-              Competition Rules
-            </button>
-            <button
-              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => {
-                onSelectMenu("handicap-rules")
-              }}
-            >
-              差點調整
+              差點調整詳解
             </button>
           </div>
         )}
@@ -121,27 +113,27 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 
       {/* Other Menu Items */}
       <button
-        className="font-bold p-2 text-[1.2rem]" // Tailwind hover effect for the dropdown item
+        className="font-bold relative text-[1.2rem]" // Tailwind hover effect for the dropdown item
         onClick={() => router.push("/list_members")}>
-        Members
+        會員總覽
       </button>
 
       {/* Events Dropdown */}
-      <div className="relative" ref={dropdownRefevent}>
+      <div className="font-bold relative text-[1.2rem]" ref={dropdownRefevent}>
         <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
-          Events ▼
+          球隊賽事 ▼
         </button>
         {isEventDropdownOpen && (
-          <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col">
+          <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => router.push("/current_event")}>
-              Current Event
+                當前賽事&球叙
             </button>
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => router.push("/past_events")}>
-              Past Events
+                過往賽事&球叙
             </button>
 
           </div>

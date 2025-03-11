@@ -63,7 +63,7 @@ export default function MembersPage() {
         
           {/* Title and Gender Toggle */}
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">All Members</h1>
+            <h1 className="text-2xl font-bold">會員總覽</h1>
 
             {/* Gender Filter Toggle */}
             <div className="flex items-center space-x-3">
@@ -73,9 +73,9 @@ export default function MembersPage() {
                 onChange={(e) => setGenderFilter(e.target.value as "All" | "Male" | "Female")}
                 className="p-3 border rounded-md text-gray-900 text-lg font-semibold bg-gray-100"
               >
-                <option value="All">All</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="All">全部</option>
+                <option value="Male">男士</option>
+                <option value="Female">女士</option>
               </select>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function MembersPage() {
                     </span>
 
                     {/* ID Badge */}
-                    <span className="mt-1 px-3 py-1 text-sm font-medium text-gray-800 bg-gray-200 rounded-full">
+                    <span className="mt-1 px-3 py-1 text-sm font-semibold text-gray-800 bg-gray-200 rounded-full">
                       ID: {member.id}
                     </span>
 
@@ -119,8 +119,8 @@ export default function MembersPage() {
                           {member.eng_name || "No English Name"}
                         </p>
                         <p className="mt-2 font-semibold">
-                          Handicap:{" "}
-                          <span className="font-normal">
+                          差點:{" "}
+                          <span className="font-semibold">
                             {member.handicap.length > 0
                               ? member.handicap[member.handicap.length - 1]
                               : "N/A"}
@@ -134,7 +134,7 @@ export default function MembersPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-center text-gray-600 col-span-full">No members found.</p>
+                <p className="text-center text-gray-600 col-span-full">無會員.</p>
               )}
             </div>
           )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from 'next/link';
 import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
 
@@ -44,7 +45,9 @@ export default function Home() {
                 比賽時請組長嚴格按照標準規則計算稈數
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-                月賽成績會影響您的Handicap, 詳細資料請看差點調整
+                月賽成績會影響您的差點, 詳細資料請看
+                <Link href="/handicap" className="text-blue-600 underline">差點調整詳解
+                </Link>
               </li>
             </ul>
           </section>
