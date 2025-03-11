@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log("Received body:", body);
 
-    const { date, time, group_count, players } = body; // Including players
+    const { date, time, group_count, players, teeTimeInterval } = body;
 
     // Validate request data
     if (!date || !time || !group_count || !players) {
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     let playerQueue = [...femalePlayers]; // Start with females first
 
     while (playerQueue.length > 0 || malePlayers.length > 0) {
-      const groupTime = new Date(baseTime.getTime() + groups.length * 15 * 60000); // Increment time by 15 minutes
+      const groupTime = new Date(baseTime.getTime() + groups.length * teeTimeInterval * 60000);
 
       // 1. Create Group
       const group = new Group({

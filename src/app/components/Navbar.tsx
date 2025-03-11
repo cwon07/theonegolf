@@ -94,7 +94,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
             <button
               className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => {
-                onSelectMenu("general-rules");
+                router.push("/rules_and_gathering");
               }}
             >
               月賽

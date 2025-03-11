@@ -14,6 +14,8 @@ export default function AdminDashboard() {
     players: "",
   });
 
+  const [teeTimeInterval, setTeeTimeInterval] = useState<number>(10); // Default to 10
+
   useEffect(() => {
     const token = sessionStorage.getItem("token"); // Get the stored token
     console.log("Retrieved token:", token); // ✅ Debugging log
@@ -34,6 +36,12 @@ export default function AdminDashboard() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!event.date || !event.time || !event.group_count || !event.players.trim()) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     console.log("Tournament Created:", event);
 
     // Send the event data to the API
@@ -50,7 +58,11 @@ export default function AdminDashboard() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(eventData),
+        //body: JSON.stringify(eventData),
+        body: JSON.stringify({
+          ...eventData,
+          teeTimeInterval, // Pass teeTimeInterval separately
+        }),
       });
 
       if (response.ok) {
@@ -102,6 +114,25 @@ export default function AdminDashboard() {
               required
             />
           </div>
+
+          {/* Tee Time Interval Selection */}
+            <div>
+              <label className="block font-semibold">Tee Time Interval:</label>
+              <div className="flex items-center space-x-2">
+                <select
+                  value={teeTimeInterval}
+                  onChange={(e) => setTeeTimeInterval(Number(e.target.value))}
+                  className="p-2 border rounded-md w-full"
+                  required
+                >
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+                <span className="text-gray-600">minutes</span>
+              </div>
+            </div>
+
           <div>
             <label className="block font-semibold">Group Count:</label>
             <input
