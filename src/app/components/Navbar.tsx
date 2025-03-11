@@ -86,7 +86,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
     >
       {/* Rules Dropdown */}
       <div className="relative" ref={dropdownRef}>
-        <button onClick={() => {router.push("/"); setDropdownOpen(!isDropdownOpen);}} className="font-bold p-2 text-[1.2rem]">
+        <button onClick={() => {setDropdownOpen(!isDropdownOpen);}} className="font-bold p-2 text-[1.2rem]">
           Rules ▼
         </button>
         {isDropdownOpen && (
