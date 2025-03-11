@@ -3,6 +3,8 @@
 import { FC, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import Header from "@/app/components/Header";
+import Navbar from "@/app/components/Navbar";
 
 // Define the types for the event structure
 interface DecodedToken {
@@ -87,10 +89,23 @@ export default function EventsView() {
 
     fetchEvents();
   }, []);
+
+  const handleSelectMenu = (menu: string) => {
+    console.log("Selected menu:", menu);
+  };
   
   if (loading) return <p>Loading events...</p>;
 
   return (
+  <div className="min-h-screen bg-gray-100">
+      {/* Header & Navbar */}
+      <div className="bg-white shadow-md relative z-50">
+        <div className="container mx-auto flex items-center justify-between p-4">
+          <Header />
+          <Navbar onSelectMenu={handleSelectMenu} />
+        </div>
+      </div>
+
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">Golf Tournament Events</h1>
@@ -99,8 +114,13 @@ export default function EventsView() {
           <p>No events found.</p>
         ) : (
           <div className="space-y-4">
-            {events.map((event: any) => (
-              <div key={event._id || `event-${Math.random()}`} className="border-b border-gray-300 pb-4">
+            {events.map((event: any, eventIndex: number) => (
+              <div
+                key={event._id || `event-${Math.random()}`}
+                className={`${
+                  eventIndex === events.length - 1 ? "" : "border-b border-gray-300 pb-4"
+                }`}
+              >
                 <h2 className="text-xl font-semibold">Golf Event Date: {event.date}</h2>
 
                 {/* Render Groups in 3 columns */}
@@ -109,19 +129,18 @@ export default function EventsView() {
                     <h3 className="font-bold">Groups</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                       {event.groups.map((group: any, groupIndex: number) => (
-                        <div key={group._id || `group-${event._id}-${groupIndex}`} className="p-4 border rounded-md shadow-sm bg-gray-50">
+                        <div
+                          key={group._id || `group-${event._id}-${groupIndex}`}
+                          className="p-4 border rounded-md shadow-sm bg-gray-50"
+                        >
                           <div className="flex justify-between items-center">
                             <div>
-                              <p className="font-medium">Date: {group.date}</p>
-                              <p className="font-medium">Tee Time: {group.time}</p>
+                              <p className="font-bold">Date: {group.date}</p>
+                              <p className="font-bold">Tee Time: {group.time}</p>
                             </div>
                             {adminName && `group-${event._id}-${groupIndex}` && (
                               <button
-                              onClick={() => router.push(`/admin/update_group?groupId=${group._doc._id}`)}
-                              //onClick={() => {
-                                //  const derivedGroupId = group._doc._id;
-                                //  console.log('Derived groupId:', group._doc._id);
-                                //}}
+                                onClick={() => router.push(`/admin/update_group?groupId=${group._doc._id}`)}
                                 className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
                               >
                                 Update
@@ -139,35 +158,38 @@ export default function EventsView() {
                                 <span>Total</span>
                               </div>
                               {group.rounds.map((round: any) => (
-                                <div key={round._id || `round-${group._id}-${Math.random()}`} className="mt-2">
+                                <div
+                                  key={round._id || `round-${group._id}-${Math.random()}`}
+                                  className="mt-2"
+                                >
                                   <ul className="list-none space-y-1">
-                                  {/* Member Data */}
-                                  {round.members &&
-                                    round.members.map((member: any) => (
-                                      <li
-                                        key={member._id || `member-${round._id}-${Math.random()}`}
-                                        className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800"
+                                    {/* Member Data */}
+                                    {round.members &&
+                                      round.members.map((member: any) => (
+                                        <li
+                                          key={member._id || `member-${round._id}-${Math.random()}`}
+                                          className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800"
                                         >
-                                        {/* Conditional Styling for Member Name */}
-                                        <span
-                                          className={`font-medium text-left ${
-                                            member.sex === "Male" ? "text-blue-500" : "text-pink-500"
-                                          }`}
-                                        >
-                                          {member.name} (ID: {member.id})
-                                        </span>
+                                          {/* Conditional Styling for Member Name */}
+                                          <span
+                                            className={`font-bold text-left ${
+                                              member.sex === "Male" ? "text-blue-500" : "text-pink-500"
+                                            }`}
+                                          >
+                                            {member.name} (ID: {member.id})
+                                          </span>
 
-                                        {/* Scores with Alignment */}
-                                        <span className="text-left w-16">{round.front_9 ?? ""}</span>
-                                        <span className="text-left w-16">{round.back_9 ?? ""}</span>
-                                        <span className="text-left w-16">
-                                          {round.front_9 && round.back_9
-                                            ? Number(round.front_9) + Number(round.back_9)
-                                            : ""}
-                                        </span>
-                                      </li>
-                                    ))}
-                                </ul>
+                                          {/* Scores with Alignment */}
+                                          <span className="text-left w-16">{round.front_9 ?? ""}</span>
+                                          <span className="text-left w-16">{round.back_9 ?? ""}</span>
+                                          <span className="text-left w-16">
+                                            {round.front_9 && round.back_9
+                                              ? Number(round.front_9) + Number(round.back_9)
+                                              : ""}
+                                          </span>
+                                        </li>
+                                      ))}
+                                  </ul>
                                 </div>
                               ))}
                             </div>
@@ -183,5 +205,6 @@ export default function EventsView() {
         )}
       </div>
     </div>
+  </div>
   );
 }

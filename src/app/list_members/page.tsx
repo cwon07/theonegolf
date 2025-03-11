@@ -58,8 +58,9 @@ export default function MembersPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center p-4">
-        <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg relative">
+      <div className="flex flex-col items-center justify-center p-4 bg-gray-100">
+      <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg relative overflow-hidden">
+        
           {/* Title and Gender Toggle */}
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">All Members</h1>
@@ -87,7 +88,7 @@ export default function MembersPage() {
                 filteredMembers.map((member) => (
                   <div
                     key={member.id}
-                    className={`relative flex flex-col items-center justify-center p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
+                    className={`relative flex flex-col items-center justify-center h-19 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
                       member.sex === "Female" ? "bg-pink-100" : "bg-blue-100"
                     }`}
                     onMouseEnter={() => setHoveredMember(member)}
