@@ -3,8 +3,6 @@
 import { FC, useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
-import Header from "@/app/components/Header";
-import Navbar from "@/app/components/Navbar";
 
 // Define the types for the event structure
 interface DecodedToken {
@@ -96,16 +94,11 @@ export default function EventsView() {
   
   if (loading) return <p>Loading events...</p>;
 
-  return (
-  <div className="min-h-screen bg-gray-100">
-      {/* Header & Navbar */}
-      <div className="bg-white shadow-md relative z-50">
-        <div className="container mx-auto flex items-center justify-between p-4">
-          <Header />
-          <Navbar onSelectMenu={handleSelectMenu} />
-        </div>
-      </div>
+  const handleSelectMenu = (menu: string) => {
+    console.log("Selected menu:", menu);
+  };
 
+  return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">高爾夫賽事&球叙</h1>
@@ -205,6 +198,5 @@ export default function EventsView() {
         )}
       </div>
     </div>
-  </div>
   );
 }

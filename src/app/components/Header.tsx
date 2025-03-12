@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect} from "react";
-import { jwtDecode } from "jwt-decode"; // Install this package with `npm install jwt-decode`
+import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   id: string;
@@ -47,8 +47,7 @@ export default function Header() {
   
 
   const handleLogoClick = () => {
-    // Open the modal to show the larger logo
-    setIsModalOpen(true);
+   router.push("/");
   };
 
   const handleCloseModal = () => {
@@ -70,7 +69,7 @@ export default function Header() {
         style={{ flex: 1, display: "flex", justifyContent: "flex-start", paddingLeft: "12rem", cursor: "pointer" }}
         onClick={handleLogoClick} // Trigger onClick event here
       >
-    <Image src="/Monday_Club_Logo.png" alt="Logo" width={100} height={100} priority/>
+    <Image src="/MClogo.svg" alt="Logo" width={300} height={90} priority/>
   </div>
 
       
@@ -88,7 +87,7 @@ export default function Header() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex: 9999, // Ensure it's on top of other elements
+            zIndex: 9999, 
           }}
           onClick={handleCloseModal} // Close modal if clicked outside
         >
@@ -101,7 +100,7 @@ export default function Header() {
             }}
             onClick={(e) => e.stopPropagation()} // Prevent modal from closing when image is clicked
           >
-            <Image src="/Monday_Club_Logo.png" alt="Larger Logo" width={500} height={500} priority />
+            <Image src="/MClogo.svg" alt="Larger Logo" width={500} height={400} priority />
           </div>
         </div>
       )}

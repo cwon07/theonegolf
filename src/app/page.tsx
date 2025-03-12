@@ -16,7 +16,7 @@ export default function Home() {
       <div className="min-h-screen flex flex-col">
        
         {/* Header + Navbar combined with logo on the left */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-gray-300 shadow-sm p-4">
           {/* Logo on the left */}
           <div className="flex items-center space-x-4">
           <Header />

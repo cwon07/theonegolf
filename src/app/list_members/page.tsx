@@ -51,16 +51,15 @@ export default function MembersPage() {
     <div className="min-h-screen bg-gray-100">
       {/* Header & Navbar */}
       <div className="bg-white shadow-md relative z-50">
-        <div className="container mx-auto flex items-center justify-between p-4">
+        <div className="container mx-auto flex items-center justify-between border-b border-gray-300 shadow-sm p-4">
           <Header />
           <Navbar onSelectMenu={handleSelectMenu} />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center p-4 bg-gray-100">
-      <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg relative overflow-hidden">
-        
+      <div className="flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg relative">
           {/* Title and Gender Toggle */}
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">會員總覽</h1>

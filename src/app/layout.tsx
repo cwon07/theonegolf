@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-const ubuntu = Ubuntu({ subsets: ["latin"], weight: "400" });
+const montserrat = Montserrat({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "The Monday Club",
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-      className={ubuntu.className}
+      className={montserrat.className}
       >
         {children}
       </body>
