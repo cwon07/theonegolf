@@ -124,7 +124,7 @@ export default function EventsView() {
               <label className="font-semibold mr-2">選擇日期：</label>
               <select className="p-2 border rounded-md" onChange={handleEventChange} value={selectedDate}>
                 {events.map((event: any) => (
-                  <option key={event._id} value={event._id}>
+                  <option key={event._id || `event-${Math.random()}`} value={event._id}>
                     {event.date}
                   </option>
                 ))}
