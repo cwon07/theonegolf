@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Header from "@/app/components/Header";
+import Navbar from "@/app/components/Navbar";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -10,6 +12,11 @@ export default function AdminLogin() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Prevent multiple requests
   const router = useRouter(); // Use Next.js router for navigation
+  const [selectedMenu, setSelectedMenu] = useState<string>("");
+
+  const handleSelectMenu = (menu: string) => {
+    setSelectedMenu(menu);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +54,16 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100">
+    {/* Header & Navbar */}
+    <div className="bg-white shadow-md relative z-50">
+      <div className="container mx-auto flex items-center justify-between p-4">
+        <Header />
+        <Navbar onSelectMenu={handleSelectMenu} />
+      </div>
+    </div>
+
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
       <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
 
@@ -103,6 +119,7 @@ export default function AdminLogin() {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 }
