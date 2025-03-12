@@ -66,7 +66,7 @@ export default function MembersPage() {
 
             {/* Gender Filter Toggle */}
             <div className="flex items-center space-x-3">
-              <label className="text-lg font-semibold text-gray-700">Filter:</label>
+              <label className="text-lg font-semibold text-gray-700"> <span className="text-blue-800"> 男士 </span> / <span className="text-red-800"> 女士 </span>:</label>
               <select
                 value={genderFilter}
                 onChange={(e) => setGenderFilter(e.target.value as "All" | "Male" | "Female")}
@@ -96,7 +96,7 @@ export default function MembersPage() {
                     {/* Member Name */}
                     <span
                       className={`text-lg font-semibold ${
-                        member.sex === "Male" ? "text-blue-700" : "text-pink-700"
+                        member.sex === "Male" ? "text-blue-800" : "text-pink-800"
                       }`}
                     >
                       {member.name}
