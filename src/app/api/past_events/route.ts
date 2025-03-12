@@ -5,6 +5,7 @@ import Group from "@/app/lib/database/models/group.model"; // Your Group model
 import Round from "@/app/lib/database/models/round.model"; // Your Round model
 import Member from "@/app/lib/database/models/members.model"; // Your Member model
 
+// GET Route - Fetch Events
 export async function GET(req: Request) {
   try {
     await connectToDatabase(); // Connect to the database
@@ -30,8 +31,6 @@ export async function GET(req: Request) {
           groups.map(async (group) => {
             // Get rounds using the group rounds _ids
             const rounds = await Round.find({ _id: { $in: group.rounds } });
-
-            console.log(`Rounds found for group ${group._id}:`, rounds);
 
             // For each round, fetch member details (round.members is a single memberId)
             const roundsWithMembers = await Promise.all(

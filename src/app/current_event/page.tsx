@@ -107,7 +107,7 @@ export default function EventsView() {
       </div>
     </div>
 
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+    <div className="flex flex-col items-center justify-center p-8 bg-gray-100">
       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-4">高爾夫賽事&球叙</h1>
 
