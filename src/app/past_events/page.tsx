@@ -32,10 +32,6 @@ export default function EventsView() {
   };
   
 
-  if (loading) return <p>Loading events...</p>;
-  const handleSelectMenu = (menu: string) => {
-    console.log("Selected menu:", menu);
-  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
