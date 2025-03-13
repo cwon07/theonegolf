@@ -58,7 +58,7 @@ export default function MembersPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center flex-grow p-4 bg-gray-100">
+      <div className="flex flex-col items-center justify-center flex-grow p-8 bg-gray-100">
         <div className="w-full max-w-5xl p-6 shadow-lg rounded-lg relative bg-white">
           {/* Title and Gender Toggle */}
           <div className="flex justify-between items-center mb-6">
