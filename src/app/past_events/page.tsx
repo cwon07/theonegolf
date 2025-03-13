@@ -136,7 +136,7 @@ export default function EventsView() {
           .filter((event) => event.date === selectedDate)
           .map((event: any, eventIndex: number) => (
             <div key={event._id || `event-${Math.random()}`} className={`${eventIndex === events.length - 1 ? "" : "border-b border-gray-300 pb-4"}`}>
-              <h2 className="text-xl font-semibold">日期: {event.date}</h2>
+              <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
               {/* Render Groups */}
               {event.groups && event.groups.length > 0 && (
                 <div className="text-black mt-4">

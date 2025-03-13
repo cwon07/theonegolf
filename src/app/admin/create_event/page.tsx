@@ -87,7 +87,7 @@ export default function AdminDashboard() {
       </div>
     </div>
 
-    <div className="flex flex-col items-center items-center min-h-screen p-4 bg-gray-100">
+    <div className="text-black flex flex-col items-center items-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-2xl p-6 bg- shadow-lg rounded-lg bg-white">
         <h1 className="text-2xl font-bold text-center mb-4">Create Golf Tournament Event</h1>
         <form onSubmit={handleSubmit} className="space-y-4">

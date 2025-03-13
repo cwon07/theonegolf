@@ -43,7 +43,7 @@ export default function Home() {
                 {/* First Table (7 rows, 6 columns) */}
                 <table className="text-black table-auto border-collapse border border-black w-full mb-8">
                 <thead>
-                  <tr>
+                  <tr className="text-blue-800">
                     <th className="border border-gray-300 p-1 w-12">名次 \ 差點</th>
                     <th className="border border-gray-300 p-1 w-4">0-9</th>
                     <th className="border border-gray-300 p-1 w-4">10-15</th>
@@ -55,7 +55,7 @@ export default function Home() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-gray-300 p-2">第1名</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">第1名</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">2</td>
                     <td className="border border-gray-300 p-2">3</td>
@@ -64,7 +64,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">6</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">第2名</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">第2名</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">2</td>
@@ -73,7 +73,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">5</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">第3名</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">第3名</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">1</td>
@@ -82,7 +82,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">4</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">第4名</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">第4名</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">0</td>
@@ -91,7 +91,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">3</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">第5名</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">第5名</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">0</td>
@@ -108,7 +108,7 @@ export default function Home() {
                 {/* First Table (7 rows, 6 columns) */}
                 <table className="text-black table-auto border-collapse border border-gray-300 w-full mb-8">
                 <thead>
-                  <tr>
+                  <tr className="text-blue-800">
                     <th className="border border-gray-300 p-1 w-16">差點 \ 差稈</th>
                     <th className="border border-gray-300 p-1 w-2">1</th>
                     <th className="border border-gray-300 p-1 w-2">2</th>
@@ -126,7 +126,7 @@ export default function Home() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-gray-300 p-2">0-9</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">0-9</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">1</td>
@@ -141,7 +141,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">3</td>
                   </tr>
                   <tr>
-                  <td className="border border-gray-300 p-2">10-15</td>
+                  <td className="text-blue-800 border border-gray-300 p-2">10-15</td>
                     <td className="border border-gray-300 p-2">0</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">1</td>
@@ -156,7 +156,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">4</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">16-21</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">16-21</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">2</td>
@@ -171,7 +171,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">6</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">22-26</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">22-26</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">2</td>
                     <td className="border border-gray-300 p-2">2</td>
@@ -186,7 +186,7 @@ export default function Home() {
                     <td className="border border-gray-300 p-2">8</td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-300 p-2">27-32</td>
+                    <td className="text-blue-800 border border-gray-300 p-2">27-32</td>
                     <td className="border border-gray-300 p-2">1</td>
                     <td className="border border-gray-300 p-2">2</td>
                     <td className="border border-gray-300 p-2">3</td>

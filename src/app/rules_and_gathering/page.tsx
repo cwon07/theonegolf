@@ -71,8 +71,8 @@ export default function Home() {
               <span className="font-bold text-purple-600"> 總稈獎</span> （<span className="font-bold text-blue-600">男</span>&
                 <span className="font-bold text-red-600">女</span>）
                 <p className="text-black font-bold text-yellow-600"> 獎勵：球（一盒）</p>
-                <p>總桿獎一年一次為限， 男女分開計</p>
-                <p>最低稈者勝, 如有平手，以下面方案決定勝負</p>
+                <p className="text-black">總桿獎一年一次為限， 男女分開計</p>
+                <p className="text-black">最低稈者勝, 如有平手，以下面方案決定勝負</p>
                 <ul className="text-black text-center pl-6">
                   <li>1. 差點高者勝</li>
                   <li>2. 後九洞比分</li>
