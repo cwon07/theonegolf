@@ -1,75 +1,86 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/app/lib/database"; // Adjust the path as needed
-import Event from "@/app/lib/database/models/event.model"; // Your Event model
-import Group from "@/app/lib/database/models/group.model"; // Your Group model
-import Round from "@/app/lib/database/models/round.model"; // Your Round model
-import Member from "@/app/lib/database/models/members.model"; // Your Member model
+import { connectToDatabase } from "@/app/lib/database"; 
+import mongoose from "mongoose"
+import Event from "@/app/lib/database/models/event.model"; 
+import Group from "@/app/lib/database/models/group.model"; 
+import Round from "@/app/lib/database/models/round.model"; 
+import Member from "@/app/lib/database/models/members.model"; 
 
-// GET Route - Fetch Events
 export async function GET(req: Request) {
   try {
-    await connectToDatabase(); // Connect to the database
+    await connectToDatabase();
 
-    // Fetch all events
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Ensure we compare only the date part
+    today.setHours(0, 0, 0, 0);
 
-    // Fetch only future events
-    const events = await Event.find({ date: { $lt: today.toISOString().split("T")[0] } });
+    // Fetch events with a single query and lean optimization
+    const events = await Event.find({ date: { $lt: today.toISOString().split("T")[0] } }).lean();
 
     if (events.length === 0) {
       return NextResponse.json({ error: "No upcoming events found" }, { status: 404 });
     }
 
-    const eventDetails = await Promise.all(
-      events.map(async (event) => {
-        // Fetch groups that correspond to the current event
-        const groups = await Group.find({ event_id: event._id });
+    // Get all event IDs for bulk querying
+    const eventIds = events.map((event) => event._id);
 
-        // For each group, fetch rounds and populate members
-        const groupsWithRoundsAndMembers = await Promise.all(
-          groups.map(async (group) => {
-            // Get rounds using the group rounds _ids
-            const rounds = await Round.find({ _id: { $in: group.rounds } });
+    // Fetch groups related to the events in bulk
+    const groups = await Group.find({
+      event_id: { $in: eventIds.map(id => new mongoose.Types.ObjectId(String(id))) } // Convert event IDs to ObjectId
+    }).lean();
 
-            // For each round, fetch member details (round.members is a single memberId)
-            const roundsWithMembers = await Promise.all(
-              rounds.map(async (round) => {
-                const member = await Member.findOne({ id: round.members }).select("id name sex");
 
-                return {
-                  ...round.toObject(),
-                  members: member
-                    ? [{ id: member.id, name: member.name, sex: member.sex }]
-                    : [], // Return `id`, `name`, & `sex`
-                };
-              })
-            );
+    // Fetch rounds in bulk
+    const roundIds = groups.flatMap((group) => group.rounds).filter(Boolean); // Extract round IDs
+    const rounds = await Round.find({ _id: { $in: roundIds } }).lean(); // Fetch rounds
 
-            return {
-              ...group,
-              rounds: roundsWithMembers, // Add populated rounds with member names to the group
-              date: group.date,           // Add the group date
-              time: group.time, 
-            };
-          })
-        );
+    // Get all member IDs for bulk querying
+    const memberIds = rounds.map((round) => round.members).filter(Boolean); // Remove undefined/null
 
-        // Return the event details including the associated groups and rounds with member names
-        return {
-          event_id: event._id,        // Get event ID
-          date: event.date,           // Get event date
-          time: event.time,           // Get event time
-          group_count: event.group_count,  // Get group count
-          players: event.players,     // Get players array (IDs)
-          groups: groupsWithRoundsAndMembers,  // Get groups with rounds and member names
-        };
-      })
-    );
+    // Fetch members in bulk
+    const members = await Member.find({ id: { $in: memberIds } }).select("id name sex").lean();
 
-    console.log("Fetched event details with groups and rounds:", eventDetails);  // Log event details with groups and rounds
+    // Convert members array to a map for quick lookup
+    const memberMap = new Map(members.map((member) => [member.id, member]));
 
-    return NextResponse.json(eventDetails);  // Return the event details in the response
+    // Map rounds to include member details
+    const roundsWithMembers = rounds.map((round) => ({
+      ...round,
+      members: memberMap.get(round.members) ? [{ ...memberMap.get(round.members) }] : [],
+    }));
+
+    // Convert rounds array to a map for quick lookup
+    const roundsMap = new Map(roundsWithMembers.map((round) => [String(round._id), round]));
+
+    // Map groups to include rounds
+    const groupsWithRounds = groups.map((group) => ({
+      ...group,
+      date: group.date,
+      rounds: group.rounds.map((roundId: String) => roundsMap.get(roundId.toString()) || {}),
+    }));
+
+    // Construct final event details
+    const eventDetails = events.map((event) => {
+      const eventDate = new Date(event.date); // Ensure that event.date is in a Date format
+    
+      // Filter groups that match the event's date
+      const filteredGroups = groupsWithRounds.filter((group) => {
+        const groupDate = new Date(group.date); // Ensure that group.date is also in a Date format
+        return eventDate.toISOString().split('T')[0] === groupDate.toISOString().split('T')[0]; // Compare only the date part
+      });
+    
+      return {
+        event_id: event._id,
+        date: event.date,
+        time: event.time,
+        group_count: event.group_count,
+        players: event.players,
+        groups: filteredGroups, // Only groups matching the event's date
+      };
+    });
+
+    console.log("Fetched event details with groups and rounds:", eventDetails);
+
+    return NextResponse.json(eventDetails);
   } catch (error) {
     console.error("Error fetching events:", error);
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });

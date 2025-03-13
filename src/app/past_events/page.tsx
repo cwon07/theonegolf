@@ -29,6 +29,7 @@ interface Round {
 
 interface Group {
   _id: string;
+  event_id: string
   date: string;
   time: string;
   rounds: Round[];
@@ -37,7 +38,6 @@ interface Group {
 interface Event {
   _id: string;
   date: string;
-  groups: Group[];
 }
 
 export default function EventsView() {

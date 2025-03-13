@@ -29,6 +29,7 @@ interface Round {
 
 interface Group {
   _id: string;
+  event_id: string;
   date: string;
   time: string;
   rounds: Round[];
@@ -37,7 +38,6 @@ interface Group {
 interface Event {
   _id: string;
   date: string;
-  groups: Group[];
 }
 
 // Define a type for a round and its associated group
@@ -117,7 +117,7 @@ export default function EventsView() {
           <div className="space-y-4">
             {events.map((event: any, eventIndex: number) => (
               <div
-                key={event._id || `event-${Math.random()}`}
+                key={event.event_id || `event-${Math.random()}`}
                 className={`${
                   eventIndex === events.length - 1 ? "" : "border-b border-gray-300 pb-4"
                 }`}
