@@ -31,17 +31,17 @@ export default function Home() {
           <section className="mb-8 text-center font-bold">
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">本年度差點調整規則</h2>
             <ul className="text-xl list-none space-y-4">
-              <li className="bg-gray-100 p-4 rounded-md shadow-md">
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 得總稈冠軍者，不論男女，調一稈
               </li>
-              <li className="bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如果已有USGA正式差點也會列入初始差點計算 （怎麽算？這個要加） </li>
-              <li className="bg-gray-100 p-4 rounded-md shadow-md">
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如果已有USGA正式差點也會列入初始差點計算 （怎麽算？這個要加） </li>
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 净稈得獎者，不論男女，照一下表格條稈
               </li>
               
               <div className="mt-8">
                 {/* First Table (7 rows, 6 columns) */}
-                <table className="table-auto border-collapse border border-black w-full mb-8">
+                <table className="text-black table-auto border-collapse border border-black w-full mb-8">
                 <thead>
                   <tr>
                     <th className="border border-gray-300 p-1 w-12">名次 \ 差點</th>
@@ -106,7 +106,7 @@ export default function Home() {
               
               <div className="mt-8">
                 {/* First Table (7 rows, 6 columns) */}
-                <table className="table-auto border-collapse border border-gray-300 w-full mb-8">
+                <table className="text-black table-auto border-collapse border border-gray-300 w-full mb-8">
                 <thead>
                   <tr>
                     <th className="border border-gray-300 p-1 w-16">差點 \ 差稈</th>
@@ -203,13 +203,13 @@ export default function Home() {
                 </tbody>
               </table>
               </div>
-              <li className="bg-gray-100 p-4 rounded-md shadow-md">
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 <p className="text-blue-500"> 調稈例子 1</p> 
                 <p>差點18，第二名，總稈83</p>
                 <p>18 - 2(第一表格) -4(第二表格) = 12 （新差點）</p>
               </li>
 
-              <li className="bg-gray-100 p-4 rounded-md shadow-md">
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 <p className="text-blue-500"> 調稈例子 2</p> 
                 <p>差點32，第1名，總稈83</p>
                 <p>32 - 5(第一表格) -22(第二表格, 爆表（22）？怎麽辦？) = 5 （新差點）</p>
@@ -218,7 +218,7 @@ export default function Home() {
             </ul>
           </section>
 
-          <section className="mb-8 text-center font-bold">
+          <section className="text-black mb-8 text-center font-bold">
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">新年度差點調整規則</h2>
             <ul className="text-xl list-none space-y-4">
             <li className="bg-gray-100 p-4 rounded-md shadow-md">

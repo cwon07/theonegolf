@@ -85,14 +85,14 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       }}
     >
       {/* Rules Dropdown */}
-      <div className="font-bold relative text-[1.2rem]" ref={dropdownRef}>
+      <div className="text-black font-bold relative text-[1.2rem]" ref={dropdownRef}>
         <button onClick={() => {setDropdownOpen(!isDropdownOpen);}} className="font-bold p-2 text-[1.2rem]">
           晚宴 & 規則▼
         </button>
         {isDropdownOpen && (
-          <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
+          <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
             <button
-              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => {
                 router.push("/rules_and_gathering");
               }}
@@ -100,7 +100,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
               月賽規則 & 晚宴
             </button>
             <button
-              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => {
                 router.push("/handicap");
               }}
@@ -113,25 +113,25 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 
       {/* Other Menu Items */}
       <button
-        className="font-bold relative text-[1.2rem]" // Tailwind hover effect for the dropdown item
+        className="text-black font-bold relative text-[1.2rem]" // Tailwind hover effect for the dropdown item
         onClick={() => router.push("/list_members")}>
         會員總覽
       </button>
 
       {/* Events Dropdown */}
-      <div className="font-bold relative text-[1.2rem]" ref={dropdownRefevent}>
+      <div className="text-black font-bold relative text-[1.2rem]" ref={dropdownRefevent}>
         <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
           球隊賽事 ▼
         </button>
         {isEventDropdownOpen && (
-          <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
+          <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
             <button
-              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => router.push("/current_event")}>
                 當前賽事&球叙
             </button>
             <button
-              className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
               onClick={() => router.push("/past_events")}>
                 過往賽事&球叙
             </button>
@@ -154,26 +154,26 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           {isAdminDropdownOpen && (
             <div style={dropdownStyle}>
               <button
-                className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+                className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
                 onClick={() => router.push("/admin/create_event")}>
                 Create Golf Event
               </button>
               <button
-                className="p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+                className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
                 >
                 Update Golf Event
               </button>
               <button
-                className="p-2 hover:bg-gray-100"
+                className="text-black p-2 hover:bg-gray-100"
                 onClick={() => router.push("/admin/create_member")}>
                 Create Member
               </button>
               <button
-                className="p-2 hover:bg-gray-100">
+                className="text-black p-2 hover:bg-gray-100">
                 Update Member
               </button>
               <button
-                className="p-2 hover:bg-gray-100"
+                className="text-black p-2 hover:bg-gray-100"
                   onClick={() => {
                   sessionStorage.removeItem("token");
                   setAdminName(null);

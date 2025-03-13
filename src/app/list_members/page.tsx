@@ -59,18 +59,18 @@ export default function MembersPage() {
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center flex-grow p-4 bg-gray-100">
-        <div className="w-full max-w-5xl p-6 shadow-lg rounded-lg relative bg-gray-100">
+        <div className="w-full max-w-5xl p-6 shadow-lg rounded-lg relative bg-white">
           {/* Title and Gender Toggle */}
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">會員總覽</h1>
+            <h1 className="text-black text-2xl font-bold">會員總覽</h1>
 
             {/* Gender Filter Toggle */}
             <div className="flex items-center space-x-3">
-              <label className="text-lg font-semibold text-gray-700"> <span className="text-blue-800"> 男士 </span> / <span className="text-red-800"> 女士 </span>:</label>
+              <label className="text-lg font-semibold text-black"> <span className="text-blue-800"> 男士 </span> / <span className="text-red-800"> 女士 </span>:</label>
               <select
                 value={genderFilter}
                 onChange={(e) => setGenderFilter(e.target.value as "All" | "Male" | "Female")}
-                className="p-3 border rounded-md text-gray-900 text-lg font-semibold bg-gray-100"
+                className="p-3 border rounded-md text-black text-lg font-semibold bg-gray-100"
               >
                 <option value="All">全部</option>
                 <option value="Male">男士</option>

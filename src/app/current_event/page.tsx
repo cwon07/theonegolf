@@ -109,7 +109,7 @@ export default function EventsView() {
 
     <div className="flex flex-col items-center justify-center p-8 bg-gray-100">
       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-4">高爾夫賽事&球叙</h1>
+        <h1 className="text-black text-2xl font-bold text-center mb-4">高爾夫賽事&球叙</h1>
 
         {events.length === 0 ? (
           <p>目前無賽事&球叙</p>
@@ -122,11 +122,11 @@ export default function EventsView() {
                   eventIndex === events.length - 1 ? "" : "border-b border-gray-300 pb-4"
                 }`}
               >
-                <h2 className="text-xl font-semibold">日期: {event.date}</h2>
+                <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
 
                 {/* Render Groups in 3 columns */}
                 {event.groups && event.groups.length > 0 && (
-                  <div className="mt-4">
+                  <div className="text-black mt-4">
                     <h3 className="font-bold">球組</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                       {event.groups.map((group: any, groupIndex: number) => (
