@@ -38,26 +38,31 @@ const UpdateGroupPage = () => {
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-white">
-        <Suspense fallback={<p>Loading...</p>}>
-          <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
-            <h1 className="text-2xl font-bold text-center mb-4">Update Group</h1>
-            <p className="text-center mb-4">Group ID: {groupId}</p>
+        <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
+          <h1 className="text-2xl font-bold text-center mb-4">Update Group</h1>
+          <p className="text-center mb-4">Group ID: {groupId}</p>
 
-            {group ? (
-              <div>
-                <p className="font-semibold">Event ID: {group.event_id}</p>
-                <p className="font-semibold">Date: {group.date}</p>
-                <p className="font-semibold">Time: {group.time}</p>
-                <p className="font-semibold">Rounds: {group.rounds.length}</p>
-              </div>
-            ) : (
-              <p>Loading group data...</p>
-            )}
-          </div>
-        </Suspense>
+          {group ? (
+            <div>
+              <p className="font-semibold">Event ID: {group.event_id}</p>
+              <p className="font-semibold">Date: {group.date}</p>
+              <p className="font-semibold">Time: {group.time}</p>
+              <p className="font-semibold">Rounds: {group.rounds.length}</p>
+            </div>
+          ) : (
+            <p>Loading group data...</p>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default UpdateGroupPage;
+// ✅ Wrap the page with Suspense to prevent Next.js errors
+export default function PageWrapper() {
+  return (
+    <Suspense fallback={<p>Loading page...</p>}>
+      <UpdateGroupPage />
+    </Suspense>
+  );
+}
