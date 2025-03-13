@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";  // Import this hook to get query params
+import React, { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
 
 const UpdateGroupPage = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams(); // Access query parameters
-  const groupId = searchParams.get("groupId"); // Get the groupId from the query string
+  const searchParams = useSearchParams();
+  const groupId = searchParams.get("groupId");
 
   const [group, setGroup] = useState<any>(null);
 
@@ -40,27 +38,26 @@ const UpdateGroupPage = () => {
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-white">
-        <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
-          <h1 className="text-2xl font-bold text-center mb-4">Update Group</h1>
+        <Suspense fallback={<p>Loading...</p>}>
+          <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
+            <h1 className="text-2xl font-bold text-center mb-4">Update Group</h1>
+            <p className="text-center mb-4">Group ID: {groupId}</p>
 
-          <p className="text-center mb-4">Group ID: {groupId}</p>
-
-          {/* Displaying fetched group data */}
-          {group ? (
-            <div>
-              <p className="font-semibold">Event ID: {group.event_id}</p>
-              <p className="font-semibold">Date: {group.date}</p>
-              <p className="font-semibold">Time: {group.time}</p>
-              <p className="font-semibold">Rounds: {group.rounds.length}</p>
-            </div>
-          ) : (
-            <p>Loading group data...</p>
-          )}
-        </div>
+            {group ? (
+              <div>
+                <p className="font-semibold">Event ID: {group.event_id}</p>
+                <p className="font-semibold">Date: {group.date}</p>
+                <p className="font-semibold">Time: {group.time}</p>
+                <p className="font-semibold">Rounds: {group.rounds.length}</p>
+              </div>
+            ) : (
+              <p>Loading group data...</p>
+            )}
+          </div>
+        </Suspense>
       </div>
     </div>
   );
 };
 
 export default UpdateGroupPage;
-
