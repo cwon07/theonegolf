@@ -23,7 +23,7 @@ export default function Home() {
 
       <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
         <div className="max-w-4xl w-full bg-white shadow-lg rounded-xl p-6">
-          <h1 className="text-5xl font-extrabold text-center text-gradient mb-8">
+          <h1 className="text-black text-5xl font-extrabold text-center text-gradient mb-8">
           差點調整詳解
           </h1>
 
