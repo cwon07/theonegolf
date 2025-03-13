@@ -48,7 +48,7 @@ export default function MembersPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header & Navbar */}
       <div className="bg-white shadow-md relative z-50">
         <div className="container mx-auto flex items-center justify-between border-b border-gray-300 shadow-sm p-4">
@@ -58,8 +58,8 @@ export default function MembersPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center p-4">
-        <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg relative">
+      <div className="flex flex-col items-center justify-center flex-grow p-4">
+        <div className="w-full max-w-5xl p-6shadow-lg rounded-lg relative bg-gray-100">
           {/* Title and Gender Toggle */}
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold">會員總覽</h1>
