@@ -24,9 +24,9 @@ export default function Home() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex flex-col items-center pt-16 pb-8 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold text-center mb-4"></h1>
-      <div className="w-full max-w-6xl p-4 bg-white shadow-lg rounded-lg h-[70vh] flex items-center justify-center">
+      <div className="flex flex-col items-center pt-2 pb-8 bg-gray-100 min-h-screen">
+      <h1 className="text-4xl font-bold text-center pt-2 mb-4"></h1>
+      <div className="w-full max-w-6xl p-4 bg-white shadow-lg rounded-lg h-[75vh] flex items-center justify-center">
            <Carousel />
          </div> 
         </div>
