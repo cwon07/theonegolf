@@ -17,3 +17,5 @@ const MemberSchema = new Schema({
 const Member = models.Member || model('Member', MemberSchema);
 
 export default Member;
+
+

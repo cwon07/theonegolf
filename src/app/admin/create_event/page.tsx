@@ -12,9 +12,11 @@ export default function AdminDashboard() {
     time: "",
     group_count: "",
     players: "",
+    is_tourn: false,
   });
 
   const [teeTimeInterval, setTeeTimeInterval] = useState<number>(10); // Default to 10
+  const [isTourn, setIsTourn] = useState<boolean>(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token"); // Get the stored token
@@ -48,6 +50,7 @@ export default function AdminDashboard() {
     const eventData = {
       date: event.date,
       time: event.time,
+      is_tourn: event.is_tourn,
       group_count: Number(event.group_count),
       players: event.players.split(",").map((player) => player.trim()),
     };
@@ -114,6 +117,21 @@ export default function AdminDashboard() {
               required
             />
           </div>
+
+          <div>
+              <label className="block font-semibold">Is Tournament:</label>
+              <div className="flex items-center space-x-2">
+                <select
+                  value={String(isTourn)}
+                  onChange={(e) => setIsTourn(Boolean(e.target.value))}
+                  className="p-2 border rounded-md w-full"
+                  required
+                >
+                  <option value="False">False</option>
+                  <option value="True">True</option>
+                </select>
+              </div>
+            </div>
 
           {/* Tee Time Interval Selection */}
             <div>

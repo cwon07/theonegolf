@@ -1,22 +1,15 @@
-import mongoose, { Schema, Document, model } from "mongoose";
+import mongoose, { Schema, Document, model, Types } from "mongoose";
 
 export interface IRound extends Document {
-  members: number; // Array of member IDs
+  member: Types.ObjectId;// Array of member IDs
   front_9: number; // Score for the front 9 holes
   back_9: number; // Score for the back 9 holes
 }
 
 const roundSchema = new Schema<IRound>({
-  members: {
-    type: Number, // Array of member IDs (using number type)
-    required: true,
-  },
-  front_9: {
-    type: Number,
-  },
-  back_9: {
-    type: Number,
-  },
+  member: { type: Schema.Types.ObjectId, ref: "Member", required: true }, // Use Schema.Types.ObjectId
+  front_9: Number,
+  back_9: Number,
 });
 
 const Round = mongoose.models.Round || mongoose.model("Round", roundSchema);
