@@ -36,7 +36,7 @@ export default function Home() {
               </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如果已有USGA正式差點也會列入初始差點計算 （怎麽算？這個要加） </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
-                净稈得獎者，不論男女，照一下表格條稈
+                净稈得獎者，不論男女，照以下表格條稈
               </li>
               
               <div className="mt-8">
@@ -222,7 +222,7 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">新年度差點調整規則</h2>
             <ul className="text-xl list-none space-y-4">
             <li className="bg-gray-100 p-4 rounded-md shadow-md">
-                <p>（最好+最差）/2 = 差點1</p>
+                <p>（最好+最差）/ 2 = 差點1</p>
                 <p>年度最後差點 = 差點2</p>
                 <p>新年度差點 = （差點1+差點2） / 2</p>
               </li>
