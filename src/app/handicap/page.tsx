@@ -222,7 +222,7 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">新年度差點調整規則</h2>
             <ul className="text-xl list-none space-y-4">
             <li className="bg-gray-100 p-4 rounded-md shadow-md">
-                <p>（最好+最差）/ 2 = 差點1</p>
+                <p>(最好+最差) / 2 = 差點1</p>
                 <p>年度最後差點 = 差點2</p>
                 <p>新年度差點 = (差點1+差點) / 2</p>
               </li>
