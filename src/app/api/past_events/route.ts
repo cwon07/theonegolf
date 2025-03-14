@@ -78,8 +78,6 @@ export async function GET(req: Request) {
       };
     });
 
-    console.log("Fetched event details with groups and rounds:", eventDetails);
-
     return NextResponse.json(eventDetails);
   } catch (error) {
     console.error("Error fetching events:", error);
