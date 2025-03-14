@@ -212,7 +212,7 @@ export default function Home() {
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 <p className="text-blue-500"> 調稈例子 2</p> 
                 <p>差點32，第1名，總稈83</p>
-                <p>32 - 5(第一表格) -22(第二表格, 爆表（22）？怎麽辦？) = 5 （新差點）</p>
+                <p>32 - 5(第一表格) -22(第二表格, 爆表 (22）？怎麽辦？) = 5 （新差點）</p>
               </li>
             
             </ul>
@@ -224,7 +224,7 @@ export default function Home() {
             <li className="bg-gray-100 p-4 rounded-md shadow-md">
                 <p>（最好+最差）/ 2 = 差點1</p>
                 <p>年度最後差點 = 差點2</p>
-                <p>新年度差點 = （差點1+差點2） / 2</p>
+                <p>新年度差點 = (差點1+差點) / 2</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
                 最好與最差，最多相差9稈，如超過則以9稈計算
