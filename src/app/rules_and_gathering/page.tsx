@@ -67,7 +67,7 @@ export default function Home() {
 
             <h3 className="text-2xl font-semibold text-purple-700 mb-4">獎項總覽：</h3>
             <ul className="text-xl list-none space-y-4 font-bold">
-              <li className="bg-gray-100 p-4 rounded-md shadow-md ">
+              <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
               <span className="font-bold text-purple-600"> 總稈獎</span> （<span className="font-bold text-blue-600">男</span>&
                 <span className="font-bold text-red-600">女</span>）
                 <p className="text-black font-bold text-yellow-600"> 獎勵：球（一盒）</p>
@@ -80,7 +80,7 @@ export default function Home() {
                   <li>4. 年長者為勝</li>
                 </ul>
               </li>
-              <li className="bg-gray-100 p-4 rounded-md shadow-md">
+              <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
               <span className="font-bold text-purple-600"> 净稈獎 </span> （<span className="font-bold text-blue-800">男</span>&
                 <span className="font-bold text-red-800">女</span>）
                 <p className="font-bold text-yellow-600"> 第1名獎勵：球（1盒）</p>
@@ -98,7 +98,7 @@ export default function Home() {
                   <li>3. 前九洞比分</li>
                 </ul>
               </li>
-              <li className="bg-gray-100 p-4 rounded-md shadow-md">
+              <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
               <span className="font-bold text-purple-600"> 遠稈獎 </span> （<span className="font-bold text-blue-800">男</span>&
                 <span className="font-bold text-red-800">女</span>）
                 <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
