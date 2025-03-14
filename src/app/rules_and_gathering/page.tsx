@@ -81,8 +81,8 @@ export default function Home() {
                 </ul>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
-              <span className="font-bold text-purple-600"> 净稈獎 </span> （<span className="font-bold text-blue-800">男</span>&
-                <span className="font-bold text-red-800">女</span>）
+              <span className="font-bold text-purple-600"> 净稈獎 </span> （<span className="font-bold text-blue-800">男 (5名)</span>&
+                <span className="font-bold text-red-800">女 (2名)</span>）
                 <p className="font-bold text-yellow-600"> 第1名獎勵：球（1盒）</p>
                 <p className="font-bold text-yellow-600"> 第2名獎勵：球（3條）</p>
                 <p className="font-bold text-yellow-600"> 第3名獎勵：球（2條）</p>
