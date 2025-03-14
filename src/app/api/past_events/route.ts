@@ -14,7 +14,7 @@ export async function GET(req: Request) {
     today.setHours(0, 0, 0, 0);
 
     // Fetch events with a single query and lean optimization
-    const events = await Event.find({ date: { $lt: today.toISOString().split("T")[0] } }).lean();
+    const events = await Event.find({ date: { $lte: today.toISOString().split("T")[0] } }).lean();
 
     if (events.length === 0) {
       return NextResponse.json({ error: "No upcoming events found" }, { status: 404 });
