@@ -122,88 +122,96 @@ return (
 
                 {/* Toggle for additional event details */}
                 <div className="mt-4">
-                  <button
-                    onClick={() => setShowDetails((prevState) => !prevState)}
-                    className="text-blue-600 hover:underline font-semibold"
-                  >
-                    {showDetails ? "隱藏賽事細節" : "顯示賽事細節"}
-                  </button>
+                {event.is_tourn && (
+                <>
+                {console.log("is_tourn value: ", event.is_tourn)}  {/* Debugging log */}
+                <button
+                  onClick={() => setShowDetails((prevState) => !prevState)}
+                  className="text-blue-600 hover:underline font-semibold"
+                >
+                  {showDetails ? "隱藏得獎名單" : "顯示得獎名單"}
+                </button>
+              </>
+                  )}
 
                   {showDetails && (
                     <div className="text-gray-800 mt-4">
-                      <h3 className="font-semibold text-lg">賽事細節</h3>
-                      <div className="space-y-2 mt-2">
-                        {/* Male Total Stroke */}
-                        <p>
-                          <span className="font-bold">男士總桿數: </span>
-                          {event.m_total_stroke ? `${event.m_total_stroke.name} (ID: ${event.m_total_stroke.id})` : "N/A"}
-                        </p>
-
-                        {/* Female Total Stroke */}
-                        <p>
-                          <span className="font-bold">女士總桿數: </span>
-                          {event.w_total_stroke ? `${event.w_total_stroke.name} (ID: ${event.w_total_stroke.id})` : "N/A"}
-                        </p>
-
-                        {/* Male Net Strokes */}
-                        {['1', '2', '3', '4', '5'].map((index) => (
-                          <p key={`m_net_stroke_${index}`}>
-                            <span className="font-bold">男士網絡桿數 {index}: </span>
-                            {event[`m_net_stroke_${index}`] ? `${event[`m_net_stroke_${index}`].name} (ID: ${event[`m_net_stroke_${index}`].id})` : "N/A"}
-                          </p>
+                      <h3 className="font-semibold text-lg text-yellow-600">得獎名單</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
+                        {[
+                          {
+                            title: "總桿獎項",
+                            male: [{ label: "冠軍 (男）", key: "m_total_stroke" }],
+                            female: [{ label: "冠軍 (女）", key: "w_total_stroke" }],
+                          },
+                          {
+                            title: "遠桿獎項",
+                            male: [{ label: "男士長距離擊球", key: "m_long_drive" }],
+                            female: [{ label: "女士長距離擊球", key: "w_long_drive" }],
+                          },
+                          {
+                            title: "净桿獎項",
+                            male: [
+                              { label: "净桿獎 (男) 冠軍", key: "m_net_stroke_1" },
+                              { label: "净桿獎 (男) 亞軍", key: "m_net_stroke_2" },
+                              { label: "净桿獎 (男) 季軍", key: "m_net_stroke_3" },
+                              { label: "净桿獎 (男) 殿軍", key: "m_net_stroke_4" },
+                              { label: "净桿獎 (男) 你是老五", key: "m_net_stroke_5" },
+                            ],
+                            female: [
+                              { label: "净桿獎 (女) 冠軍", key: "w_net_stroke_1" },
+                              { label: "净桿獎 (女) 亞軍", key: "w_net_stroke_2" },
+                            ],
+                          },
+                          {
+                            title: "近洞獎",
+                            male: [
+                              { label: "近洞獎 (男) Hole 2", key: "m_close_pin_2" },
+                              { label: "近洞獎 (男) Hole 6", key: "m_close_pin_6" },
+                              { label: "近洞獎 (男) Hole 7", key: "m_close_pin_7" },
+                              { label: "近洞獎 (男) Hole 12", key: "m_close_pin_12" },
+                            ],
+                            female: [
+                              { label: "近洞獎 (女) Hole 7", key: "w_close_pin_7" },
+                              { label: "近洞獎 (女) Hole 12", key: "w_close_pin_12" },
+                            ],
+                          },
+                          {
+                            title: "近中獎",
+                            male: [{ label: "近中獎", key: "close_to_center" }],
+                            female: [],
+                          },
+                          {
+                            title: "BB獎",
+                            male: [{ label: "BB獎 (男)", key: "m_bb" }],
+                            female: [{ label: "BB獎 (女)", key: "w_bb" }],
+                          },
+                        ].map((group, idx) => (
+                          <div key={`event-details-group-${idx}`} className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                            <h4 className="font-bold text-center text-lg mb-2 text-yellow-600">{group.title}</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                {group.male.map(({ label, key }) => (
+                                  <p key={key} className="text-blue-800">
+                                    <span className="font-bold">{label}: </span>
+                                    {event[key] ? `${event[key].name} (ID: ${event[key].id})` : ""}
+                                  </p>
+                                ))}
+                              </div>
+                              <div>
+                                {group.female.map(({ label, key }) => (
+                                  <p key={key} className="text-red-800">
+                                    <span className="font-bold">{label}: </span>
+                                    {event[key] ? `${event[key].name} (ID: ${event[key].id})` : ""}
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
                         ))}
-
-                        {/* Female Net Strokes */}
-                        {['1', '2'].map((index) => (
-                          <p key={`w_net_stroke_${index}`}>
-                            <span className="font-bold">女士網絡桿數 {index}: </span>
-                            {event[`w_net_stroke_${index}`] ? `${event[`w_net_stroke_${index}`].name} (ID: ${event[`w_net_stroke_${index}`].id})` : "N/A"}
-                          </p>
-                        ))}
-
-                        {/* Male and Female Long Drive */}
-                        <p>
-                          <span className="font-bold">男士長距離擊球: </span>
-                          {event.m_long_drive ? `${event.m_long_drive.name} (ID: ${event.m_long_drive.id})` : "N/A"}
-                        </p>
-                        <p>
-                          <span className="font-bold">女士長距離擊球: </span>
-                          {event.w_long_drive ? `${event.w_long_drive.name} (ID: ${event.w_long_drive.id})` : "N/A"}
-                        </p>
-
-                        {/* Close to the center */}
-                        <p>
-                          <span className="font-bold">接近中心: </span>
-                          {event.close_to_center ? `${event.close_to_center.name} (ID: ${event.close_to_center.id})` : "N/A"}
-                        </p>
-
-                        {/* Male Close Pin for different holes */}
-                        {['2', '7', '12', '6'].map((hole) => (
-                          <p key={`m_close_pin_${hole}`}>
-                            <span className="font-bold">男士接近洞 {hole}: </span>
-                            {event[`m_close_pin_${hole}`] ? `${event[`m_close_pin_${hole}`].name} (ID: ${event[`m_close_pin_${hole}`].id})` : "N/A"}
-                          </p>
-                        ))}
-
-                        {/* Female Close Pin for holes 7 and 12 */}
-                        {['7', '12'].map((hole) => (
-                          <p key={`w_close_pin_${hole}`}>
-                            <span className="font-bold">女士接近洞 {hole}: </span>
-                            {event[`w_close_pin_${hole}`] ? `${event[`w_close_pin_${hole}`].name} (ID: ${event[`w_close_pin_${hole}`].id})` : "N/A"}
-                          </p>
-                        ))}
-
-                        {/* Best Balls */}
-                        <p>
-                          <span className="font-bold">男士最佳球: </span>
-                          {event.m_bb ? `${event.m_bb.name} (ID: ${event.m_bb.id})` : "N/A"}
-                        </p>
-                        <p>
-                          <span className="font-bold">女士最佳球: </span>
-                          {event.w_bb ? `${event.w_bb.name} (ID: ${event.w_bb.id})` : "N/A"}
-                        </p>
                       </div>
-                    </div>
+
+                    </div>                  
                   )}
                 </div>
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/lib/database"; 
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import Event from "@/app/lib/database/models/event.model"; 
 import Group from "@/app/lib/database/models/group.model"; 
 import Round from "@/app/lib/database/models/round.model"; 
@@ -13,57 +13,54 @@ export async function GET(req: Request) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1); 
 
-    // Fetch events with a single query and lean optimization
+    // Fetch all past events
     const events = await Event.find({ date: { $lte: yesterday.toISOString().split("T")[0] } }).lean();
 
     if (events.length === 0) {
-      return NextResponse.json({ error: "No upcoming events found" }, { status: 404 });
+      return NextResponse.json({ error: "No past events found" }, { status: 404 });
     }
 
-    // Get all group IDs for bulk querying
-    const groupIds = events.flatMap((event) => event.groups).filter(Boolean);
+    // Get all group IDs from events
+    const groupIds = events.flatMap(event => event.groups).filter(Boolean);
     const groups = await Group.find({ _id: { $in: groupIds } }).lean();
 
-    // Fetch rounds in bulk
-    const roundIds = groups.flatMap((group) => group.rounds).filter(Boolean);
+    // Get all round IDs from groups
+    const roundIds = groups.flatMap(group => group.rounds).filter(Boolean);
     const rounds = await Round.find({ _id: { $in: roundIds } }).lean(); 
 
-    // Get all member IDs for bulk querying
-    const memberIds = rounds.flatMap((round) => round.member ? [round.member._id] : []).filter(Boolean);
+    // Get all member IDs from rounds
+    const memberIds = rounds.flatMap(round => (round.member ? [round.member] : [])).filter(Boolean);
     const members = await Member.find({ _id: { $in: memberIds } }).select("id name sex").lean();
 
-    const roundsWithMembers = rounds.map((round) => {
-      const member = members.find((member) => String(member._id) === round.member.toString());
-            if (member) {
-        return { ...round, member }; 
-      }
-      return round;
-    });
-
-    const groupsWithRounds = groups.map((group) => {
-      const roundsForGroup = group.rounds.map((roundId: mongoose.Types.ObjectId) => {
-        const round = roundsWithMembers.find((round) => String(round._id) === String(roundId)); // Use roundsWithMembers here
-        if (round) {
-          return { ...round };  // return the round with the attached member
-        }
-        return round;  // Return the round if no member found
-      });
-      return { ...group, rounds: roundsForGroup };  // Attach rounds to group
-    });
-
-    // Construct final event details
-    const eventDetails = events.map((event) => ({
-      event_id: event._id,
-      date: event.date,
-      time: event.time,
-      groups: groupsWithRounds,
+    // Map members to their respective rounds
+    const roundsWithMembers = rounds.map(round => ({
+      ...round,
+      member: members.find(member => String(member._id) === String(round.member)) || null
     }));
 
-    //console.log(JSON.stringify(eventDetails, null, 2));  // Pretty-print the structure
+    // Map rounds back to their groups
+    const groupsWithRounds = groups.map(group => ({
+      ...group,
+      rounds: group.rounds
+        .map((roundId: mongoose.Types.ObjectId) => roundsWithMembers.find(round => String(round._id) === String(roundId)))
+        .filter(Boolean) // Remove any unmatched rounds
+    }));
 
-    return NextResponse.json(eventDetails);
+    // Map groups back to their events
+    const eventsWithGroups = events.map(event => ({
+      ...event,
+      groups: event.groups
+        .map((groupId: mongoose.Types.ObjectId) => groupsWithRounds.find(group => String(group._id) === String(groupId)))
+        .filter(Boolean) // Remove any unmatched groups
+    }));
+
+    console.log(eventsWithGroups)
+
+    return NextResponse.json(eventsWithGroups);
+
   } catch (error) {
-    console.error("Error fetching events:", error);
-    return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });
+    console.error("Error fetching past events:", error);
+    return NextResponse.json({ error: "Failed to fetch past events" }, { status: 500 });
   }
 }
+

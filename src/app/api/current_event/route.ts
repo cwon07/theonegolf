@@ -10,18 +10,26 @@ export async function GET(req: Request) {
   try {
     await connectToDatabase();
 
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1); 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to start of the day
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
 
-    // Fetch events with a single query and lean optimization
-    const events = await Event.find({ date: { $gte: yesterday.toISOString().split("T")[0] } }).lean();
+    // Fetch events occurring today or in the future
+    let events = await Event.find({ date: { $gte: yesterday.toISOString().split("T")[0] } }).lean();
 
     if (events.length === 0) {
       return NextResponse.json({ error: "No upcoming events found" }, { status: 404 });
     }
 
+    // Sort events by date, closest to today first
+    events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    // Select the closest event
+    const closestEvent = events[0];
+
     // Get all group IDs for bulk querying
-    const groupIds = events.flatMap((event) => event.groups).filter(Boolean);
+    const groupIds = closestEvent.groups.filter(Boolean)
     const groups = await Group.find({ _id: { $in: groupIds } }).lean();
 
     // Fetch rounds in bulk
@@ -55,11 +63,11 @@ export async function GET(req: Request) {
     const eventDetails = events.map((event) => ({
       event_id: event._id,
       date: event.date,
-      time: event.time,
+      is_tourn: event.is_tourn,
       groups: groupsWithRounds,
     }));
 
-    //console.log(JSON.stringify(eventDetails, null, 2));  // Pretty-print the structure
+    console.log(eventDetails);  // Pretty-print the structure
 
     return NextResponse.json(eventDetails);
   } catch (error) {

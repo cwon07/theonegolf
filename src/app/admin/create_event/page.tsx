@@ -105,6 +105,24 @@ export default function AdminDashboard() {
               required
             />
           </div>
+          <div>
+              <label className="block font-semibold">Is Tournament:</label>
+              <div className="flex items-center space-x-2">
+                <select
+                  value={isTourn ? "true" : "false"}  // Ensure correct string representation
+                  onChange={(e) => {
+                    const value = e.target.value === "true"; // Convert string to boolean
+                    setIsTourn(value);
+                    setEvent((prevEvent) => ({ ...prevEvent, is_tourn: value })); // Sync state
+                  }}
+                  className="p-2 border rounded-md w-full"
+                  required
+                >
+                  <option value="false">False</option>
+                  <option value="true">True</option>
+                </select>
+              </div>
+            </div>
 
           <div>
             <label className="block font-semibold">Time:</label>
@@ -117,21 +135,6 @@ export default function AdminDashboard() {
               required
             />
           </div>
-
-          <div>
-              <label className="block font-semibold">Is Tournament:</label>
-              <div className="flex items-center space-x-2">
-                <select
-                  value={String(isTourn)}
-                  onChange={(e) => setIsTourn(Boolean(e.target.value))}
-                  className="p-2 border rounded-md w-full"
-                  required
-                >
-                  <option value="False">False</option>
-                  <option value="True">True</option>
-                </select>
-              </div>
-            </div>
 
           {/* Tee Time Interval Selection */}
             <div>
