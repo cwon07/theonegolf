@@ -30,7 +30,7 @@ export async function GET(req: Request) {
 
     // Get all member IDs from rounds
     const memberIds = rounds.flatMap(round => (round.member ? [round.member] : [])).filter(Boolean);
-    const members = await Member.find({ _id: { $in: memberIds } }).select("id name sex").lean();
+    const members = await Member.find({ _id: { $in: memberIds } }).select("id name sex handicap").lean();
 
     // Map members to their respective rounds
     const roundsWithMembers = rounds.map(round => ({

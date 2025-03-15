@@ -18,6 +18,7 @@ interface DecodedToken {
 interface Member {
   _id: mongoose.Types.ObjectId;
   id: number;
+  handicap: [number]
   name: string;
   sex: string;
 }
@@ -129,45 +130,45 @@ return (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
                         {[
                           {
-                            title: "總桿獎項",
+                            title: "總桿獎",
                             male: [{ label: "冠軍 (男）", key: "m_total_stroke" }],
                             female: [{ label: "冠軍 (女）", key: "w_total_stroke" }],
                           },
                           {
-                            title: "遠桿獎項",
-                            male: [{ label: "男士長距離擊球", key: "m_long_drive" }],
-                            female: [{ label: "女士長距離擊球", key: "w_long_drive" }],
+                            title: "遠桿獎",
+                            male: [{ label: "遠桿獎 (男)", key: "m_long_drive" }],
+                            female: [{ label: "遠桿獎 (女)", key: "w_long_drive" }],
                           },
                           {
-                            title: "净桿獎項",
+                            title: "净桿獎",
                             male: [
-                              { label: "净桿獎 (男) 冠軍", key: "m_net_stroke_1" },
-                              { label: "净桿獎 (男) 亞軍", key: "m_net_stroke_2" },
-                              { label: "净桿獎 (男) 季軍", key: "m_net_stroke_3" },
-                              { label: "净桿獎 (男) 殿軍", key: "m_net_stroke_4" },
-                              { label: "净桿獎 (男) 你是老五", key: "m_net_stroke_5" },
+                              { label: "冠軍 (男)", key: "m_net_stroke_1" },
+                              { label: "亞軍 (男)", key: "m_net_stroke_2" },
+                              { label: "季軍 (男)", key: "m_net_stroke_3" },
+                              { label: "殿軍 (男)", key: "m_net_stroke_4" },
+                              { label: "老五 (男)", key: "m_net_stroke_5" },
                             ],
                             female: [
-                              { label: "净桿獎 (女) 冠軍", key: "w_net_stroke_1" },
-                              { label: "净桿獎 (女) 亞軍", key: "w_net_stroke_2" },
+                              { label: "冠軍 (女)", key: "w_net_stroke_1" },
+                              { label: "亞軍 (女)", key: "w_net_stroke_2" },
                             ],
                           },
                           {
                             title: "近洞獎",
                             male: [
-                              { label: "近洞獎 (男) Hole 2", key: "m_close_pin_2" },
-                              { label: "近洞獎 (男) Hole 6", key: "m_close_pin_6" },
-                              { label: "近洞獎 (男) Hole 7", key: "m_close_pin_7" },
-                              { label: "近洞獎 (男) Hole 12", key: "m_close_pin_12" },
+                              { label: "Hole 2 (男)", key: "m_close_pin_2" },
+                              { label: "Hole 6 (男)", key: "m_close_pin_6" },
+                              { label: "Hole 7 (男)", key: "m_close_pin_7" },
+                              { label: "Hole 12 (男)", key: "m_close_pin_12" },
                             ],
                             female: [
-                              { label: "近洞獎 (女) Hole 7", key: "w_close_pin_7" },
-                              { label: "近洞獎 (女) Hole 12", key: "w_close_pin_12" },
+                              { label: "Hole 7 (女)", key: "w_close_pin_7" },
+                              { label: "Hole 12 (女)", key: "w_close_pin_12" },
                             ],
                           },
                           {
                             title: "近中獎",
-                            male: [{ label: "近中獎", key: "close_to_center" }],
+                            male: [{ label: <span className="text-purple-700">近中獎</span>, key: "close_to_center" }],
                             female: [],
                           },
                           {
@@ -233,7 +234,7 @@ return (
                           {group.rounds && group.rounds.length > 0 && (
                             <div className="mt-4">
                               <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                <span>姓名 (ID)</span>
+                                <span>[ID] 姓名(差點）</span>
                                 <span>前9洞</span>
                                 <span>後9洞</span>
                                 <span>總成績</span>
@@ -257,7 +258,9 @@ return (
                                             round.member.sex === "Male" ? "text-blue-500" : "text-pink-500"
                                           }`}
                                         >
-                                          {round.member.name} (ID: {round.member.id})
+                                          <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                          {round.member.id}
+                                          </span>.{round.member.name} ({round.member.handicap.at(-1)})
                                         </span>
 
                                         {/* Scores with Alignment */}
