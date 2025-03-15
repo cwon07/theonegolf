@@ -127,7 +127,7 @@ export default function EventsView() {
 
           {/* Dropdown for selecting event date */}
           <div className="mb-4">
-            <label className="font-semibold mr-2">選擇日期:</label>
+            <label className="font-bold text-xl mr-2 text-black">選擇日期:</label>
             <select
               value={selectedDate}
               onChange={handleDateChange}
@@ -145,21 +145,9 @@ export default function EventsView() {
             <div>
               <h2 className="text-black text-xl font-semibold">日期: {selectedEvent.date}</h2>
               <div className="mt-4">
-                {selectedEvent.is_tourn && (
-                <>
-                {console.log("is_tourn value: ", selectedEvent.is_tourn)}  {/* Debugging log */}
-                <button
-                  onClick={() => setShowDetails((prevState) => !prevState)}
-                  className="text-blue-600 hover:underline font-semibold"
-                >
-                  {showDetails ? "隱藏得獎名單" : "顯示得獎名單"}
-                </button>
-              </>
-                  )}
-
-                  {showDetails && (
+                  {selectedEvent.is_tourn && (
                     <div className="text-gray-800 mt-4">
-                      <h3 className="font-semibold text-lg text-yellow-600">得獎名單</h3>
+                      <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
                         {[
                           {
@@ -211,7 +199,7 @@ export default function EventsView() {
                           },
                         ].map((group, idx) => (
                           <div key={`event-details-group-${idx}`} className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                            <h4 className="font-bold text-center text-lg mb-2 text-yellow-600">{group.title}</h4>
+                            <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">{group.title}</h4>
                             <div className="grid grid-cols-2 gap-4">
                               <div>
                                 {group.male.map(({ label, key }) => (

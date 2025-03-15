@@ -121,7 +121,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       {/* Events Dropdown */}
       <div className="text-black font-bold relative text-[1.2rem]" ref={dropdownRefevent}>
         <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
-          球隊賽事 ▼
+          賽事 & 球叙 ▼
         </button>
         {isEventDropdownOpen && (
           <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">

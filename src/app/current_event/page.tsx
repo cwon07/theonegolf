@@ -39,6 +39,7 @@ interface Group {
 interface Event {
   _id: string;
   date: string;
+  is_tourn: boolean;
   groups: Group[]
 }
 
@@ -122,21 +123,9 @@ return (
 
                 {/* Toggle for additional event details */}
                 <div className="mt-4">
-                {event.is_tourn && (
-                <>
-                {console.log("is_tourn value: ", event.is_tourn)}  {/* Debugging log */}
-                <button
-                  onClick={() => setShowDetails((prevState) => !prevState)}
-                  className="text-blue-600 hover:underline font-semibold"
-                >
-                  {showDetails ? "隱藏得獎名單" : "顯示得獎名單"}
-                </button>
-              </>
-                  )}
-
-                  {showDetails && (
+                  {event.is_tourn && (
                     <div className="text-gray-800 mt-4">
-                      <h3 className="font-semibold text-lg text-yellow-600">得獎名單</h3>
+                      <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
                         {[
                           {
@@ -188,7 +177,7 @@ return (
                           },
                         ].map((group, idx) => (
                           <div key={`event-details-group-${idx}`} className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                            <h4 className="font-bold text-center text-lg mb-2 text-yellow-600">{group.title}</h4>
+                            <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">{group.title}</h4>
                             <div className="grid grid-cols-2 gap-4">
                               <div>
                                 {group.male.map(({ label, key }) => (
