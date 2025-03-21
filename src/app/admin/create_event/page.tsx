@@ -92,10 +92,10 @@ export default function AdminDashboard() {
 
     <div className="text-black flex flex-col items-center items-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-2xl p-6 bg- shadow-lg rounded-lg bg-white">
-        <h1 className="text-2xl font-bold text-center mb-4">Create Golf Tournament Event</h1>
+        <h1 className="text-2xl font-bold text-center mb-4">新增賽事&球叙</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-semibold">Date:</label>
+            <label className="block font-semibold">日期:</label>
             <input
               type="date"
               name="date"
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
             />
           </div>
           <div>
-              <label className="block font-semibold">Is Tournament:</label>
+              <label className="block font-semibold">是否是賽事？</label>
               <div className="flex items-center space-x-2">
                 <select
                   value={isTourn ? "true" : "false"}  // Ensure correct string representation
@@ -118,14 +118,14 @@ export default function AdminDashboard() {
                   className="p-2 border rounded-md w-full"
                   required
                 >
-                  <option value="false">False</option>
-                  <option value="true">True</option>
+                  <option value="false">是</option>
+                  <option value="true">否</option>
                 </select>
               </div>
             </div>
 
           <div>
-            <label className="block font-semibold">Time:</label>
+            <label className="block font-semibold">第一組開球時間:</label>
             <input
               type="time"
               name="time"
@@ -138,7 +138,7 @@ export default function AdminDashboard() {
 
           {/* Tee Time Interval Selection */}
             <div>
-              <label className="block font-semibold">Tee Time Interval:</label>
+              <label className="block font-semibold">球組間隔時間:</label>
               <div className="flex items-center space-x-2">
                 <select
                   value={teeTimeInterval}
@@ -150,31 +150,32 @@ export default function AdminDashboard() {
                   <option value="9">9</option>
                   <option value="10">10</option>
                 </select>
-                <span className="text-gray-600">minutes</span>
+                <span className="text-gray-600">分鐘</span>
               </div>
             </div>
 
           <div>
-            <label className="block font-semibold">Group Count:</label>
+            <label className="block font-semibold">球組總數:</label>
             <input
               type="number"
               name="group_count"
               value={event.group_count}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
+              placeholder="eg. 4"
               required
               min="1"
             />
           </div>
           <div>
-            <label className="block font-semibold">Players (comma-separated):</label>
+            <label className="block font-semibold">參加會員ID (逗號分隔):</label>
             <textarea
               name="players"
               value={event.players}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
               rows={3}
-              placeholder="Enter player IDs, separated by commas"
+              placeholder="Enter player IDs, separated by commas eg. 1,15,19"
               required
             />
           </div>

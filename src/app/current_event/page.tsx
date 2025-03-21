@@ -156,14 +156,14 @@ return (
                           {
                             title: "近洞獎",
                             male: [
-                              { label: "Hole 2 (男)", key: "m_close_pin_2" },
-                              { label: "Hole 6 (男)", key: "m_close_pin_6" },
-                              { label: "Hole 7 (男)", key: "m_close_pin_7" },
-                              { label: "Hole 12 (男)", key: "m_close_pin_12" },
+                              { label: "第2洞 (男)", key: "m_close_pin_2" },
+                              { label: "第6洞 (男)", key: "m_close_pin_6" },
+                              { label: "第7洞 (男)", key: "m_close_pin_7" },
+                              { label: "第12洞 (男)", key: "m_close_pin_12" },
                             ],
                             female: [
-                              { label: "Hole 7 (女)", key: "w_close_pin_7" },
-                              { label: "Hole 12 (女)", key: "w_close_pin_12" },
+                              { label: "第7洞 (女)", key: "w_close_pin_7" },
+                              { label: "第12洞 (女)", key: "w_close_pin_12" },
                             ],
                           },
                           {

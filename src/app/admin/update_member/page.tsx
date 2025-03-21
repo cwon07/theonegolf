@@ -167,13 +167,13 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="text-black flex flex-col items-center items-center min-h-screen p-4 bg-gray-100">
       <div className="w-full max-w-2xl p-6 bg- shadow-lg rounded-lg bg-white">
-        <h1 className="text-2xl font-bold text-center mb-4">Update Member</h1>
-          <div className="flex items-center space-x-2">
+        <h1 className="text-2xl font-bold text-center mb-4">修改會員</h1>
+          <div className="block flex items-center space-x-2">
             <input 
               type="text" 
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1 flex-grow"
+              className="border border-gray-300 rounded px-2 py-1 flex-grow h-10"
               placeholder="Enter Member ID"
             />
             <button 
@@ -181,17 +181,17 @@ export default function AdminDashboard() {
               setShowForm(true);
               handleSearch();
             }}
-             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
-              Search
+             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10">
+              搜尋
             </button>
-            <button className="test-right bg-red-500 text-white px-4 py-1 rounded hover:bg-gray-600">
-              Delete
+            <button className="test-right bg-red-500 text-white px-4 py-1 rounded hover:bg-gray-600 h-10">
+              刪除
             </button>
           </div>
         {showForm && (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <div>
-            <label className="block font-semibold">Name:</label>
+            <label className="block font-semibold">中文名字:</label>
             <input
               type="text"
               name="name"
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
           </div>
 
           <div>
-            <label className="block font-semibold">Sex:</label>
+            <label className="block font-semibold">性別:</label>
             <select
                 name="sex"
                 value={member.sex}
@@ -211,14 +211,14 @@ export default function AdminDashboard() {
                 className="w-full p-2 border rounded-md"
                 required
             >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="Male">男</option>
+                <option value="Female">女</option>
+                <option value="Other">其他</option>
             </select>
             </div>
 
           <div>
-            <label className="block font-semibold">English Name:</label>
+            <label className="block font-semibold">英文名字:</label>
             <input
               type="text"
               name="eng_name"
@@ -229,7 +229,7 @@ export default function AdminDashboard() {
           </div>
 
           <div>
-            <label className="block font-semibold">Handicap:</label>
+            <label className="block font-semibold">差點:</label>
               <textarea
                 name="handicap"
                 value={handicapInput}
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
           </div>
 
           <div>
-            <label className="block font-semibold">Is New Member?</label>
+            <label className="block font-semibold">是否是新會員?</label>
             <select
               name="is_new"
               value={member.is_new ? "true" : "false"}
@@ -251,13 +251,13 @@ export default function AdminDashboard() {
               className="w-full p-2 border rounded-md"
               required
             >
-              <option value="true">true</option>
-              <option value="false">false</option>
+              <option value="true">是</option>
+              <option value="false">否</option>
             </select>
           </div>
 
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-            Update Member
+            修改會員
           </button>
         </form>
         )}

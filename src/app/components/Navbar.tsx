@@ -149,38 +149,32 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
             style={{ ...navLinkStyle, color: "#0000FE" }}
             aria-expanded={isAdminDropdownOpen}
           >
-            Admin Only Actions ▼
+            管理員功能 ▼
           </button>
           {isAdminDropdownOpen && (
-            <div style={dropdownStyle}>
+            <div style={dropdownStyle} className="font-bold text-blue-500 p-2 hover:bg-gray-100">
               <button
-                className="text-blue-800 p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
                 onClick={() => router.push("/admin/create_event")}>
-                Create Golf Event
+                新增賽事&球叙
+              </button>
+              <button>
+                刪除賽事&球叙
               </button>
               <button
-                className="text-blue-800 p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-                >
-                Update Golf Event
-              </button>
-              <button
-                className="text-blue-800 p-2 hover:bg-gray-100"
                 onClick={() => router.push("/admin/create_member")}>
-                Create Member
+                新增會員
               </button>
               <button
-                className="text-blue-800 p-2 hover:bg-gray-100"
                 onClick={() => router.push("/admin/update_member")}>
-                Update Member
+                修改會員
               </button>
               <button
-                className="text-blue-800 p-2 hover:bg-gray-100"
-                  onClick={() => {
-                  sessionStorage.removeItem("token");
-                  setAdminName(null);
-                  window.location.reload();
-                }}>
-                Logout
+                onClick={() => {
+                sessionStorage.removeItem("token");
+                setAdminName(null);
+                window.location.reload();
+              }}>
+                登出
               </button>
             </div>
           )}
@@ -191,7 +185,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
         {adminName ? (
           <span style={{ fontWeight: "bold", color: "#0000FE", fontSize: "1.2rem" }}>
-            Welcome, {adminName}
+            歡迎, {adminName}
           </span>
         ) : (
           <button
@@ -206,7 +200,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
               cursor: "pointer",
             }}
           >
-            Admin Login
+            管理員登入
           </button>
         )}
       </div>

@@ -65,12 +65,12 @@ export default function AdminLogin() {
 
     <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
       <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">管理員登入</h2>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label htmlFor="username" className="block font-semibold">
-              Username
+              用戶名
             </label>
             <input
               type="text"
@@ -85,7 +85,7 @@ export default function AdminLogin() {
           
           <div>
             <label htmlFor="password" className="block font-semibold">
-              Password
+              用戶密碼
             </label>
             <input
               type="password"
@@ -106,15 +106,14 @@ export default function AdminLogin() {
             type="submit"
             className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
-            Login
+            登入
           </button>
         </form>
 
         <div className="mt-4 text-center">
           <p>
-            Don't have an account?{" "}
             <Link href="/admin/register" legacyBehavior>
-              <a className="text-blue-500 hover:underline">Click here to register</a>
+              <a className="text-blue-500 hover:underline">申請賬號</a>
             </Link>
           </p>
         </div>
