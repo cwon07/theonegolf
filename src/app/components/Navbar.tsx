@@ -154,26 +154,27 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           {isAdminDropdownOpen && (
             <div style={dropdownStyle}>
               <button
-                className="text-blue-500 p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+                className="text-blue-800 p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
                 onClick={() => router.push("/admin/create_event")}>
                 Create Golf Event
               </button>
               <button
-                className="text-blue-500 p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
+                className="text-blue-800 p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
                 >
                 Update Golf Event
               </button>
               <button
-                className="text-blue-500 p-2 hover:bg-gray-100"
+                className="text-blue-800 p-2 hover:bg-gray-100"
                 onClick={() => router.push("/admin/create_member")}>
                 Create Member
               </button>
               <button
-                className="text-blue-500 p-2 hover:bg-gray-100">
+                className="text-blue-800 p-2 hover:bg-gray-100"
+                onClick={() => router.push("/admin/update_member")}>
                 Update Member
               </button>
               <button
-                className="text-blue-500 p-2 hover:bg-gray-100"
+                className="text-blue-800 p-2 hover:bg-gray-100"
                   onClick={() => {
                   sessionStorage.removeItem("token");
                   setAdminName(null);
