@@ -117,6 +117,53 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!searchId) {
+      alert("Please enter a Member ID to delete");
+      return;
+    }
+  
+    // Optional: Add confirmation dialog
+    if (!confirm("Are you sure you want to delete this member?")) {
+      return;
+    }
+  
+    try {
+      console.log("deleteID:", searchId);
+      const response = await fetch(`/api/update_member?id=${searchId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        alert("Member deleted successfully");
+        // Reset form/state after successful deletion
+        setMember({
+          _id: "",
+          id: 0,
+          name: "",
+          sex: "Male",
+          eng_name: "",
+          handicap: [],
+          is_new: false,
+        });
+        setSearchId(""); // Assuming you have a setSearchId function
+        setShowForm(false);
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to delete member: ${errorData.error}`);
+      }
+  
+    } catch (error) {
+      console.error("Error deleting member:", error);
+      alert("An error occurred while deleting the member");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Update Member:", member);
@@ -184,7 +231,11 @@ export default function AdminDashboard() {
              className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10">
               搜尋
             </button>
-            <button className="test-right bg-red-500 text-white px-4 py-1 rounded hover:bg-gray-600 h-10">
+            <button 
+            onClick={() =>{
+              handleDelete();
+            }}
+             className="test-right bg-red-500 text-white px-4 py-1 rounded hover:bg-gray-600 h-10">
               刪除
             </button>
           </div>

@@ -10,6 +10,30 @@ interface Member {
   sex: string;
 }
 
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+
+  if (!id) {
+    return NextResponse.json({ error: "ID is required" }, { status: 400 });
+  }
+
+  try {
+    const deletedMember = await Member.findOneAndDelete({ id: parseInt(id) }).exec();
+    
+    if (deletedMember) {
+      return NextResponse.json({ 
+        message: "Member deleted successfully",
+        member: deletedMember 
+      });
+    } else {
+      return NextResponse.json({ error: "Member not found" }, { status: 404 });
+    }
+  } catch (error) {
+    return NextResponse.json({error: "Failed to delete member"}, { status: 500 });
+  }
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");

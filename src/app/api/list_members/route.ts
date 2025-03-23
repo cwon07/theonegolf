@@ -8,6 +8,7 @@ export async function GET() {
     await connectToDatabase(); // Connect to the database
     // Fetch all members from the database
     const members = await Member.find();
+    members.sort((a, b) => a.id - b.id);
 
     // Return the list of members as a JSON response
     return NextResponse.json(members, { status: 200 });
