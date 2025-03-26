@@ -32,7 +32,7 @@ export default function Home() {
           <section className="mb-8 text-center font-bold">
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">月賽規則</h2>
             <p className="text-xl mb-4 font-bold text-blue-800">
-              5 - 9 月比賽（4 times）
+              5 - 9 月比賽（5次比賽）
             </p>
             <ul className="text-xl list-none space-y-4">
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
@@ -55,17 +55,20 @@ export default function Home() {
           {/* Dinner and Awards */}
           <section className="mb-8 text-center">
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">晚宴</h2>
-            <p className="text-xl text-black mb-4 font-bold">
+            <p className="text-xl text-blue-800 mb-4 font-bold">
               月賽當晚舉行晚宴與頒獎
             </p>
-            <p className="text-xl text-black mb-4 font-bold">
-              舉行會場：XXXX大廳
+            <p className="text-xl text-blue-800 mb-4 font-bold">
+              舉行會場：粵海華庭海鮮餐廳
             </p>
-            <p className="text-xl text-black mb-4 font-bold">
-              晚宴時間：XX:XX PM
+            <p className="text-xl text-blue-800 mb-4 font-bold">
+              地址：4540 No.3 Road Richmond BC
+            </p>
+            <p className="text-xl text-blue-800 mb-4 font-bold">
+              晚宴時間：6:30 PM 準時用餐
             </p>
 
-            <h3 className="text-2xl font-semibold text-purple-700 mb-4">獎項總覽：</h3>
+            <h3 className="text-3xl font-semibold text-purple-700 mb-4">獎項總覽：</h3>
             <ul className="text-xl list-none space-y-4 font-bold">
               <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
               <span className="font-bold text-purple-600"> 總稈獎</span> （<span className="font-bold text-blue-800">男</span>&
@@ -111,13 +114,13 @@ export default function Home() {
               <p className="font-bold text-black">必須大於Tee台150碼以上</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-              <span className="font-bold text-blue-800"> 男子近洞獎 （Hole 2，7，12，16） </span>
+              <span className="font-bold text-blue-800"> 男子近洞獎 （洞 2，7，12，16） </span>
               <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
               <p className="font-bold text-black">每個洞分開計算</p>
               <p className="font-bold text-black"> 同一個比賽可重複得獎</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-              <span className="font-bold text-red-800"> 女子近洞獎 （Hole 7，12） </span>
+              <span className="font-bold text-red-800"> 女子近洞獎 （洞 7，12） </span>
               <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
               <p className="font-bold text-black">每個洞分開計算</p>
               <p className="font-bold text-black">同一個比賽可重複得獎</p>
@@ -130,18 +133,17 @@ export default function Home() {
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
               <span className="font-bold text-purple-600"> Eagle (不限次數)</span>
               <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
-              <p className="font-bold text-black">同一個比賽最多18個</p>
+              <p className="font-bold text-black">超過三個算你厲害</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
               <span className="font-bold text-purple-600">Albatrose (不限次數)</span>
               <p className="font-bold text-yellow-600"> 獎勵：球（3條）</p>
-              <p className="font-bold text-black">同一個比賽最多18個</p>
               <p className="font-bold text-black">本俱樂部成立以來沒人得過</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
               <span className="font-bold text-purple-600">BB獎</span>
               <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
-              <p className="font-bold text-black">倒數第二名</p>
+              <p className="font-bold text-black">倒數第二名，這個獎不要得，得了難看</p>
               </li>
             </ul>
           </section>

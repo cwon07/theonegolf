@@ -126,7 +126,7 @@ export default function MembersPage() {
                           </span>
                         </p>
                         <p className="mt-2 text-sm text-gray-600">
-                          {member.is_new ? "⭐ New Member" : ""}
+                          {member.is_new ? "⭐ 新會員" : ""}
                         </p>
                       </div>
                     )}

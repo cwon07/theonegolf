@@ -4,12 +4,12 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const images = [
-  "/Lukan1.jpeg",
-  "/Lukan2.jpeg",
-  "/Lukan3.jpeg",
-  "/Lukan4.jpeg",
-  "/Lukan5.jpeg",
-  "/Lukan6.jpeg",
+  "/0.jpeg",
+  "/1.jpeg",
+  "/2.jpg",
+  "/3.jpg",
+  "/4.jpg",
+  "/5.jpg",
 ];
 
 export default function Carousel() {
