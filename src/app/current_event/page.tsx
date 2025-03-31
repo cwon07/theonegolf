@@ -168,7 +168,7 @@ return (
                           },
                           {
                             title: "近中獎",
-                            male: [{ label: <span className="text-purple-700">近中獎</span>, key: "close_to_center" }],
+                            male: [{ label: <span className="text-purple-700">近中獎 <span className="text-green-700">(長青)</span></span>, key: "close_to_center" }],
                             female: [],
                           },
                           {
@@ -208,7 +208,33 @@ return (
                 {/* Render Groups in 3 columns */}
                 {event.groups && event.groups.length > 0 && (
                   <div className="text-black mt-4">
-                    <h3 className="font-bold">球組</h3>
+                    <h3 className="font-semibold text-lg text-blue-800">球員分組 & 開球時間</h3>
+                    {adminName && (
+                    <div className="block flex items-center space-x-2">
+                      <input 
+                        type="text" 
+                        //value={searchId}
+                        //onChange={(e) => setSearchId(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 h-10"
+                        placeholder="組別編號輸入"
+                      />
+                      <input 
+                        type="text" 
+                        //value={searchId}
+                        //onChange={(e) => setSearchId(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 h-10"
+                        placeholder="會員編號輸入"
+                      />
+                      <button 
+                        className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10">
+                        新增 || 移動
+                      </button>                      
+                      <button 
+                        className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 h-10">
+                        刪除
+                      </button>
+                    </div>
+                    )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                       {event.groups.map((group: any, groupIndex: number) => (
                         <div
@@ -260,7 +286,7 @@ return (
                                         >
                                           <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                           {round.member.id}
-                                          </span>.{round.member.name} ({round.member.handicap.at(-1)})
+                                          </span> {round.member.name} ({round.member.handicap.at(-1)})
                                         </span>
 
                                         {/* Scores with Alignment */}

@@ -54,8 +54,6 @@ export async function GET(req: Request) {
         .filter(Boolean) // Remove any unmatched groups
     }));
 
-    console.log(eventsWithGroups)
-
     return NextResponse.json(eventsWithGroups);
 
   } catch (error) {

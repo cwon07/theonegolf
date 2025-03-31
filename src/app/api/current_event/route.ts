@@ -67,7 +67,7 @@ export async function GET(req: Request) {
       groups: groupsWithRounds,
     }));
 
-    console.log(eventDetails);  // Pretty-print the structure
+    //console.log(eventDetails);  // Pretty-print the structure
 
     return NextResponse.json(eventDetails);
   } catch (error) {

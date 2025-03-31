@@ -190,7 +190,7 @@ export default function EventsView() {
                           },
                           {
                             title: "近中獎",
-                            male: [{ label: <span className="text-purple-700">近中獎</span>, key: "close_to_center" }],
+                            male: [{ label: <span className="text-purple-700">近中獎 <span className="text-green-700">(長青)</span></span>, key: "close_to_center" }],
                             female: [],
                           },
                           {
@@ -230,7 +230,7 @@ export default function EventsView() {
               {/* Render Groups */}
               {selectedEvent.groups && selectedEvent.groups.length > 0 && (
                 <div className="text-black mt-4">
-                  <h3 className="font-bold">球組</h3>
+                  <h3 className="font-semibold text-lg text-blue-800">球員分組 & 開球時間</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
                     {selectedEvent.groups.map((group) => (
                       <div key={group._id} className="p-4 border rounded-md shadow-sm bg-gray-50">
@@ -266,7 +266,7 @@ export default function EventsView() {
                                       <span className={`font-bold text-left ${round.member.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
                                       <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                           {round.member.id}
-                                          </span>.{round.member.name} ({round.member.handicap.at(-1)})
+                                          </span> {round.member.name} ({round.member.handicap.at(-1)})
                                       </span>
                                       <span className="text-left w-16">{round.front_9 ?? ""}</span>
                                       <span className="text-left w-16">{round.back_9 ?? ""}</span>

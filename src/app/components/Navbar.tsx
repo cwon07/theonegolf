@@ -157,7 +157,8 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
                 onClick={() => router.push("/admin/create_event")}>
                 新增賽事&球叙
               </button>
-              <button>
+              <button
+                onClick={() => router.push("/admin/delete_event")}>
                 刪除賽事&球叙
               </button>
               <button

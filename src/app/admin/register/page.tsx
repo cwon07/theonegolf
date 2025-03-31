@@ -31,25 +31,27 @@ export default function AdminRegister() {
     setMessage("");
 
     try {
-      //const res = await fetch("/api/auth/register", {
-      //  method: "POST",
-      //  headers: { "Content-Type": "application/json" },
-      //  body: JSON.stringify(user),
-      //});
-
-      //const data = await res.json();
-      
-      //if (!res.ok) {
-      //  setMessage(data.error || "Something went wrong");
-      //  return;
-      //}
-
-      //setMessage("Registration successful! 🎉");
+      //block register
       setMessage("Registration is temporarily disabled!");
-      //setUser({ username: "", firstName: "", lastName: "", email: "", password: "" });
 
-      // Redirect to login page after successful registration
-      //router.push("/admin/login");  
+      //enable register
+      /*
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMessage(data.error || "Something went wrong");
+        return;
+      }
+      setMessage("Registration successful! 🎉");
+      setUser({ username: "", firstName: "", lastName: "", email: "", password: "" });
+      router.push("/admin/login");  
+     */
     } catch (error) {
       setMessage("Error registering. Please try again.");
     }
