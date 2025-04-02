@@ -52,6 +52,9 @@ export default function EventsView() {
   const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
   const [memberId, setMemberId] = useState(''); // For member ID input
   const [message, setMessage] = useState(''); // For success/error feedback
+  
+  const [showList, setShowList] = useState(false);
+  const names = ["Alice", "Bob", "Charlie", "David"];
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -288,7 +291,14 @@ return (
                 <div className="mt-4">
                   {event.is_tourn && (
                     <div className="text-gray-800 mt-4">
-                      <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
+                      <div className="flex items-center justify-between w-full">
+                        <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
+                        <button
+                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
+                        >
+                          目前排名查詢
+                        </button>
+                      </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
                         {[
                           {
