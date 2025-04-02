@@ -22,32 +22,32 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
   const [adminName, setAdminName] = useState<string | null>(null);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownRefevent = useRef<HTMLDivElement>(null);
+  const eventDropdownRef = useRef<HTMLDivElement>(null);
   const adminDropdownRef = useRef<HTMLDivElement>(null);
-  
 
   // Check if admin is logged in
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded: DecodedToken = jwtDecode(token);
-        if (decoded.exp * 1000 > Date.now()) {
-          setAdminName(decoded.username);
-        } else {
-          sessionStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      const token = sessionStorage.getItem("token");
+      if (token) {
+        try {
+          const decoded: DecodedToken = jwtDecode(token);
+          if (decoded.exp * 1000 > Date.now()) {
+            setAdminName(decoded.username);
+          } else {
+            sessionStorage.removeItem("token");
+            setAdminName(null);
+          }
+        } catch (error) {
+          console.error("Error decoding token:", error);
           setAdminName(null);
         }
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        setAdminName(null);
       }
     }
   }, []);
 
-  const handleAdminClick  = () => {
+  const handleAdminClick = () => {
     if (!adminName) {
-      // Redirect to login page if not logged in
       router.push("/admin/login");
     }
   };
@@ -58,7 +58,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
       }
-      if (dropdownRefevent.current && !dropdownRefevent.current.contains(event.target as Node)) {
+      if (eventDropdownRef.current && !eventDropdownRef.current.contains(event.target as Node)) {
         setEventDropdownOpen(false);
       }
       if (adminDropdownRef.current && !adminDropdownRef.current.contains(event.target as Node)) {
@@ -74,36 +74,24 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 
   return (
     <nav
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: "2rem",
-        padding: "1rem",
-        paddingRight: "12rem",
-        backgroundColor: "white",
-        position: "relative",
-      }}
+      className="flex flex-wrap justify-between items-center p-4 bg-white relative"
     >
       {/* Rules Dropdown */}
-      <div className="text-black font-bold relative text-[1.2rem]" ref={dropdownRef}>
-        <button onClick={() => {setDropdownOpen(!isDropdownOpen);}} className="font-bold p-2 text-[1.2rem]">
-          晚宴 & 規則▼
+      <div className="text-black font-bold relative text-[1.2rem] navbar-content px-2 w-full sm:w-auto" ref={dropdownRef}>
+        <button onClick={() => { setDropdownOpen(!isDropdownOpen); }} className="font-bold p-2 text-[1.2rem] w-full sm:w-auto text-left">
+          晚宴 & 規則 ▼
         </button>
         {isDropdownOpen && (
           <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
             <button
-              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => {
-                router.push("/rules_and_gathering");
-              }}
+              className="text-black p-2 hover:bg-gray-100"
+              onClick={() => router.push("/rules_and_gathering")}
             >
               月賽規則 & 晚宴
             </button>
             <button
-              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => {
-                router.push("/handicap");
-              }}
+              className="text-black p-2 hover:bg-gray-100"
+              onClick={() => router.push("/handicap")}
             >
               差點調整詳解
             </button>
@@ -113,33 +101,34 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 
       {/* Other Menu Items */}
       <button
-        className="text-black font-bold relative text-[1.2rem]" // Tailwind hover effect for the dropdown item
-        onClick={() => router.push("/list_members")}>
+        className="text-black font-bold relative text-[1.2rem] px-2 w-full sm:w-auto"
+        onClick={() => router.push("/list_members")}
+      >
         會員總覽
       </button>
 
       {/* Events Dropdown */}
-      <div className="text-black font-bold relative text-[1.2rem]" ref={dropdownRefevent}>
+      <div className="text-black font-bold relative text-[1.2rem] px-2 w-full sm:w-auto" ref={eventDropdownRef}>
         <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
           賽事 & 球叙 ▼
         </button>
         {isEventDropdownOpen && (
           <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
             <button
-              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => router.push("/current_event")}>
-                當前賽事&球叙
+              className="text-black p-2 hover:bg-gray-100"
+              onClick={() => router.push("/current_event")}
+            >
+              當前賽事&球叙
             </button>
             <button
-              className="text-black p-2 hover:bg-gray-100" // Tailwind hover effect for the dropdown item
-              onClick={() => router.push("/past_events")}>
-                過往賽事&球叙
+              className="text-black p-2 hover:bg-gray-100"
+              onClick={() => router.push("/past_events")}
+            >
+              過往賽事&球叙
             </button>
-
           </div>
         )}
       </div>
-
 
       {/* Admin Dropdown (Only if Admin is Logged In) */}
       {adminName && (
@@ -153,28 +142,17 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           </button>
           {isAdminDropdownOpen && (
             <div style={dropdownStyle} className="font-bold text-blue-500 p-2 hover:bg-gray-100">
-              <button
-                onClick={() => router.push("/admin/create_event")}>
-                新增賽事&球叙
-              </button>
-              <button
-                onClick={() => router.push("/admin/delete_event")}>
-                刪除賽事&球叙
-              </button>
-              <button
-                onClick={() => router.push("/admin/create_member")}>
-                新增會員
-              </button>
-              <button
-                onClick={() => router.push("/admin/update_member")}>
-                修改會員
-              </button>
+              <button onClick={() => router.push("/admin/create_event")}>新增賽事&球叙</button>
+              <button onClick={() => router.push("/admin/delete_event")}>刪除賽事&球叙</button>
+              <button onClick={() => router.push("/admin/create_member")}>新增會員</button>
+              <button onClick={() => router.push("/admin/update_member")}>修改會員</button>
               <button
                 onClick={() => {
-                sessionStorage.removeItem("token");
-                setAdminName(null);
-                window.location.reload();
-              }}>
+                  sessionStorage.removeItem("token");
+                  setAdminName(null);
+                  window.location.reload();
+                }}
+              >
                 登出
               </button>
             </div>
@@ -237,22 +215,6 @@ const dropdownStyle = {
   display: "flex",
   flexDirection: "column" as const,
   minWidth: "200px",
-};
-
-// Dropdown item styling
-const dropdownItemStyle = {
-  textAlign: "left" as const,
-  padding: "0.5rem 1rem",
-  cursor: "pointer",
-  border: "none",
-  background: "white",
-  color: "#333",
-  fontSize: "1.2rem",
-  width: "100%",
-  transition: "background 0.2s ease",
-  hover: {
-    backgroundColor: "#f1f1f1",
-  },
 };
 
 export default Navbar;
