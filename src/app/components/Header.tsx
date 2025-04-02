@@ -65,12 +65,20 @@ export default function Header() {
         cursor: "pointer"
       }}
     >
-    <div 
-        style={{ flex: 1, display: "flex", justifyContent: "flex-start", paddingLeft: "12rem", cursor: "pointer" }}
-        onClick={handleLogoClick} // Trigger onClick event here
-      >
-    <Image src="/MClogo.svg" alt="Logo" width={300} height={90} priority/>
-  </div>
+    <div
+  className="logo-container flex justify-start w-full pl-4 sm:pl-6 md:pl-8 lg:pl-1 xl:pl-12 cursor-pointer"
+  onClick={handleLogoClick}
+>
+  <Image 
+    src="/MClogo.svg" 
+    alt="Logo" 
+    width={300} 
+    height={90} 
+    priority 
+    className="w-auto max-w-[180px] sm:max-w-[200px] md:max-w-[220px] lg:max-w-[250px] xl:max-w-[300px]"
+  />
+</div>
+
 
       
 

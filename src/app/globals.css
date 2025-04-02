@@ -45,7 +45,6 @@ body {
 
 /* Responsive Design Enhancements */
 @media (max-width: 600px) {
-  /* Mobile adjustments */
   .content-container {
     width: 90%; /* Wider for mobile */
     padding: 1rem;
@@ -62,7 +61,6 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* Tablet adjustments */
   .content-container {
     width: 85%;
     padding: 1.5rem;
@@ -75,20 +73,48 @@ body {
   .content-container p {
     font-size: 1rem;
   }
+
+  /* Adjust navbar container padding and margin for smaller screens */
+  nav {
+    margin: 0 auto; /* Center the navbar */
+    padding-left: 10px; /* Adjust left padding if needed */
+    padding-right: 10px; /* Adjust right padding if needed */
+  }
+
+  /* Ensure the navbar content doesn't overflow and fits within the screen */
+  .navbar-content {
+    width: 100%;
+    box-sizing: border-box; /* Prevent content from overflowing */
+    display: flex;
+    justify-content: center; /* Center navbar items */
+  }
+
+  .navbar-item {
+    padding: 0.8rem 1.2rem; /* Adjust padding for smaller screens */
+  }
+
+  .logo-container {
+    padding-left: 15px; /* Add padding to logo container to avoid touching the edges */
+    padding-right: 15px;
+  }
+
+  .logo-container img {
+    max-width: 140px; /* Adjusted for tablets */
+  }
 }
 
-@media (min-width: 1024px) {
-  /* Desktop adjustments */
-  .content-container {
-    width: 80%;
-    padding: 2rem;
+@media (max-width: 480px) {
+  .logo-container img {
+    max-width: 120px; /* Adjusted for phones */
   }
+}
 
-  .content-container h2 {
-    font-size: 2rem;
+@media (max-width: 1024px) { /* Adjust for bigger tablets like iPad */
+  .logo-container img {
+    max-width: 160px; /* Adjust the size for smaller tablet screens */
   }
+}
 
-  .content-container p {
-    font-size: 1.125rem;
-  }
+button {
+  min-width: 160px; /* adjust as needed */
 }
