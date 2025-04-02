@@ -34,7 +34,8 @@ export default function Home() {
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 得總稈冠軍者，不論男女，調一稈
               </li>
-              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如果已有USGA正式差點也會列入初始差點計算 （怎麽算？這個要加） </li>
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如無參照差點 (完全新手) 則直接以 35 計算 </li>
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 如果已有USGA或其他俱樂部正式差點，經過委員會同意則可以直接采用 (第一場比賽仍需照新會員規則調稈一次) </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 净稈得獎者，不論男女，照以下表格條稈
               </li>
@@ -212,9 +213,13 @@ export default function Home() {
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 <p className="text-blue-500"> 調稈例子 2</p> 
                 <p>差點32，第1名，總稈83</p>
-                <p>32 - 5 (第一表格) -21 (第二表格,如報表將按照現有表格推算) = 6 （新差點）</p>
+                <p>32 - 5 (第一表格) - 21 (第二表格,如爆表將按照現有表格進行推算) = 6 （新差點）</p>
               </li>
-            
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
+                <p className="text-blue-500"> 新會員調稈例子</p> 
+                <p>差點34，總稈92</p>
+                <p>34 - 14 (第二表格,如報表將按照現有表格推算) = 20 （新差點）</p>
+              </li>            
             </ul>
           </section>
 

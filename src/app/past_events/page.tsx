@@ -239,14 +239,6 @@ export default function EventsView() {
                             <p className="font-bold">日期: {group.date}</p>
                             <p className="font-bold">Tee Time: {group.time}</p>
                           </div>
-                          {adminName && (
-                            <button
-                              onClick={() => router.push(`/admin/update_group?groupId=${group._id}`)}
-                              className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-                            >
-                              Update
-                            </button>
-                          )}
                         </div>
 
                         {/* Render Rounds */}
