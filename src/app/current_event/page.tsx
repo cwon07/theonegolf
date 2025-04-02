@@ -413,7 +413,10 @@ return (
                     </div>
                     )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-                      {event.groups.map((group: any, groupIndex: number) => (
+                    {event.groups
+                        .slice() // Create a copy to avoid mutating the original array
+                        .sort((a: any, b: any) => a.time.localeCompare(b.time)) // Sort by time
+                        .map((group: any, groupIndex: number) => (
                         <div
                           key={group._id || `group-${event.event_id}-${groupIndex}`}
                           className="p-4 border rounded-md shadow-sm bg-gray-50"
@@ -426,10 +429,10 @@ return (
                             </div>
                             {adminName && `group-${event.event_id}-${groupIndex}` && (
                               <button
-                                onClick={() => router.push(`/admin/update_group?groupId=${group._doc._id}`)}
+                                onClick={() => router.push(`/admin/update_group?groupId=${group._id}`)}
                                 className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
                               >
-                                Update
+                                球組更新
                               </button>
                             )}
                           </div>
