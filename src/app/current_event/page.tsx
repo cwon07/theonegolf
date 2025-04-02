@@ -473,7 +473,7 @@ return (
                                         {/* Scores with Alignment */}
                                         <span className="text-left w-16">{round.front_9 ?? ""}</span>
                                         <span className="text-left w-16">{round.back_9 ?? ""}</span>
-                                        <span className="text-left w-16">
+                                        <span className="text-left w-16 font-bold text-xl text-blue-800">
                                           {round.front_9 && round.back_9
                                             ? Number(round.front_9) + Number(round.back_9)
                                             : ""}

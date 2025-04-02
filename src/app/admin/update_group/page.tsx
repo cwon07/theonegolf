@@ -147,7 +147,7 @@ export default function UpdateGroupPage() {
         body: JSON.stringify(groupData)
       });
       if (response.ok) {
-        alert('組別資料已保存');
+        //alert('組別資料已保存');
         // Optionally refresh the original group data
         //const updatedData = await response.json();
         //setGroup(updatedData);
