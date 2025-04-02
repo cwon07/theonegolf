@@ -49,7 +49,9 @@ export default function EventsView() {
   const [loading, setLoading] = useState(true);
   const [adminName, setAdminName] = useState<string | null>(null);
   const router = useRouter();
-  const [showDetails, setShowDetails] = useState(false);
+  const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
+  const [memberId, setMemberId] = useState(''); // For member ID input
+  const [message, setMessage] = useState(''); // For success/error feedback
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -91,6 +93,166 @@ export default function EventsView() {
 
   const handleSelectMenu = (menu: string) => {
     console.log("Selected menu:", menu);
+  };
+
+  //find groupId by groupIndex
+  const findGroupIdByIndex = (index: number): string | null => {
+    // Assuming we're working with the first event; adjust if you have multiple events
+    const event = events[0]; // Modify this if you need to handle multiple events
+    if (!event || !event.groups || index < 0 || index >= event.groups.length) {
+      return null;
+    }
+    return event.groups[index]._id.toString();
+  };
+
+  // Function to find the current group ID of a member
+  const findCurrentGroupId = (memberId: string): string | null => {
+    for (const event of events) {
+      for (const group of event.groups) {
+        const round = group.rounds.find((r) => r.member.id.toString() === memberId);
+        if (round) {
+          return group._id.toString();
+        }
+      }
+    }
+    return null;
+  };
+
+  //function to find roundId by memberId
+  const findRoundIdByMemberId = (memberId: string): string | null => {
+    for (const event of events) {
+      for (const group of event.groups) {
+        const round = group.rounds.find((r) => r.member.id.toString() === memberId);
+        if (round) {
+          return round._id.toString();
+        }
+      }
+    }
+    return null;
+  };
+
+  
+  // Function to add a round to a group
+  const handleAddRound = async () => {
+    if (!groupIndexInput || !memberId) {
+      setMessage('請輸入組別編號和會員編號');
+      return;
+    }
+
+    const groupId = findGroupIdByIndex(Number(groupIndexInput) - 1); // Subtract 1 since groupIndex starts at 1 in UI
+    if (!groupId) {
+      setMessage("無效的組別編號");
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/current_event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ groupId, memberId }),
+      });
+
+      if (response.ok) {
+        setMessage('成功新增回合');
+        setGroupIndexInput('');
+        setMemberId('');
+        const updatedEvents = await fetch("/api/current_event").then((res) => res.json());
+        setEvents(updatedEvents);
+        router.refresh();
+      } else {
+        setMessage('新增失敗');
+      }
+    } catch (error) {
+      setMessage('發生錯誤，請稍後再試');
+    }
+  };
+
+  // Function to move a round (e.g., to another group)
+  const handleMoveRound = async () => {
+    if (!groupIndexInput || !memberId) {
+      setMessage('請輸入組別編號和會員編號');
+      return;
+    }
+
+    const newGroupId = findGroupIdByIndex(Number(groupIndexInput) - 1); // Subtract 1 since groupIndex starts at 1 in UI
+    if (!newGroupId) {
+      setMessage("無效的組別編號");
+      return;
+    }
+
+    const currentGroupId = findCurrentGroupId(memberId);
+    if (!currentGroupId) {
+      setMessage("找不到該會員的當前組別");
+      return;
+    }
+
+    const roundId = findRoundIdByMemberId(memberId);
+    if (!roundId) {
+      setMessage("找不到該會員的回合");
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/current_event', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ roundId, currentGroupId, newGroupId }),
+      });
+
+      if (response.ok) {
+        setMessage('成功移動回合');
+        setGroupIndexInput('');
+        setMemberId('');
+        const updatedEvents = await fetch("/api/current_event").then((res) => res.json());
+        setEvents(updatedEvents);
+        router.refresh();
+      } else {
+        setMessage('移動失敗');
+      }
+    } catch (error) {
+      setMessage('發生錯誤，請稍後再試');
+    }
+  };
+
+  // Function to delete a round
+  const handleDeleteRound = async () => {
+    if (!groupIndexInput || !memberId) {
+      setMessage('請輸入組別編號和會員編號');
+      return;
+    }
+
+    const groupId = findGroupIdByIndex(Number(groupIndexInput) - 1); // Subtract 1 since groupIndex starts at 1 in UI
+    if (!groupId) {
+      setMessage("無效的組別編號");
+      return;
+    }
+
+    const roundId = findRoundIdByMemberId(memberId);
+    if (!roundId) {
+      setMessage("找不到該會員的回合");
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/current_event', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ groupId, roundId }),
+      });
+
+      if (response.ok) {
+        setMessage('成功刪除回合');
+        setGroupIndexInput('');
+        setMemberId('');
+        const updatedEvents = await fetch("/api/current_event").then((res) => res.json());
+        setEvents(updatedEvents);
+        router.refresh();
+      } else {
+        setMessage('刪除失敗');
+      }
+    } catch (error) {
+      setMessage('發生錯誤，請稍後再試');
+    }
   };
   
   if (loading) return <p>Loading events...</p>;
@@ -210,29 +372,44 @@ return (
                   <div className="text-black mt-4">
                     <h3 className="font-semibold text-lg text-blue-800">球員分組 & 開球時間</h3>
                     {adminName && (
-                    <div className="block flex items-center space-x-2">
-                      <input 
-                        type="text" 
-                        //value={searchId}
-                        //onChange={(e) => setSearchId(e.target.value)}
-                        className="border border-gray-300 rounded px-2 py-1 h-10"
-                        placeholder="組別編號輸入"
-                      />
-                      <input 
-                        type="text" 
-                        //value={searchId}
-                        //onChange={(e) => setSearchId(e.target.value)}
-                        className="border border-gray-300 rounded px-2 py-1 h-10"
-                        placeholder="會員編號輸入"
-                      />
-                      <button 
-                        className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10">
-                        新增 || 移動
-                      </button>                      
-                      <button 
-                        className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 h-10">
-                        刪除
-                      </button>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="text"
+                          value={groupIndexInput}
+                          onChange={(e) => setGroupIndexInput(e.target.value)}
+                          className="border border-gray-300 rounded px-2 py-1 h-10"
+                          placeholder="組別編號輸入 (例如: 1, 2, 3)"
+                        />
+                        <input
+                          type="text"
+                          value={memberId}
+                          onChange={(e) => setMemberId(e.target.value)}
+                          className="border border-gray-300 rounded px-2 py-1 h-10"
+                          placeholder="會員編號輸入"
+                        />
+                        <button
+                          onClick={handleMoveRound}
+                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
+                        >
+                          移動
+                        </button>
+                        <button
+                          onClick={handleAddRound}
+                          className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
+                        >
+                          新增
+                        </button>
+                        <button
+                          onClick={handleDeleteRound}
+                          className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 h-10"
+                        >
+                          刪除
+                        </button>
+                      </div>
+                      {message && (
+                        <p className="text-sm text-red-500 mt-2">{message}</p>
+                      )}
                     </div>
                     )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
@@ -243,6 +420,7 @@ return (
                         >
                           <div className="flex justify-between items-center">
                             <div>
+                             <p className="font-bold text-lg text-blue-800">第 {groupIndex+1} 組</p>
                               <p className="font-bold">日期: {group.date}</p>
                               <p className="font-bold">Tee Time: {group.time}</p>
                             </div>

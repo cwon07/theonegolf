@@ -67,11 +67,133 @@ export async function GET(req: Request) {
       groups: groupsWithRounds,
     }));
 
-    //console.log(eventDetails);  // Pretty-print the structure
-
     return NextResponse.json(eventDetails);
   } catch (error) {
     console.error("Error fetching events:", error);
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });
+  }
+}
+
+// ADD: Add a new round to a group
+export async function POST(req: Request) {
+  try {
+    await connectToDatabase();
+
+    const { groupId, memberId } = await req.json();
+
+    if (!groupId || !memberId) {
+      return NextResponse.json({ error: "Missing groupId or memberId" }, { status: 400 });
+    }
+
+    // Verify the group exists
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return NextResponse.json({ error: "Group not found" }, { status: 404 });
+    }
+
+    // Verify the member exists
+    const member = await Member.findOne({ id: Number(memberId) });
+    console.log("Found member:", member); // Debug log
+    if (!member) {
+      return NextResponse.json({ error: "Member not found" }, { status: 404 });
+    }
+
+    // Create a new round
+    console.log("using member._id:",  member._id ); // Debug log
+    const newRound = new Round({member});
+    await newRound.save();
+
+    // Add the round to the group
+    await Group.updateOne(
+      { _id: groupId },
+      { $push: { rounds: newRound._id } }
+    );
+
+    return NextResponse.json({ message: "Round added successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error adding round:", error);
+    return NextResponse.json({ error: "Failed to add round" }, { status: 500 });
+  }
+}
+
+// MOVE: Move a round from one group to another
+export async function PUT(req: Request) {
+  try {
+    await connectToDatabase();
+
+    const { roundId, currentGroupId, newGroupId } = await req.json();
+    console.log("PUT request received with:", { roundId, currentGroupId, newGroupId }); // Debug log
+
+    if (!roundId || !currentGroupId || !newGroupId) {
+      return NextResponse.json(
+        { error: "Missing roundId, currentGroupId, or newGroupId" },
+        { status: 400 }
+      );
+    }
+
+    const currentGroup = await Group.findById(currentGroupId);
+    const newGroup = await Group.findById(newGroupId);
+    if (!currentGroup || !newGroup) {
+      return NextResponse.json({ error: "One or both groups not found" }, { status: 404 });
+    }
+
+    const round = await Round.findById(roundId);
+    if (!round) {
+      return NextResponse.json({ error: "Round not found" }, { status: 404 });
+    }
+
+    if (!currentGroup.rounds.some((r: mongoose.Types.ObjectId) => r.toString() === roundId)) {
+      return NextResponse.json({ error: "Round not found in current group" }, { status: 404 });
+    }
+
+    await Group.updateOne(
+      { _id: currentGroupId },
+      { $pull: { rounds: round._id } }
+    );
+
+    await Group.updateOne(
+      { _id: newGroupId },
+      { $push: { rounds: round._id } }
+    );
+
+    return NextResponse.json({ message: "Round moved successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error moving round:", error);
+    return NextResponse.json({ error: "Failed to move round" }, { status: 500 });
+  }
+}
+
+// DELETE: Remove a round from a group
+export async function DELETE(req: Request) {
+  try {
+    await connectToDatabase();
+
+    const { groupId, roundId } = await req.json();
+
+    if (!groupId || !roundId) {
+      return NextResponse.json({ error: "Missing groupId or roundId" }, { status: 400 });
+    }
+
+    const group = await Group.findById(groupId);
+    if (!group) {
+      return NextResponse.json({ error: "Group not found" }, { status: 404 });
+    }
+
+    const round = await Round.findById(roundId);
+    if (!round || !group.rounds.some((r: mongoose.Types.ObjectId) => r.toString() === roundId)) {
+      return NextResponse.json({ error: "Round not found in group" }, { status: 404 });
+    }
+
+    await Group.updateOne(
+      { _id: groupId },
+      { $pull: { rounds: round._id } }
+    );
+
+    await Round.deleteOne({ _id: round._id });
+
+    return NextResponse.json({ message: "Round deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting round:", error);
+    return NextResponse.json({ error: "Failed to delete round" }, { status: 500 });
   }
 }
