@@ -109,7 +109,7 @@ body {
   }
 }
 
-@media (max-width: 1024px) { /* Adjust for tablets like iPad */
+@media (max-width: 1024px) { /* Adjust for bigger tablets like iPad */
   .logo-container img {
     max-width: 160px; /* Adjust the size for smaller tablet screens */
   }
