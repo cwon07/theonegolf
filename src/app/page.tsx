@@ -17,11 +17,11 @@ export default function Home() {
       <div className="min-h-screen bg-gray-100">
         {/* Header & Navbar */}
         <div className="bg-white shadow-md relative z-50 w-full">
-          <div className="container mx-auto flex flex-col md:flex-row items-center justify-center md:justify-between border-b border-gray-300 shadow-sm p-4">
-            <div className="w-full flex justify-center md:justify-start">
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between border-b border-gray-300 shadow-sm p-4">
+            <div className="flex justify-center md:justify-start">
               <Header />
             </div>
-            <div className="flex justify-center md:justify-start w-full ">
+            <div className="flex justify-center md:justify-start md:flex-nowrap">
               <Navbar onSelectMenu={handleSelectMenu} />
             </div>
           </div>
