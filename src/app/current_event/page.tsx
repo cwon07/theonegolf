@@ -115,6 +115,7 @@ export default function EventsView() {
               front_9: round.front_9,
               back_9: round.back_9,
               totalScore,
+              handicap: round.member.handicap,
               sex: round.member.sex,
             });
           }
@@ -341,20 +342,22 @@ return (
                       {showRankings && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                           <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
+                          <h2 className="font-bold text-medium text-purple-800">總桿同桿決勝規則優先排序：</h2>
+                          <h1 className="font-bold text-medium text-purple-800">1. 差點高者 2. 後九洞 3. 前九洞 4. 年長者 </h1>
                           {rankingsMale.length > 0 || rankingsFemale.length > 0 ? (
                             <div className="mt-4">
                               {/* Header Row */}
                               <div className="grid grid-cols-2 gap-4">
                                 {/* Male Header */}
                                 <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                  <span>[ID] 姓名</span>
+                                  <span>[ID] 姓名 (差點)</span>
                                   <span>前9洞</span>
                                   <span>後9洞</span>
                                   <span>總成績</span>
                                 </div>
                                 {/* Female Header */}
                                 <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                  <span>[ID] 姓名</span>
+                                  <span>[ID] 姓名 (差點)</span>
                                   <span>前9洞</span>
                                   <span>後9洞</span>
                                   <span>總成績</span>
@@ -373,7 +376,7 @@ return (
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
-                                            {player.name}
+                                            {player.name} ({player.handicap})
                                           </span>
                                           <span className="text-left w-16">{player.front_9}</span>
                                           <span className="text-left w-16">{player.back_9}</span>
@@ -396,7 +399,7 @@ return (
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
-                                            {player.name}
+                                            {player.name} ({player.handicap})
                                           </span>
                                           <span className="text-left w-16">{player.front_9}</span>
                                           <span className="text-left w-16">{player.back_9}</span>
@@ -567,7 +570,7 @@ return (
                           {group.rounds && group.rounds.length > 0 && (
                             <div className="mt-4">
                               <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                <span>[ID] 姓名(差點）</span>
+                                <span>[ID] 姓名 (差點）</span>
                                 <span>前9洞</span>
                                 <span>後9洞</span>
                                 <span>總成績</span>
