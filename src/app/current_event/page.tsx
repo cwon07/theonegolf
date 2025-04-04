@@ -48,13 +48,13 @@ export default function EventsView() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [adminName, setAdminName] = useState<string | null>(null);
+  const [rankingsMale, setRankingsMale] = useState<any[]>([]); // State for rankings
+  const [rankingsFemale, setRankingsFemale] = useState<any[]>([]); // State for rankings
+  const [showRankings, setShowRankings] = useState(false);
   const router = useRouter();
   const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
   const [memberId, setMemberId] = useState(''); // For member ID input
   const [message, setMessage] = useState(''); // For success/error feedback
-  
-  const [showList, setShowList] = useState(false);
-  const names = ["Alice", "Bob", "Charlie", "David"];
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -81,6 +81,7 @@ export default function EventsView() {
         const data = await response.json();
         if (response.ok) {
           setEvents(data);
+          calculateRankings(data);
         } else {
           console.error("Failed to fetch events:", data.error);
         }
@@ -93,6 +94,42 @@ export default function EventsView() {
 
     fetchEvents();
   }, []);
+
+  const handleToggle = () => {
+    console.log("showranking state change");
+    setShowRankings((prev) => !prev);
+  };
+
+  const calculateRankings = (eventsData: Event[]) => {
+    const allRounds: any[] = [];
+  
+    // Aggregate all rounds from all events and groups
+    eventsData.forEach((event) => {
+      event.groups.forEach((group) => {
+        group.rounds.forEach((round) => {
+          if (round.front_9 && round.back_9) { // Only include rounds with complete scores
+            const totalScore = Number(round.front_9) + Number(round.back_9);
+            allRounds.push({
+              name: round.member.name,
+              id: round.member.id,
+              front_9: round.front_9,
+              back_9: round.back_9,
+              totalScore,
+              sex: round.member.sex,
+            });
+          }
+        });
+      });
+    });
+  
+    // Separate into male and female rankings
+    const maleRounds = allRounds.filter((round) => round.sex === "Male").sort((a, b) => a.totalScore - b.totalScore);
+    const femaleRounds = allRounds.filter((round) => round.sex === "Female").sort((a, b) => a.totalScore - b.totalScore);
+
+    // Update state with sorted rankings
+    setRankingsMale(maleRounds);
+    setRankingsFemale(femaleRounds);
+  };
 
   const handleSelectMenu = (menu: string) => {
     console.log("Selected menu:", menu);
@@ -294,11 +331,90 @@ return (
                       <div className="flex items-center justify-between w-full">
                         <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
                         <button
+                          onClick={handleToggle}
                           className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
                         >
-                          目前排名查詢
+                          {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
                         </button>
                       </div>
+
+                      {showRankings && (
+                        <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                          <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
+                          {rankingsMale.length > 0 || rankingsFemale.length > 0 ? (
+                            <div className="mt-4">
+                              {/* Header Row */}
+                              <div className="grid grid-cols-2 gap-4">
+                                {/* Male Header */}
+                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                                  <span>[ID] 姓名</span>
+                                  <span>前9洞</span>
+                                  <span>後9洞</span>
+                                  <span>總成績</span>
+                                </div>
+                                {/* Female Header */}
+                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                                  <span>[ID] 姓名</span>
+                                  <span>前9洞</span>
+                                  <span>後9洞</span>
+                                  <span>總成績</span>
+                                </div>
+                              </div>
+
+                              {/* Rankings Data */}
+                              <div className="grid grid-cols-2 gap-4 mt-2">
+                                {/* Male Rankings */}
+                                <div>
+                                  {rankingsMale.map((player, idx) => (
+                                    <div key={idx} className="mt-2">
+                                      <ul className="list-none space-y-1">
+                                        <li className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                              {player.id}
+                                            </span>{" "}
+                                            {player.name}
+                                          </span>
+                                          <span className="text-left w-16">{player.front_9}</span>
+                                          <span className="text-left w-16">{player.back_9}</span>
+                                          <span className="text-left w-16 font-bold text-xl text-blue-800">
+                                            {player.totalScore}
+                                          </span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                {/* Female Rankings */}
+                                <div>
+                                  {rankingsFemale.map((player, idx) => (
+                                    <div key={idx} className="mt-2">
+                                      <ul className="list-none space-y-1">
+                                        <li className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                              {player.id}
+                                            </span>{" "}
+                                            {player.name}
+                                          </span>
+                                          <span className="text-left w-16">{player.front_9}</span>
+                                          <span className="text-left w-16">{player.back_9}</span>
+                                          <span className="text-left w-16 font-bold text-xl text-blue-800">
+                                            {player.totalScore}
+                                          </span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <p className="text-gray-600">無完整成績數據可供排名</p>
+                          )}
+                        </div>
+)}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
                         {[
                           {

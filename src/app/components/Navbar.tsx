@@ -128,13 +128,13 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           管理員功能 ▼
         </button>
         {isAdminDropdownOpen && (
-          <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col w-64">
+          <div className="absolute top-full left-0 bg-white border rounded shadow-lg text-blue-600 font-bold text-[1.2rem] flex flex-col w-64">
             <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/create_event")}>新增賽事&球叙</button>
             <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/delete_event")}>刪除賽事&球叙</button>
             <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/create_member")}>新增會員</button>
             <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/update_member")}>修改會員</button>
             <button
-              className="p-2 hover:bg-gray-200 text-red-500"
+              className="p-2 hover:bg-gray-200 text-red-500 font-bold text-[1.2rem]"
               onClick={() => {
                 sessionStorage.removeItem("token");
                 setAdminName(null);
