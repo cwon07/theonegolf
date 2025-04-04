@@ -73,114 +73,97 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
   }, []);
 
   return (
-    <nav
-      className="flex flex-wrap justify-between items-center p-4 bg-white relative"
-    >
-      {/* Rules Dropdown */}
-      <div className="text-black font-bold relative text-[1.2rem] navbar-content px-2 w-full sm:w-auto" ref={dropdownRef}>
-        <button onClick={() => { setDropdownOpen(!isDropdownOpen); }} className="font-bold p-2 text-[1.2rem] w-full sm:w-auto text-left">
-          晚宴 & 規則 ▼
-        </button>
-        {isDropdownOpen && (
-          <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
-            <button
-              className="text-black p-2 hover:bg-gray-100"
-              onClick={() => router.push("/rules_and_gathering")}
-            >
-              月賽規則 & 晚宴
-            </button>
-            <button
-              className="text-black p-2 hover:bg-gray-100"
-              onClick={() => router.push("/handicap")}
-            >
-              差點調整詳解
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Other Menu Items */}
-      <button
-        className="text-black font-bold relative text-[1.2rem] px-2 w-full sm:w-auto"
-        onClick={() => router.push("/list_members")}
-      >
-        會員總覽
-      </button>
-
-      {/* Events Dropdown */}
-      <div className="text-black font-bold relative text-[1.2rem] px-2 w-full sm:w-auto" ref={eventDropdownRef}>
-        <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="font-bold p-2 text-[1.2rem]">
-          賽事 & 球叙 ▼
-        </button>
-        {isEventDropdownOpen && (
-          <div className="text-black absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
-            <button
-              className="text-black p-2 hover:bg-gray-100"
-              onClick={() => router.push("/current_event")}
-            >
-              當前賽事&球叙
-            </button>
-            <button
-              className="text-black p-2 hover:bg-gray-100"
-              onClick={() => router.push("/past_events")}
-            >
-              過往賽事&球叙
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Admin Dropdown (Only if Admin is Logged In) */}
-      {adminName && (
-        <div style={{ position: "relative" }} ref={adminDropdownRef}>
-          <button
-            onClick={() => setAdminDropdownOpen(!isAdminDropdownOpen)}
-            style={{ ...navLinkStyle, color: "#0000FE" }}
-            aria-expanded={isAdminDropdownOpen}
-          >
-            管理員功能 ▼
+    <nav className="flex flex-col sm:flex-row justify-between items-center p-6 bg-white">
+      {/* Left-side Menu Items */}
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center w-full sm:w-auto">
+        {/* Rules Dropdown */}
+        <div className="relative text-black font-bold text-[1.2rem] w-full sm:w-auto" ref={dropdownRef}>
+          <button onClick={() => setDropdownOpen(!isDropdownOpen)} className="p-2 w-full sm:w-auto">
+            晚宴 & 規則 ▼
           </button>
-          {isAdminDropdownOpen && (
-            <div style={dropdownStyle} className="font-bold text-blue-500 p-2 hover:bg-gray-100">
-              <button onClick={() => router.push("/admin/create_event")}>新增賽事&球叙</button>
-              <button onClick={() => router.push("/admin/delete_event")}>刪除賽事&球叙</button>
-              <button onClick={() => router.push("/admin/create_member")}>新增會員</button>
-              <button onClick={() => router.push("/admin/update_member")}>修改會員</button>
-              <button
-                onClick={() => {
-                  sessionStorage.removeItem("token");
-                  setAdminName(null);
-                  window.location.reload();
-                }}
-              >
-                登出
+          {isDropdownOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
+              <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/rules_and_gathering")}>
+                月賽規則 & 晚宴
+              </button>
+              <button className="p-2 hover:bg-gray-200" onClick={() => router.push("/handicap")}>
+                差點調整詳解
               </button>
             </div>
           )}
         </div>
-      )}
 
-      {/* Admin Login Button on the right */}
+    {/* Other Menu Items */}
+    <button className="text-black font-bold text-[1.2rem] p-2 w-full sm:w-auto" onClick={() => router.push("/list_members")}>
+      會員總覽
+    </button>
 
-      {!adminName && (
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <button
-            onClick={handleAdminClick}
-            style={{
-              background: "#007bff",
-              color: "#fff",
-              border: "none",
-              fontSize: "1.2rem",
-              padding: "0.5rem 1rem",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            管理員登入
+    {/* Events Dropdown */}
+    <div className="relative text-black font-bold text-[1.2rem] w-full sm:w-auto" ref={eventDropdownRef}>
+      <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="p-2 w-full sm:w-auto">
+        賽事 & 球叙 ▼
+      </button>
+      {isEventDropdownOpen && (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
+          <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/current_event")}>
+            當前賽事&球叙
           </button>
-       </div>
+          <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/past_events")}>
+            過往賽事&球叙
+          </button>
+        </div>
       )}
-    </nav>
+    </div>
+  </div>
+
+  {/* Right-side Admin Options */}
+  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center w-full sm:w-auto mt-4 sm:mt-0">
+    {/* Admin Dropdown (Only if Admin is Logged In) */}
+    {adminName && (
+      <div className="relative w-full sm:w-auto" ref={adminDropdownRef}>
+        <button
+          onClick={() => setAdminDropdownOpen(!isAdminDropdownOpen)}
+          className="text-[1.2rem] font-bold text-blue-600 p-2 w-full sm:w-auto"
+        >
+          管理員功能 ▼
+        </button>
+        {isAdminDropdownOpen && (
+          <div className="absolute top-full left-0 bg-white border rounded shadow-lg flex flex-col w-64">
+            <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/create_event")}>新增賽事&球叙</button>
+            <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/delete_event")}>刪除賽事&球叙</button>
+            <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/create_member")}>新增會員</button>
+            <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/admin/update_member")}>修改會員</button>
+            <button
+              className="p-2 hover:bg-gray-200 text-red-500"
+              onClick={() => {
+                sessionStorage.removeItem("token");
+                setAdminName(null);
+                window.location.reload();
+              }}
+            >
+              登出
+            </button>
+          </div>
+        )}
+      </div>
+    )}
+
+    {/* Admin Login Button (Only if Not Logged In) */}
+    {!adminName && (
+      <div className="ml-4 sm:ml-6">
+      <button
+        onClick={handleAdminClick}
+        className="bg-blue-500 text-white border-none text-[1.2rem] px-4 py-2 sm:w-auto rounded cursor-pointer"
+      >
+        管理員登入
+      </button>
+      </div>
+    )}
+  </div>
+</nav>
+
+
+    
   );
 };
 
