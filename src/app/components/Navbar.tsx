@@ -161,12 +161,9 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       )}
 
       {/* Admin Login Button on the right */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        {adminName ? (
-          <span style={{ fontWeight: "bold", color: "#0000FE", fontSize: "1.2rem" }}>
-            歡迎, {adminName}
-          </span>
-        ) : (
+
+      {!adminName && (
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <button
             onClick={handleAdminClick}
             style={{
@@ -181,8 +178,8 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
           >
             管理員登入
           </button>
-        )}
-      </div>
+       </div>
+      )}
     </nav>
   );
 };
