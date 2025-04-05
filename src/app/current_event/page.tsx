@@ -418,7 +418,7 @@ return (
                             onClick={handleToggleNet}
                             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
                           >
-                            {showRankings ? "隱藏净桿排名" : "顯示净桿排名"}
+                            {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
                           </button>
                           {adminName && (
                             <button
