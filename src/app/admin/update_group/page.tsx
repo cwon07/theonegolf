@@ -107,10 +107,6 @@ function GroupContent() {
     fetchGroup();
   }, [groupId, router]);
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGroupData((prev) => (prev ? { ...prev, date: e.target.value } : null));
-  };
-
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroupData((prev) => (prev ? { ...prev, time: e.target.value } : null));
   };

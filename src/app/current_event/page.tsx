@@ -50,7 +50,10 @@ export default function EventsView() {
   const [adminName, setAdminName] = useState<string | null>(null);
   const [rankingsMale, setRankingsMale] = useState<any[]>([]); // State for rankings
   const [rankingsFemale, setRankingsFemale] = useState<any[]>([]); // State for rankings
+  const [rankingsMaleNet, setRankingsMaleNet] = useState<any[]>([]); // State for rankings
+  const [rankingsFemaleNet, setRankingsFemaleNet] = useState<any[]>([]); // State for rankings
   const [showRankings, setShowRankings] = useState(false);
+  const [showRankingsNet, setShowRankingsNet] = useState(false);
   const router = useRouter();
   const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
   const [memberId, setMemberId] = useState(''); // For member ID input
@@ -82,6 +85,7 @@ export default function EventsView() {
         if (response.ok) {
           setEvents(data);
           calculateRankings(data);
+          calculateRankingsNet(data);
         } else {
           console.error("Failed to fetch events:", data.error);
         }
@@ -95,9 +99,12 @@ export default function EventsView() {
     fetchEvents();
   }, []);
 
-  const handleToggle = () => {
-    console.log("showranking state change");
+  const handleToggle = () => {    
     setShowRankings((prev) => !prev);
+  };
+
+  const handleToggleNet = () => { 
+    setShowRankingsNet((prev) => !prev);
   };
 
   const calculateRankings = (eventsData: Event[]) => {
@@ -123,13 +130,82 @@ export default function EventsView() {
       });
     });
   
-    // Separate into male and female rankings
-    const maleRounds = allRounds.filter((round) => round.sex === "Male").sort((a, b) => a.totalScore - b.totalScore);
-    const femaleRounds = allRounds.filter((round) => round.sex === "Female").sort((a, b) => a.totalScore - b.totalScore);
+    // Custom sort function for multi-level sorting
+    const sortRounds = (a: any, b: any) => {
+      // First, sort by totalScore
+      if (a.totalScore !== b.totalScore) {
+          return a.totalScore - b.totalScore;  // Ascending order
+      }
+      
+      if (a.handicap !== b.handicap) {
+        return b.handicap - a.handicap; // Note the reversal for descending order
+      }
+      
+      // If back_9 scores are equal, sort by front_9
+      return a.front_9 - b.front_9;  // Ascending order
+    };
 
+    // Separate into male and female rankings with custom sorting
+    const maleRounds = allRounds.filter((round) => round.sex === "Male").sort(sortRounds);
+    const femaleRounds = allRounds.filter((round) => round.sex === "Female").sort(sortRounds);
     // Update state with sorted rankings
     setRankingsMale(maleRounds);
     setRankingsFemale(femaleRounds);
+  };
+
+  const calculateRankingsNet = (eventsData: Event[]) => {
+    const allRounds: any[] = [];
+  
+    // Aggregate all rounds from all events and groups
+    eventsData.forEach((event) => {
+      event.groups.forEach((group) => {
+        group.rounds.forEach((round) => {
+          if (round.front_9 && round.back_9) { // Only include rounds with complete scores
+            const totalScore = Number(round.front_9) + Number(round.back_9);
+            const netScore = totalScore - Number(round.member.handicap); // Calculate net score
+            allRounds.push({
+              name: round.member.name,
+              id: round.member.id,
+              front_9: Number(round.front_9),
+              back_9: Number(round.back_9),
+              totalScore,
+              netScore,  // Add netScore to the object
+              handicap: Number(round.member.handicap),
+              sex: round.member.sex,
+            });
+          }
+        });
+      });
+    });
+  
+    // Custom sort function for multi-level sorting
+    const sortRounds = (a: any, b: any) => {
+        // 1. Sort by netScore (ascending - lowest first)
+        if (a.netScore !== b.netScore) {
+            return a.netScore - b.netScore;
+        }
+        
+        // 2. If netScores tie, sort by handicap (ascending - lower first)
+        if (a.handicap !== b.handicap) {
+            return a.handicap - b.handicap;  // Note: NOT reversed for ascending order
+        }
+        
+        // 3. If handicaps tie, sort by back_9 (ascending)
+        if (a.back_9 !== b.back_9) {
+            return a.back_9 - b.back_9;
+        }
+        
+        // 4. If back_9 ties, sort by front_9 (ascending)
+        return a.front_9 - b.front_9;
+    };
+
+    // Separate into male and female rankings with custom sorting
+    const maleRounds = allRounds.filter((round) => round.sex === "Male").sort(sortRounds);
+    const femaleRounds = allRounds.filter((round) => round.sex === "Female").sort(sortRounds);
+    
+    // Update state with sorted rankings
+    setRankingsMaleNet(maleRounds);
+    setRankingsFemaleNet(femaleRounds);
   };
 
   const handleSelectMenu = (menu: string) => {
@@ -295,7 +371,7 @@ export default function EventsView() {
       setMessage('發生錯誤，請稍後再試');
     }
   };
-  
+ 
   if (loading) return <p>Loading events...</p>;
 
 return (
@@ -329,21 +405,193 @@ return (
                 <div className="mt-4">
                   {event.is_tourn && (
                     <div className="text-gray-800 mt-4">
-                      <div className="flex items-center justify-between w-full">
+                     <div className="flex items-center justify-between w-full">
                         <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
-                        <button
-                          onClick={handleToggle}
-                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
-                        >
-                          {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={handleToggle}
+                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
+                          >
+                            {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
+                          </button>
+                          <button
+                            onClick={handleToggleNet}
+                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
+                          >
+                            {showRankings ? "隱藏净桿排名" : "顯示净桿排名"}
+                          </button>
+                          {adminName && (
+                            <button
+                              //onClick={handleRecordWinners}
+                              className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
+                            >
+                              記錄得獎名單
+                            </button>
+                          )}
+                        </div>
                       </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
+
+                    {/* 總桿獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-blue-800 font-bold">冠軍 (男）: </p>
+                          {event.m_total_stroke && `${event.m_total_stroke.name} (ID: ${event.m_total_stroke.id})`}
+                        </div>
+                        <div>
+                          <p className="text-red-800 font-bold">冠軍 (女）: </p>
+                          {event.w_total_stroke && `${event.w_total_stroke.name} (ID: ${event.w_total_stroke.id})`}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 遠桿獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">遠桿獎</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-blue-800 font-bold">遠桿獎 (男): </p>
+                          {event.m_long_drive && `${event.m_long_drive.name} (ID: ${event.m_long_drive.id})`}
+                        </div>
+                        <div>
+                          <p className="text-red-800 font-bold">遠桿獎 (女): </p>
+                          {event.w_long_drive && `${event.w_long_drive.name} (ID: ${event.w_long_drive.id})`}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 净桿獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">净桿獎</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => (
+                            <p key={key} className="text-blue-800">
+                              <span className="font-bold">
+                                {["冠軍 (男)", "亞軍 (男)", "季軍 (男)", "殿軍 (男)", "老五 (男)"][i]}:
+                              </span>{" "}
+                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                            </p>
+                          ))}
+                        </div>
+                        <div>
+                          {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => (
+                            <p key={key} className="text-red-800">
+                              <span className="font-bold">
+                                {["冠軍 (女)", "亞軍 (女)"][i]}:
+                              </span>{" "}
+                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 近洞獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">近洞獎</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          {["m_close_pin_2", "m_close_pin_6", "m_close_pin_7", "m_close_pin_12"].map((key, i) => (
+                            <p key={key} className="text-blue-800">
+                              <span className="font-bold">第{[2, 6, 7, 12][i]}洞 (男):</span>{" "}
+                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                            </p>
+                          ))}
+                        </div>
+                        <div>
+                          {["w_close_pin_7", "w_close_pin_12"].map((key, i) => (
+                            <p key={key} className="text-red-800">
+                              <span className="font-bold">第{[7, 12][i]}洞 (女):</span>{" "}
+                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 近中獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">近中獎</h4>
+                      <div className="text-blue-800">
+                        <span className="font-bold">
+                          <span className="text-purple-700">近中獎 <span className="text-green-700">(長青)</span></span>:
+                        </span>{" "}
+                        {event.close_to_center && `${event.close_to_center.name} (ID: ${event.close_to_center.id})`}
+                      </div>
+                    </div>
+
+                    {/* BB獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">BB獎</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-blue-800 font-bold">BB獎 (男): </p>
+                          {event.m_bb && `${event.m_bb.name} (ID: ${event.m_bb.id})`}
+                        </div>
+                        <div>
+                          <p className="text-red-800 font-bold">BB獎 (女): </p>
+                          {event.w_bb && `${event.w_bb.name} (ID: ${event.w_bb.id})`}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 小鳥獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">小鳥獎 (Birdies)</h4>
+                        <div className="text-blue-800">
+                          <span className="font-bold text-purple-700">小鳥獎:</span>{" "}
+                          {Array.isArray(event.birdies) && event.birdies.length > 0 ? (
+                            (event.birdies as { name: string; id: string | number }[]).map((winner, i) => (
+                              <span key={i} className="block">{`${winner.name} (ID: ${winner.id})`}</span>
+                            ))
+                          ) : (
+                            "暫無得獎者"
+                          )}
+                        </div>
+                      </div>
+
+                    {/* 老鷹獎 */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">老鷹獎 (Eagles)</h4>
+                        <div className="text-blue-800">
+                          <span className="font-bold text-purple-700">老鷹獎:</span>{" "}
+                          {Array.isArray(event.eagles) && event.eagles.length > 0 ? (
+                            (event.eagles as { name: string; id: string | number }[]).map((winner, i) => (
+                              <span key={i} className="block">{`${winner.name} (ID: ${winner.id})`}</span>
+                            ))
+                          ) : (
+                            "暫無得獎者"
+                          )}
+                        </div>
+                      </div>
+
+                    {/* 信天翁獎 */}
+                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">信天翁獎 (Albatrosses)</h4>
+                        <div className="text-blue-800">
+                          <span className="font-bold text-purple-700">信天翁獎:</span>{" "}
+                          {Array.isArray(event.albatrosses) && event.albatrosses.length > 0 ? (
+                            (event.albatrosses as { name: string; id: string | number }[]).map((winner, i) => (
+                              <span key={i} className="block">{`${winner.name} (ID: ${winner.id})`}</span>
+                            ))
+                          ) : (
+                            "暫無得獎者"
+                          )}
+                        </div>
+                      </div>
+</div>
+
+    
 
                       {showRankings && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                           <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
                           <h2 className="font-bold text-medium text-purple-800">總桿同桿決勝規則優先排序：</h2>
-                          <h1 className="font-bold text-medium text-purple-800">1. 差點高者 2. 後九洞 3. 前九洞 4. 年長者 </h1>
+                          <h1 className="font-bold text-medium text-purple-800">1. 差點高者 2. 後九洞 3. 年長者 </h1>
                           {rankingsMale.length > 0 || rankingsFemale.length > 0 ? (
                             <div className="mt-4">
                               {/* Header Row */}
@@ -353,14 +601,14 @@ return (
                                   <span>[ID] 姓名 (差點)</span>
                                   <span>前9洞</span>
                                   <span>後9洞</span>
-                                  <span>總成績</span>
+                                  <span>總成績</span>                                  
                                 </div>
                                 {/* Female Header */}
                                 <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
                                   <span>[ID] 姓名 (差點)</span>
                                   <span>前9洞</span>
                                   <span>後9洞</span>
-                                  <span>總成績</span>
+                                  <span>總成績</span>                                  
                                 </div>
                               </div>
 
@@ -417,81 +665,91 @@ return (
                             <p className="text-gray-600">無完整成績數據可供排名</p>
                           )}
                         </div>
-)}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
-                        {[
-                          {
-                            title: "總桿獎",
-                            male: [{ label: "冠軍 (男）", key: "m_total_stroke" }],
-                            female: [{ label: "冠軍 (女）", key: "w_total_stroke" }],
-                          },
-                          {
-                            title: "遠桿獎",
-                            male: [{ label: "遠桿獎 (男)", key: "m_long_drive" }],
-                            female: [{ label: "遠桿獎 (女)", key: "w_long_drive" }],
-                          },
-                          {
-                            title: "净桿獎",
-                            male: [
-                              { label: "冠軍 (男)", key: "m_net_stroke_1" },
-                              { label: "亞軍 (男)", key: "m_net_stroke_2" },
-                              { label: "季軍 (男)", key: "m_net_stroke_3" },
-                              { label: "殿軍 (男)", key: "m_net_stroke_4" },
-                              { label: "老五 (男)", key: "m_net_stroke_5" },
-                            ],
-                            female: [
-                              { label: "冠軍 (女)", key: "w_net_stroke_1" },
-                              { label: "亞軍 (女)", key: "w_net_stroke_2" },
-                            ],
-                          },
-                          {
-                            title: "近洞獎",
-                            male: [
-                              { label: "第2洞 (男)", key: "m_close_pin_2" },
-                              { label: "第6洞 (男)", key: "m_close_pin_6" },
-                              { label: "第7洞 (男)", key: "m_close_pin_7" },
-                              { label: "第12洞 (男)", key: "m_close_pin_12" },
-                            ],
-                            female: [
-                              { label: "第7洞 (女)", key: "w_close_pin_7" },
-                              { label: "第12洞 (女)", key: "w_close_pin_12" },
-                            ],
-                          },
-                          {
-                            title: "近中獎",
-                            male: [{ label: <span className="text-purple-700">近中獎 <span className="text-green-700">(長青)</span></span>, key: "close_to_center" }],
-                            female: [],
-                          },
-                          {
-                            title: "BB獎",
-                            male: [{ label: "BB獎 (男)", key: "m_bb" }],
-                            female: [{ label: "BB獎 (女)", key: "w_bb" }],
-                          },
-                        ].map((group, idx) => (
-                          <div key={`event-details-group-${idx}`} className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                            <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">{group.title}</h4>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                {group.male.map(({ label, key }) => (
-                                  <p key={key} className="text-blue-800">
-                                    <span className="font-bold">{label}: </span>
-                                    {event[key] ? `${event[key].name} (ID: ${event[key].id})` : ""}
-                                  </p>
-                                ))}
+                      )}
+
+                      {showRankingsNet && (
+                        <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                          <h4 className="font-bold text-lg text-blue-800">當前净桿排名</h4>
+                          <h2 className="font-bold text-medium text-purple-800">净桿同桿決勝規則優先排序：</h2>
+                          <h1 className="font-bold text-medium text-purple-800">1. 差點低者 2. 年長者 3. 後九洞 4. 前九洞</h1>
+                          {rankingsMaleNet.length > 0 || rankingsFemaleNet.length > 0 ? (
+                            <div className="mt-4">
+                              {/* Header Row */}
+                              <div className="grid grid-cols-2 gap-4">
+                                {/* Male Header */}
+                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                                  <span>[ID] 姓名 (差點)</span>
+                                  <span>前9洞</span>
+                                  <span>後9洞</span>
+                                  <span>總成績</span>
+                                  <span>净成績</span>
+                                </div>
+                                {/* Female Header */}
+                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                                  <span>[ID] 姓名 (差點)</span>
+                                  <span>前9洞</span>
+                                  <span>後9洞</span>
+                                  <span>總成績</span>
+                                  <span>净成績</span>
+                                </div>
                               </div>
-                              <div>
-                                {group.female.map(({ label, key }) => (
-                                  <p key={key} className="text-red-800">
-                                    <span className="font-bold">{label}: </span>
-                                    {event[key] ? `${event[key].name} (ID: ${event[key].id})` : ""}
-                                  </p>
-                                ))}
+
+                              {/* Rankings Data */}
+                              <div className="grid grid-cols-2 gap-4 mt-2">
+                                {/* Male Rankings */}
+                                <div>
+                                  {rankingsMaleNet.map((player, idx) => (
+                                    <div key={idx} className="mt-2">
+                                      <ul className="list-none space-y-1">
+                                        <li className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                              {player.id}
+                                            </span>{" "}
+                                            {player.name} ({player.handicap})
+                                          </span>
+                                          <span className="text-left w-16">{player.front_9}</span>
+                                          <span className="text-left w-16">{player.back_9}</span>
+                                          <span className="text-left w-16">{player.totalScore}</span>
+                                          <span className="text-left w-16 font-bold text-xl text-blue-800">
+                                            {player.netScore}  {/* Changed from NetScore to netScore */}
+                                          </span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                {/* Female Rankings */}
+                                <div>
+                                  {rankingsFemaleNet.map((player, idx) => (
+                                    <div key={idx} className="mt-2">
+                                      <ul className="list-none space-y-1">
+                                        <li className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                              {player.id}
+                                            </span>{" "}
+                                            {player.name} ({player.handicap})
+                                          </span>
+                                          <span className="text-left w-16">{player.front_9}</span>
+                                          <span className="text-left w-16">{player.back_9}</span>
+                                          <span className="text-left w-16">{player.totalScore}</span>
+                                          <span className="text-left w-16 font-bold text-xl text-blue-800">
+                                            {player.netScore}  {/* Changed from NetScore to netScore */}
+                                          </span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-
+                          ) : (
+                            <p className="text-gray-600">無完整成績數據可供排名</p>
+                          )}
+                        </div>
+                      )}                      
                     </div>                  
                   )}
                 </div>

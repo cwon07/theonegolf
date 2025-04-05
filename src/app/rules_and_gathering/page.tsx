@@ -78,9 +78,8 @@ export default function Home() {
                 <p className="text-black">最低稈者勝, 如有平手，以下面方案決定勝負</p>
                 <ul className="text-black text-center pl-6">
                   <li>1. 差點高者勝</li>
-                  <li>2. 後九洞比分</li>
-                  <li>3. 前九洞比分</li>
-                  <li>4. 年長者為勝</li>
+                  <li>2. 後九洞比分</li>                  
+                  <li>3. 年長者為勝</li>
                 </ul>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
@@ -92,11 +91,12 @@ export default function Home() {
                 <p className="font-bold text-yellow-600"> 第4名獎勵：球（2條）</p>
                 <p className="font-bold text-yellow-600"> 第5名獎勵：球（2條）</p>
                 <p className="font-bold text-black">得獎次數無限制, 男女分開計算</p>
-                <p className="font-bold text-black">以差點低者勝, 如有平手，以下面方案決定勝負</p>
-                <ul className="text-black text-center pl-6">
-                  <li>1. 年長者為勝</li>
-                  <li>2. 後九洞比分</li>
-                  <li>3. 前九洞比分</li>
+                <p className="font-bold text-black">如有平手，以下面方案決定勝負</p>
+                <ul className="text-black text-center pl-6">                
+                  <li>1. 差點低者勝</li>
+                  <li>2. 年長者為勝</li>
+                  <li>3. 後九洞比分</li>
+                  <li>4. 前九洞比分</li>
                 </ul>
                 <p className="font-bold text-black">新會員第一次參加比賽，淨桿獎不予計算并以此次比賽桿數進行新會員調桿</p>
                 <p className="font-bold text-black">新會員第二次參加比賽，可得淨桿獎，然後需照規矩調桿</p>

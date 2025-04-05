@@ -24,6 +24,9 @@ export interface IEvent extends Document {
   w_close_pin_12: Types.ObjectId;
   m_bb: Types.ObjectId;
   w_bb: Types.ObjectId;
+  birdies: [Types.ObjectId];
+  eagles: [Types.ObjectId];
+  albatrosses: [Types.ObjectId];
 }
 
 const eventSchema = new Schema<IEvent>({
