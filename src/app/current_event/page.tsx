@@ -83,9 +83,9 @@ export default function EventsView() {
         const response = await fetch("/api/current_event");
         const data = await response.json();
         if (response.ok) {
-          setEvents(data);
-          calculateRankings(data);
-          calculateRankingsNet(data);
+          setEvents([data]);
+          calculateRankings([data]);
+          calculateRankingsNet([data]);
         } else {
           console.error("Failed to fetch events:", data.error);
         }
@@ -437,13 +437,33 @@ return (
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
                       <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-blue-800 font-bold">冠軍 (男）: </p>
-                          {event.m_total_stroke && `${event.m_total_stroke.name} (ID: ${event.m_total_stroke.id})`}
+                      <div className="flex items-center gap-2">
+                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男）:</p>
+                          {event.m_total_stroke ? (
+                            <span className="flex items-center gap-2">
+                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                {event.m_total_stroke.id}
+                              </span>
+                              <span className="font-bold text-black">{event.m_total_stroke.name}</span>
+                            </span>
+                          ) : (
+                            <span>N/A</span>
+                          )}
                         </div>
-                        <div>
+
+                          <div className="flex items-center gap-2">
                           <p className="text-red-800 font-bold">冠軍 (女）: </p>
-                          {event.w_total_stroke && `${event.w_total_stroke.name} (ID: ${event.w_total_stroke.id})`}
+                          {event.w_total_stroke ? (
+                            <span className="flex items-center gap-2">
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              {event.w_total_stroke.id}
+                            </span>
+                            <span className="font-bold text-black">{event.w_total_stroke.name}</span>
+                          </span>
+                          ) : (
+                            "N/A"
+                          )}
+
                         </div>
                       </div>
                     </div>
@@ -451,15 +471,35 @@ return (
                     {/* 遠桿獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">遠桿獎</h4>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="flex items-center gap-2">
                           <p className="text-blue-800 font-bold">遠桿獎 (男): </p>
-                          {event.m_long_drive && `${event.m_long_drive.name} (ID: ${event.m_long_drive.id})`}
+                          {event.m_long_drive ? (
+                            <span className="flex items-center gap-2">
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              {event.m_long_drive.id}
+                            </span>
+                            <span className="font-bold text-black">{event.m_long_drive.name}</span>
+                          </span>
+                          ) : (
+                            "N/A"
+                          )}
                         </div>
                         <div>
+                          <div className="flex items-center gap-2">
                           <p className="text-red-800 font-bold">遠桿獎 (女): </p>
-                          {event.w_long_drive && `${event.w_long_drive.name} (ID: ${event.w_long_drive.id})`}
-                        </div>
+                          {event.w_long_drive ? (
+                            <span className="flex items-center gap-2">
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              {event.w_long_drive.id}
+                            </span>
+                            <span className="font-bold text-black">{event.w_long_drive.name}</span>
+                          </span>
+                          ) : (
+                            "N/A"
+                          )}
+                          </div>
+                          </div>
                       </div>
                     </div>
 
@@ -469,21 +509,33 @@ return (
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => (
-                            <p key={key} className="text-blue-800">
+                            <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
                               <span className="font-bold">
                                 {["冠軍 (男)", "亞軍 (男)", "季軍 (男)", "殿軍 (男)", "老五 (男)"][i]}:
                               </span>{" "}
-                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                              {
+                              <span className="flex items-center gap-2">
+                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  {event[key].id}
+                                </span>
+                                <span className="font-bold text-black">{event[key].name}</span>
+                              </span>
+                              }
                             </p>
                           ))}
                         </div>
                         <div>
                           {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => (
-                            <p key={key} className="text-red-800">
+                            <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
                               <span className="font-bold">
                                 {["冠軍 (女)", "亞軍 (女)"][i]}:
                               </span>{" "}
-                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                              <span className="flex items-center gap-2">
+                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  {event[key].id}
+                                </span>
+                                <span className="font-bold text-black">{event[key].name}</span>
+                              </span>
                             </p>
                           ))}
                         </div>
@@ -495,19 +547,29 @@ return (
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">近洞獎</h4>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          {["m_close_pin_2", "m_close_pin_6", "m_close_pin_7", "m_close_pin_12"].map((key, i) => (
-                            <p key={key} className="text-blue-800">
-                              <span className="font-bold">第{[2, 6, 7, 12][i]}洞 (男):</span>{" "}
-                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
+                          {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => (
+                            <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">第{[2, 7, 12, 16][i]}洞 (男):</span>{" "}
+                              <span className="flex items-center gap-2">
+                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  {event[key].id}
+                                </span>
+                                <span className="font-bold text-black">{event[key].name}</span>
+                              </span>
                             </p>
-                          ))}
+                          ))}                        
                         </div>
                         <div>
                           {["w_close_pin_7", "w_close_pin_12"].map((key, i) => (
-                            <p key={key} className="text-red-800">
-                              <span className="font-bold">第{[7, 12][i]}洞 (女):</span>{" "}
-                              {event[key] && `${event[key].name} (ID: ${event[key].id})`}
-                            </p>
+                            <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
+                            <span className="font-bold">第{[7, 12][i]}洞 (男):</span>{" "}
+                            <span className="flex items-center gap-2">
+                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                {event[key].id}
+                              </span>
+                              <span className="font-bold text-black">{event[key].name}</span>
+                            </span>
+                          </p>
                           ))}
                         </div>
                       </div>
@@ -517,10 +579,17 @@ return (
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">近中獎</h4>
                       <div className="text-blue-800">
+                      <div className="flex items-center gap-2">
                         <span className="font-bold">
                           <span className="text-purple-700">近中獎 <span className="text-green-700">(長青)</span></span>:
                         </span>{" "}
-                        {event.close_to_center && `${event.close_to_center.name} (ID: ${event.close_to_center.id})`}
+                        <span className="flex items-center gap-2">
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              {event.close_to_center.id}
+                            </span>
+                            <span className="font-bold text-black">{event.close_to_center.name}</span>
+                          </span>
+                        </div>
                       </div>
                     </div>
 
@@ -528,62 +597,139 @@ return (
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">BB獎</h4>
                       <div className="grid grid-cols-2 gap-4">
-                        <div>
+                          <div className="flex items-center gap-2">
                           <p className="text-blue-800 font-bold">BB獎 (男): </p>
-                          {event.m_bb && `${event.m_bb.name} (ID: ${event.m_bb.id})`}
+                          {event.m_bb ? (
+                            <span className="flex items-center gap-2">
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              {event.m_bb.id}
+                            </span>
+                            <span className="font-bold text-black">{event.m_bb.name}</span>
+                          </span>
+                          ) : (
+                            "N/A"
+                          )}
                         </div>
                         <div>
+                          <div className="flex items-center gap-2">
                           <p className="text-red-800 font-bold">BB獎 (女): </p>
-                          {event.w_bb && `${event.w_bb.name} (ID: ${event.w_bb.id})`}
-                        </div>
+                          {event.w_bb ? (
+                            <span className="flex items-center gap-2">
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              {event.w_bb.id}
+                            </span>
+                            <span className="font-bold text-black">{event.w_bb.name}</span>
+                          </span>
+                          ) : (
+                            "N/A"
+                          )}
+                          </div>
+                          </div>
                       </div>
                     </div>
 
                     {/* 小鳥獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">小鳥獎 (Birdies)</h4>
-                        <div className="text-blue-800">
-                          <span className="font-bold text-purple-700">小鳥獎:</span>{" "}
-                          {Array.isArray(event.birdies) && event.birdies.length > 0 ? (
-                            (event.birdies as { name: string; id: string | number }[]).map((winner, i) => (
-                              <span key={i} className="block">{`${winner.name} (ID: ${winner.id})`}</span>
-                            ))
-                          ) : (
-                            "暫無得獎者"
-                          )}
-                        </div>
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">小鳥獎 (Birdies)</h4>
+                      <div className="font-bold text-black">
+                        {Array.isArray(event.birdies) && event.birdies.length > 0 ? (
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                            {Object.values(
+                              (event.birdies as { id: string | number; name: string }[]).reduce((acc, curr) => {
+                                const key = `${curr.id}`;
+                                if (acc[key]) {
+                                  acc[key].count += 1;
+                                } else {
+                                  acc[key] = { ...curr, count: 1 };
+                                }
+                                return acc;
+                              }, {} as Record<string, { id: string | number; name: string; count: number }>)
+                            ).map((winner, i) => (
+                              <span key={i} className="flex items-center gap-2">
+                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  {winner.id}
+                                </span>
+                                <span className="font-bold text-black">
+                                  {winner.name} {winner.count > 1 && `(${winner.count})`}
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          "暫無得獎者"
+                        )}
                       </div>
+                    </div>
+
 
                     {/* 老鷹獎 */}
-                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">老鷹獎 (Eagles)</h4>
-                        <div className="text-blue-800">
-                          <span className="font-bold text-purple-700">老鷹獎:</span>{" "}
-                          {Array.isArray(event.eagles) && event.eagles.length > 0 ? (
-                            (event.eagles as { name: string; id: string | number }[]).map((winner, i) => (
-                              <span key={i} className="block">{`${winner.name} (ID: ${winner.id})`}</span>
-                            ))
-                          ) : (
-                            "暫無得獎者"
-                          )}
-                        </div>
+                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">老鷹獎 (Eagles)</h4>
+                      <div className="font-bold text-black">
+                        {Array.isArray(event.eagles) && event.eagles.length > 0 ? (
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                            {Object.values(
+                              (event.eagles as { id: string | number; name: string }[]).reduce((acc, curr) => {
+                                const key = `${curr.id}`;
+                                if (acc[key]) {
+                                  acc[key].count += 1;
+                                } else {
+                                  acc[key] = { ...curr, count: 1 };
+                                }
+                                return acc;
+                              }, {} as Record<string, { id: string | number; name: string; count: number }>)
+                            ).map((winner, i) => (
+                              <span key={i} className="flex items-center gap-2">
+                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  {winner.id}
+                                </span>
+                                <span className="font-bold text-black">
+                                  {winner.name} {winner.count > 1 && `(${winner.count})`}
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          "暫無得獎者"
+                        )}
                       </div>
+                    </div>
 
                     {/* 信天翁獎 */}
-                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">信天翁獎 (Albatrosses)</h4>
-                        <div className="text-blue-800">
-                          <span className="font-bold text-purple-700">信天翁獎:</span>{" "}
-                          {Array.isArray(event.albatrosses) && event.albatrosses.length > 0 ? (
-                            (event.albatrosses as { name: string; id: string | number }[]).map((winner, i) => (
-                              <span key={i} className="block">{`${winner.name} (ID: ${winner.id})`}</span>
-                            ))
-                          ) : (
-                            "暫無得獎者"
-                          )}
-                        </div>
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">信天翁獎 (Albatrosses)</h4>
+                      <div className="font-bold text-black">
+                        {Array.isArray(event.albatrosses) && event.albatrosses.length > 0 ? (
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                            {Object.values(
+                              (event.albatrosses as { id: string | number; name: string }[]).reduce((acc, curr) => {
+                                const key = `${curr.id}`;
+                                if (acc[key]) {
+                                  acc[key].count += 1;
+                                } else {
+                                  acc[key] = { ...curr, count: 1 };
+                                }
+                                return acc;
+                              }, {} as Record<string, { id: string | number; name: string; count: number }>)
+                            ).map((winner, i) => (
+                              <span key={i} className="flex items-center gap-2">
+                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  {winner.id}
+                                </span>
+                                <span className="font-bold text-black">
+                                  {winner.name} {winner.count > 1 && `(${winner.count})`}
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          "暫無得獎者"
+                        )}
                       </div>
+                    </div>                      
                   </div>
+
+                  
 
                       {showRankings && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">

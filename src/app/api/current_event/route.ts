@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/lib/database"; 
 import mongoose from "mongoose"
 import Event from "@/app/lib/database/models/event.model"; 
@@ -6,7 +6,7 @@ import Group from "@/app/lib/database/models/group.model";
 import Round from "@/app/lib/database/models/round.model"; 
 import Member from "@/app/lib/database/models/members.model"; 
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     await connectToDatabase();
 
@@ -16,8 +16,33 @@ export async function GET(req: Request) {
     yesterday.setDate(today.getDate() - 1);
 
     // Fetch events occurring today or in the future
-    let events = await Event.find({ date: { $gte: yesterday.toISOString().split("T")[0] } }).lean();
-
+    let events = await Event.find({ date: { $gte: yesterday.toISOString().split("T")[0] } })
+    .populate([
+      { path: "m_total_stroke", select: "id name" },
+      { path: "w_total_stroke", select: "id name" },
+      { path: "m_net_stroke_1", select: "id name" },
+      { path: "m_net_stroke_2", select: "id name" },
+      { path: "m_net_stroke_3", select: "id name" },
+      { path: "m_net_stroke_4", select: "id name" },
+      { path: "m_net_stroke_5", select: "id name" },
+      { path: "w_net_stroke_1", select: "id name" },
+      { path: "w_net_stroke_2", select: "id name" },
+      { path: "m_long_drive", select: "id name" },
+      { path: "w_long_drive", select: "id name" },
+      { path: "close_to_center", select: "id name" },
+      { path: "m_close_pin_2", select: "id name" },
+      { path: "m_close_pin_7", select: "id name" },
+      { path: "m_close_pin_12", select: "id name" },
+      { path: "m_close_pin_16", select: "id name" },
+      { path: "w_close_pin_7", select: "id name" },
+      { path: "w_close_pin_12", select: "id name" },
+      { path: "m_bb", select: "id name" },
+      { path: "w_bb", select: "id name" },
+      { path: "birdies", select: "id name" },
+      { path: "eagles", select: "id name" },
+      { path: "albatrosses", select: "id name" },
+    ])
+    .lean();
     if (events.length === 0) {
       return NextResponse.json({ error: "No upcoming events found" }, { status: 404 });
     }
@@ -60,12 +85,35 @@ export async function GET(req: Request) {
     });
 
     // Construct final event details
-    const eventDetails = events.map((event) => ({
-      event_id: event._id,
-      date: event.date,
-      is_tourn: event.is_tourn,
+    const eventDetails = {
+      event_id: closestEvent._id,
+      date: closestEvent.date,
+      is_tourn: closestEvent.is_tourn,
       groups: groupsWithRounds,
-    }));
+      m_total_stroke: closestEvent.m_total_stroke || null,
+      w_total_stroke: closestEvent.w_total_stroke || null,
+      m_net_stroke_1: closestEvent.m_net_stroke_1 || null,
+      m_net_stroke_2: closestEvent.m_net_stroke_2 || null,
+      m_net_stroke_3: closestEvent.m_net_stroke_3 || null,
+      m_net_stroke_4: closestEvent.m_net_stroke_4 || null,
+      m_net_stroke_5: closestEvent.m_net_stroke_5 || null,
+      w_net_stroke_1: closestEvent.w_net_stroke_1 || null,
+      w_net_stroke_2: closestEvent.w_net_stroke_2 || null,
+      m_long_drive: closestEvent.m_long_drive || null,
+      w_long_drive: closestEvent.w_long_drive || null,
+      close_to_center: closestEvent.close_to_center || null,
+      m_close_pin_2: closestEvent.m_close_pin_2 || null,
+      m_close_pin_7: closestEvent.m_close_pin_7 || null,
+      m_close_pin_12: closestEvent.m_close_pin_12 || null,
+      m_close_pin_16: closestEvent.m_close_pin_16 || null,
+      w_close_pin_7: closestEvent.w_close_pin_7 || null,
+      w_close_pin_12: closestEvent.w_close_pin_12 || null,
+      m_bb: closestEvent.m_bb || null,
+      w_bb: closestEvent.w_bb || null,
+      birdies: closestEvent.birdies || [],
+      eagles: closestEvent.eagles || [],
+      albatrosses: closestEvent.albatrosses || [],
+    };
 
     return NextResponse.json(eventDetails);
   } catch (error) {

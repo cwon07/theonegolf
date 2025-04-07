@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import mongoose from 'mongoose';
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/app/components/Header";
 import Navbar from "@/app/components/Navbar";
@@ -13,10 +14,26 @@ interface Member {
   sex: string;
 }
 
+interface Round {
+  _id:  mongoose.Types.ObjectId;
+  member:  Member
+  front_9?: string;
+  back_9?: string;
+}
+
+interface Group {
+  _id: mongoose.Types.ObjectId;
+  date: string;
+  time: string;
+  rounds: Round[];
+}
+
+
 interface Event {
   _id: string;
   date: string;
   is_tourn: boolean;
+  groups: Group[]
   m_total_stroke: Member;
   w_total_stroke: Member;
   m_net_stroke_1: Member;
@@ -127,7 +144,7 @@ function EventContent() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
-        body: JSON.stringify(eventData),
+        body: JSON.stringify(formData),
       });
       if (response.ok) {
         router.push("/current_event");
@@ -143,17 +160,12 @@ function EventContent() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (error) return <div>Error: {error}</div>;
 
-  if (!event || !eventData) {
-    return <div>No group data found</div>;
-  }
+  if (!event || !eventData) return <div>No group data found</div>;
+
   return (
     <div className="flex flex-col items-center min-h-screen p-4 bg-gray-100 text-black">
       <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
@@ -175,7 +187,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_total_stroke?.id
-                  ? `${event.m_total_stroke.id} - ${event.m_total_stroke.name}`
+                  ? `(${event.m_total_stroke.id}) ${event.m_total_stroke.name}`
                   : "輸入會員編號"
               }
             />
@@ -190,7 +202,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_total_stroke?.id
-                  ? `${event.w_total_stroke.id} - ${event.w_total_stroke.name}`
+                  ? `(${event.w_total_stroke.id}) ${event.w_total_stroke.name}`
                   : "輸入會員編號"
               }
             />
@@ -207,7 +219,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_net_stroke_1?.id
-                  ? `${event.m_net_stroke_1.id} - ${event.m_net_stroke_1.name}`
+                  ? `(${event.m_net_stroke_1.id}) ${event.m_net_stroke_1.name}`
                   : "輸入會員編號"
               }
             />
@@ -222,7 +234,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_net_stroke_2?.id
-                  ? `${event.m_net_stroke_2.id} - ${event.m_net_stroke_2.name}`
+                  ? `(${event.m_net_stroke_2.id}) ${event.m_net_stroke_2.name}`
                   : "輸入會員編號"
               }
             />
@@ -237,7 +249,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_net_stroke_3?.id
-                  ? `${event.m_net_stroke_3.id} - ${event.m_net_stroke_3.name}`
+                  ? `(${event.m_net_stroke_3.id}) ${event.m_net_stroke_3.name}`
                   : "輸入會員編號"
               }
             />
@@ -252,7 +264,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_net_stroke_4?.id
-                  ? `${event.m_net_stroke_4.id} - ${event.m_net_stroke_4.name}`
+                  ? `(${event.m_net_stroke_4.id}) ${event.m_net_stroke_4.name}`
                   : "輸入會員編號"
               }
             />
@@ -267,7 +279,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_net_stroke_5?.id
-                  ? `${event.m_net_stroke_5.id} - ${event.m_net_stroke_5.name}`
+                  ? `(${event.m_net_stroke_5.id}) ${event.m_net_stroke_5.name}`
                   : "輸入會員編號"
               }
             />
@@ -282,7 +294,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_net_stroke_1?.id
-                  ? `${event.w_net_stroke_1.id} - ${event.w_net_stroke_1.name}`
+                  ? `(${event.w_net_stroke_1.id}) ${event.w_net_stroke_1.name}`
                   : "輸入會員編號"
               }
             />
@@ -297,7 +309,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_net_stroke_2?.id
-                  ? `${event.w_net_stroke_2.id} - ${event.w_net_stroke_2.name}`
+                  ? `(${event.w_net_stroke_2.id}) ${event.w_net_stroke_2.name}`
                   : "輸入會員編號"
               }
             />
@@ -314,7 +326,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_long_drive?.id
-                  ? `${event.m_long_drive.id} - ${event.m_long_drive.name}`
+                  ? `(${event.m_long_drive.id}) ${event.m_long_drive.name}`
                   : "輸入會員編號"
               }
             />
@@ -329,7 +341,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_long_drive?.id
-                  ? `${event.w_long_drive.id} - ${event.w_long_drive.name}`
+                  ? `(${event.w_long_drive.id}) ${event.w_long_drive.name}`
                   : "輸入會員編號"
               }
             />
@@ -346,7 +358,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.close_to_center?.id
-                  ? `${event.close_to_center.id} - ${event.close_to_center.name}`
+                  ? `(${event.close_to_center.id}) ${event.close_to_center.name}`
                   : "輸入會員編號"
               }
             />
@@ -363,7 +375,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_close_pin_2?.id
-                  ? `${event.m_close_pin_2.id} - ${event.m_close_pin_2.name}`
+                  ? `(${event.m_close_pin_2.id}) ${event.m_close_pin_2.name}`
                   : "輸入會員編號"
               }
             />
@@ -378,7 +390,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_close_pin_7?.id
-                  ? `${event.m_close_pin_7.id} - ${event.m_close_pin_7.name}`
+                  ? `(${event.m_close_pin_7.id}) ${event.m_close_pin_7.name}`
                   : "輸入會員編號"
               }
             />
@@ -393,7 +405,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_close_pin_12?.id
-                  ? `${event.m_close_pin_12.id} - ${event.m_close_pin_12.name}`
+                  ? `(${event.m_close_pin_12.id}) ${event.m_close_pin_12.name}`
                   : "輸入會員編號"
               }
             />
@@ -408,7 +420,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_close_pin_16?.id
-                  ? `${event.m_close_pin_16.id} - ${event.m_close_pin_16.name}`
+                  ? `(${event.m_close_pin_16.id}) ${event.m_close_pin_16.name}`
                   : "輸入會員編號"
               }
             />
@@ -423,7 +435,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_close_pin_7?.id
-                  ? `${event.w_close_pin_7.id} - ${event.w_close_pin_7.name}`
+                  ? `(${event.w_close_pin_7.id}) ${event.w_close_pin_7.name}`
                   : "輸入會員編號"
               }
             />
@@ -438,7 +450,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_close_pin_12?.id
-                  ? `${event.w_close_pin_12.id} - ${event.w_close_pin_12.name}`
+                  ? `(${event.w_close_pin_12.id}) ${event.w_close_pin_12.name}`
                   : "輸入會員編號"
               }
             />
@@ -455,7 +467,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.m_bb?.id
-                  ? `${event.m_bb.id} - ${event.m_bb.name}`
+                  ? `(${event.m_bb.id}) ${event.m_bb.name}`
                   : "輸入會員編號"
               }
             />
@@ -470,7 +482,7 @@ function EventContent() {
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder={
                 event.w_bb?.id
-                  ? `${event.w_bb.id} - ${event.w_bb.name}`
+                  ? `(${event.w_bb.id}) ${event.w_bb.name}`
                   : "輸入會員編號"
               }
             />
