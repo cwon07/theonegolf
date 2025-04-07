@@ -118,8 +118,8 @@ export default function AdminDashboard() {
                   className="p-2 border rounded-md w-full"
                   required
                 >
-                  <option value="false">是</option>
-                  <option value="true">否</option>
+                  <option value="true">是</option>
+                  <option value="false">否</option>
                 </select>
               </div>
             </div>

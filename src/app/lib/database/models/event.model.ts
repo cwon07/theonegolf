@@ -19,7 +19,7 @@ export interface IEvent extends Document {
   m_close_pin_2: Types.ObjectId;
   m_close_pin_7: Types.ObjectId;
   m_close_pin_12: Types.ObjectId;
-  m_close_pin_6: Types.ObjectId;
+  m_close_pin_16: Types.ObjectId;
   w_close_pin_7: Types.ObjectId;
   w_close_pin_12: Types.ObjectId;
   m_bb: Types.ObjectId;
@@ -60,11 +60,14 @@ const eventSchema = new Schema<IEvent>({
     m_close_pin_2: { type: Schema.Types.ObjectId, ref: "Member"},
     m_close_pin_7: { type: Schema.Types.ObjectId, ref: "Member"},
     m_close_pin_12: { type: Schema.Types.ObjectId, ref: "Member"},
-    m_close_pin_6: { type: Schema.Types.ObjectId, ref: "Member"},
+    m_close_pin_16: { type: Schema.Types.ObjectId, ref: "Member"},
     w_close_pin_7: { type: Schema.Types.ObjectId, ref: "Member"},
     w_close_pin_12: { type: Schema.Types.ObjectId, ref: "Member"},
     m_bb: { type: Schema.Types.ObjectId, ref: "Member"},
     w_bb: { type: Schema.Types.ObjectId, ref: "Member"},
+    birdies:[{ type: Schema.Types.ObjectId, ref: "Member"}],
+    eagles:[{ type: Schema.Types.ObjectId, ref: "Member"}],
+    albatrosses:[{ type: Schema.Types.ObjectId, ref: "Member"}],
 });
 
 const Event =

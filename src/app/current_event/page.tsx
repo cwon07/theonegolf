@@ -422,7 +422,7 @@ return (
                           </button>
                           {adminName && (
                             <button
-                              //onClick={handleRecordWinners}
+                              onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
                               className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
                             >
                               記錄得獎名單
@@ -583,9 +583,7 @@ return (
                           )}
                         </div>
                       </div>
-</div>
-
-    
+                  </div>
 
                       {showRankings && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
