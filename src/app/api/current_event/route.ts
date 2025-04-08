@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
 
     // Get all member IDs for bulk querying
     const memberIds = rounds.flatMap((round) => round.member ? [round.member._id] : []).filter(Boolean);
-    const members = await Member.find({ _id: { $in: memberIds } }).select("id name sex handicap").lean();
+    const members = await Member.find({ _id: { $in: memberIds } }).select("id name sex handicap is_new").lean();
 
     const roundsWithMembers = rounds.map((round) => {
       const member = members.find((member) => String(member._id) === round.member.toString());

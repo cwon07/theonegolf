@@ -21,6 +21,7 @@ interface Member {
   handicap: [number]
   name: string;
   sex: string;
+  is_new: boolean;
 }
 
 interface Round {
@@ -42,6 +43,29 @@ interface Event {
   date: string;
   is_tourn: boolean;
   groups: Group[]
+  m_total_stroke: Member;
+  w_total_stroke: Member;
+  m_net_stroke_1: Member;
+  m_net_stroke_2: Member;
+  m_net_stroke_3: Member;
+  m_net_stroke_4: Member;
+  m_net_stroke_5: Member;
+  w_net_stroke_1: Member;
+  w_net_stroke_2: Member;
+  m_long_drive: Member;
+  w_long_drive: Member;
+  close_to_center: Member;
+  m_close_pin_2: Member;
+  m_close_pin_7: Member;
+  m_close_pin_12: Member;
+  m_close_pin_16: Member;
+  w_close_pin_7: Member;
+  w_close_pin_12: Member;
+  m_bb: Member;
+  w_bb: Member;
+  birdies: Member[];
+  eagles: Member[];
+  albatrosses: Member[];
 }
 
 export default function EventsView() {
@@ -52,7 +76,18 @@ export default function EventsView() {
   const [rankingsFemale, setRankingsFemale] = useState<any[]>([]); // State for rankings
   const [rankingsMaleNet, setRankingsMaleNet] = useState<any[]>([]); // State for rankings
   const [rankingsFemaleNet, setRankingsFemaleNet] = useState<any[]>([]); // State for rankings
+  const [MStrokeWinner, setMStrokeWinner] = useState<any[]>([]); // State for rankings
+  const [WStrokeWinner, setWStrokeWinner] = useState<any[]>([]); // State for rankings
+  const [MNet1Winner, setMNet1Winner] = useState<any[]>([]); // State for rankings
+  const [MNet2Winner, setMNet2Winner] = useState<any[]>([]); // State for rankings
+  const [MNet3Winner, setMNet3Winner] = useState<any[]>([]); // State for rankings
+  const [MNet4Winner, setMNet4Winner] = useState<any[]>([]); // State for rankings
+  const [MNet5Winner, setMNet5Winner] = useState<any[]>([]); // State for rankings
+  const [WNet1Winner, setWNet1Winner] = useState<any[]>([]); // State for rankings
+  const [WNet2Winner, setWNet2Winner] = useState<any[]>([]); // State for rankings
+  const [NewstrokeList, setNewStrokeList] = useState<any[]>([]); // State for rankings
   const [showRankings, setShowRankings] = useState(false);
+  const [showStrokes, setShowStrokes] = useState(false);
   const [showRankingsNet, setShowRankingsNet] = useState(false);
   const router = useRouter();
   const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
@@ -86,6 +121,7 @@ export default function EventsView() {
           setEvents([data]);
           calculateRankings([data]);
           calculateRankingsNet([data]);
+          calculateStrokes([data]);
         } else {
           console.error("Failed to fetch events:", data.error);
         }
@@ -107,6 +143,10 @@ export default function EventsView() {
     setShowRankingsNet((prev) => !prev);
   };
 
+  const handleToggleStroke = () => {    
+    setShowStrokes((prev) => !prev);
+  };
+
   const calculateRankings = (eventsData: Event[]) => {
     const allRounds: any[] = [];
   
@@ -124,6 +164,7 @@ export default function EventsView() {
               totalScore,
               handicap: round.member.handicap,
               sex: round.member.sex,
+              is_new: round.member.is_new,
             });
           }
         });
@@ -172,6 +213,7 @@ export default function EventsView() {
               netScore,  // Add netScore to the object
               handicap: Number(round.member.handicap),
               sex: round.member.sex,
+              is_new: round.member.is_new,
             });
           }
         });
@@ -206,6 +248,54 @@ export default function EventsView() {
     // Update state with sorted rankings
     setRankingsMaleNet(maleRounds);
     setRankingsFemaleNet(femaleRounds);
+  };
+
+  const calculateStrokes = (eventsData: Event[]) => {
+    const allRounds: any[] = [];
+  
+    // Aggregate all rounds from all events and groups
+    eventsData.forEach((event) => {
+      event.groups.forEach((group) => {
+        group.rounds.forEach((round) => {
+          if (round.front_9 && round.back_9) { // Only include rounds with complete scores
+            const totalScore = Number(round.front_9) + Number(round.back_9);
+            allRounds.push({
+              name: round.member.name,
+              id: round.member.id,
+              front_9: round.front_9,
+              back_9: round.back_9,
+              totalScore,
+              handicap: round.member.handicap,
+              sex: round.member.sex,
+              is_new: round.member.is_new,
+            });
+          }
+        });
+      });
+    });
+
+    // Separate into male and female rankings with custom sorting
+    const NewMemberRounds = allRounds.filter((round) => round.is_new === true);
+    const MWinner: any[] = [eventsData[0].m_total_stroke];
+    const WWinner: any[] = [eventsData[0].w_total_stroke];
+    const MNet1: any[] = [eventsData[0].m_net_stroke_1];
+    const MNet2: any[] = [eventsData[0].m_net_stroke_2];
+    const MNet3: any[] = [eventsData[0].m_net_stroke_3];
+    const MNet4: any[] = [eventsData[0].m_net_stroke_4];
+    const MNet5: any[] = [eventsData[0].m_net_stroke_5];
+    const WNet1: any[] = [eventsData[0].w_net_stroke_1];
+    const WNet2: any[] = [eventsData[0].w_net_stroke_2];
+    // Update state with sorted rankings
+    setMStrokeWinner(MWinner);
+    setWStrokeWinner(WWinner);
+    setMNet1Winner(MNet1);
+    setMNet2Winner(MNet2);
+    setMNet3Winner(MNet3);
+    setMNet4Winner(MNet4);
+    setMNet5Winner(MNet5);
+    setWNet1Winner(WNet1);
+    setWNet2Winner(WNet2);
+    setNewStrokeList(NewMemberRounds);
   };
 
   const handleSelectMenu = (menu: string) => {
@@ -274,7 +364,7 @@ export default function EventsView() {
         setGroupIndexInput('');
         setMemberId('');
         const updatedEvents = await fetch("/api/current_event").then((res) => res.json());
-        setEvents(updatedEvents);
+        setEvents([updatedEvents]);
         router.refresh();
       } else {
         setMessage('新增失敗');
@@ -321,7 +411,7 @@ export default function EventsView() {
         setGroupIndexInput('');
         setMemberId('');
         const updatedEvents = await fetch("/api/current_event").then((res) => res.json());
-        setEvents(updatedEvents);
+        setEvents([updatedEvents]);
         router.refresh();
       } else {
         setMessage('移動失敗');
@@ -362,7 +452,7 @@ export default function EventsView() {
         setGroupIndexInput('');
         setMemberId('');
         const updatedEvents = await fetch("/api/current_event").then((res) => res.json());
-        setEvents(updatedEvents);
+        setEvents([updatedEvents]);
         router.refresh();
       } else {
         setMessage('刪除失敗');
@@ -419,6 +509,12 @@ return (
                             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
                           >
                             {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
+                          </button>
+                          <button
+                            onClick={handleToggleStroke}
+                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
+                          >
+                            {showStrokes ? "隱藏調稈一覽" : "顯示調稈一覽"}
                           </button>
                           {adminName && (
                             <button
@@ -729,7 +825,53 @@ return (
                     </div>                      
                   </div>
 
-                  
+                {/* handicap adjustment */}
+                {showStrokes && (
+                <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
+                      <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調稈一覽</h4>
+                        <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調稈</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                               <p className="font-bold text-blue-800">{MStrokeWinner[0].name}</p>
+                               <p className="font-bold text-red-800">{WStrokeWinner[0].name}</p>                         
+                            </div>
+                        </div>
+                        <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調稈</h4>
+                            <div className="grid grid-cols-4 gap-4">
+                                <p className="font-bold text-blue-800">{MNet1Winner[0].name}</p>
+                                <p className="font-bold text-blue-800">{MNet2Winner[0].name}</p>
+                                <p className="font-bold text-blue-800">{MNet3Winner[0].name}</p>
+                                <p className="font-bold text-blue-800">{MNet4Winner[0].name}</p>
+                                <p className="font-bold text-blue-800">{MNet5Winner[0].name}</p>
+                                <p className="font-bold text-red-800">{WNet1Winner[0].name}</p>
+                                <p className="font-bold text-red-800">{WNet2Winner[0].name}</p>
+                            </div>
+                        </div>
+                        <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調稈</h4>
+                          <h3 className="text-left text-ml mb-2 text-purple-800">下列新會員將成爲正式會員 （移除⭐)</h3>
+                          {NewstrokeList.length > 0 ? (
+                            <div className="grid grid-cols-4 gap-4">
+                              {NewstrokeList.map((player, idx) => (
+                                <div
+                                  key={idx}
+                                  className={`mt-2 ${
+                                    player.sex === "Male" ? "font-bold text-blue-800" : "font-bold text-red-800"
+                                  }`}
+                                >
+                                  {player.name} ({player.handicap})
+                                  {player.is_new ? "⭐" : ""}
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-gray-600">無調稈數據</p>
+                          )}
+                        </div>                
+                </div>
+                )}
+
 
                       {showRankings && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
@@ -768,7 +910,7 @@ return (
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
-                                            {player.name} ({player.handicap})
+                                            {player.name} ({player.handicap}){player.is_new ? "⭐" : ""}
                                           </span>
                                           <span className="text-left w-16">{player.front_9}</span>
                                           <span className="text-left w-16">{player.back_9}</span>
@@ -791,7 +933,7 @@ return (
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
-                                            {player.name} ({player.handicap})
+                                            {player.name} ({player.handicap}){player.is_new ? "⭐" : ""}
                                           </span>
                                           <span className="text-left w-16">{player.front_9}</span>
                                           <span className="text-left w-16">{player.back_9}</span>
@@ -850,7 +992,7 @@ return (
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
-                                            {player.name} ({player.handicap})
+                                            {player.name} ({player.handicap}){player.is_new ? "⭐" : ""}
                                           </span>
                                           <span className="text-left w-16">{player.front_9}</span>
                                           <span className="text-left w-16">{player.back_9}</span>
@@ -874,7 +1016,7 @@ return (
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
-                                            {player.name} ({player.handicap})
+                                            {player.name} ({player.handicap}){player.is_new ? "⭐" : ""}
                                           </span>
                                           <span className="text-left w-16">{player.front_9}</span>
                                           <span className="text-left w-16">{player.back_9}</span>
@@ -971,7 +1113,7 @@ return (
                           {/* Render Rounds */}
                           {group.rounds && group.rounds.length > 0 && (
                             <div className="mt-4">
-                              <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                              <div className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
                                 <span>[ID] 姓名 (差點）</span>
                                 <span>前9洞</span>
                                 <span>後9洞</span>
@@ -988,7 +1130,7 @@ return (
                                     {round.member && (
                                       <li
                                         key={round.member._id || `member-${round._id}-${Math.random()}`}
-                                        className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800"
+                                        className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800"
                                       >
                                         {/* Conditional Styling for Member Name */}
                                         <span
@@ -998,13 +1140,13 @@ return (
                                         >
                                           <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                           {round.member.id}
-                                          </span> {round.member.name} ({round.member.handicap.at(-1)})
+                                          </span> {round.member.name} ({round.member.handicap.at(-1)}){round.member.is_new ? "⭐" : ""}
                                         </span>
 
                                         {/* Scores with Alignment */}
-                                        <span className="text-left w-16">{round.front_9 ?? ""}</span>
-                                        <span className="text-left w-16">{round.back_9 ?? ""}</span>
-                                        <span className="text-left w-16 font-bold text-xl text-blue-800">
+                                        <span className="text-left w-12">{round.front_9 ?? ""}</span>
+                                        <span className="text-left w-12">{round.back_9 ?? ""}</span>
+                                        <span className="text-left w-12 font-bold text-xl text-blue-800">
                                           {round.front_9 && round.back_9
                                             ? Number(round.front_9) + Number(round.back_9)
                                             : ""}
