@@ -96,7 +96,7 @@ export default function MembersPage() {
                     {/* Member Name */}
                     <span
                       className={`text-lg font-semibold ${
-                        member.sex === "Male" ? "text-blue-800" : "text-pink-800"
+                        member.sex === "Male" ? "text-blue-800" : "text-red-800"
                       }`}
                     >
                       {member.name}
@@ -112,7 +112,7 @@ export default function MembersPage() {
                       <div className="absolute bottom-full mb-3 w-64 bg-white shadow-lg rounded-lg p-4 text-md text-gray-800 z-10 transition-opacity duration-200 border border-gray-300">
                         <p
                           className={`font-bold text-lg ${
-                            member.sex === "Male" ? "text-blue-600" : "text-pink-600"
+                            member.sex === "Male" ? "text-blue-600" : "text-red-600"
                           }`}
                         >
                           {member.eng_name || "No English Name"}

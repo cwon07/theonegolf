@@ -72,7 +72,7 @@ export default function Home() {
             <ul className="text-xl list-none space-y-4 font-bold">
               <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
               <span className="font-bold text-purple-600"> 總稈獎</span> （<span className="font-bold text-blue-800">男</span>&
-                <span className="font-bold text-red-600">女</span>）
+                <span className="font-bold text-red-800">女</span>）
                 <p className="text-black font-bold text-yellow-600"> 獎勵：球（一盒）</p>
                 <p className="text-black">總桿獎一年一次為限， 男女分開計</p>
                 <p className="text-black">最低稈者勝, 如有平手，以下面方案決定勝負</p>

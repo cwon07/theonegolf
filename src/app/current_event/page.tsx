@@ -549,7 +549,7 @@ return (
                         <div>
                           {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => (
                             <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
-                              <span className="font-bold">第{[2, 7, 12, 16][i]}洞 (男):</span>{" "}
+                              <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男):</span>{" "}
                               <span className="flex items-center gap-2">
                                 <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                   {event[key].id}
@@ -562,7 +562,7 @@ return (
                         <div>
                           {["w_close_pin_7", "w_close_pin_12"].map((key, i) => (
                             <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">第{[7, 12][i]}洞 (男):</span>{" "}
+                            <span className="font-bold">第{[" 7", "12"][i]}洞 (男):</span>{" "}
                             <span className="flex items-center gap-2">
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {event[key].id}
@@ -764,7 +764,7 @@ return (
                                     <div key={idx} className="mt-2">
                                       <ul className="list-none space-y-1">
                                         <li className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
-                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-800" : "text-red-800"}`}>
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
@@ -787,7 +787,7 @@ return (
                                     <div key={idx} className="mt-2">
                                       <ul className="list-none space-y-1">
                                         <li className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
-                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-800" : "text-red-800"}`}>
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
@@ -846,7 +846,7 @@ return (
                                     <div key={idx} className="mt-2">
                                       <ul className="list-none space-y-1">
                                         <li className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
-                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-800" : "text-red-800"}`}>
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
@@ -870,7 +870,7 @@ return (
                                     <div key={idx} className="mt-2">
                                       <ul className="list-none space-y-1">
                                         <li className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
-                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-500" : "text-pink-500"}`}>
+                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-800" : "text-red-800"}`}>
                                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                               {player.id}
                                             </span>{" "}
@@ -993,7 +993,7 @@ return (
                                         {/* Conditional Styling for Member Name */}
                                         <span
                                           className={`font-bold text-left ${
-                                            round.member.sex === "Male" ? "text-blue-500" : "text-pink-500"
+                                            round.member.sex === "Male" ? "text-blue-800" : "text-red-800"
                                           }`}
                                         >
                                           <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
