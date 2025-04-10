@@ -261,6 +261,7 @@ export default function EventsView() {
             const totalScore = Number(round.front_9) + Number(round.back_9);
             allRounds.push({
               name: round.member.name,
+              _id: round.member._id,
               id: round.member.id,
               front_9: round.front_9,
               back_9: round.back_9,
@@ -276,8 +277,20 @@ export default function EventsView() {
 
     // Separate into male and female rankings with custom sorting
     const NewMemberRounds = allRounds.filter((round) => round.is_new === true);
-    const MWinner: any[] = [eventsData[0].m_total_stroke];
-    const WWinner: any[] = [eventsData[0].w_total_stroke];
+
+    // Total stroke winner handicap change
+    // Calculate updated handicaps for MWinner and WWinner
+    const mOriginal = eventsData[0].m_total_stroke;
+    const mHandicap = eventsData[0].m_total_stroke.handicap.at(-1);
+    const mAdjustedHandicap = mHandicap !== undefined ? Number(mHandicap) - 1 : undefined;
+    const MWinner: any[] = [mOriginal, mHandicap, mAdjustedHandicap];
+    
+    const wOriginal = eventsData[0].w_total_stroke;
+    const wHandicap = eventsData[0].w_total_stroke.handicap.at(-1);
+    const wAdjustedHandicap = wHandicap !== undefined ? Number(wHandicap) - 1 : undefined;
+    const WWinner: any[] = [wOriginal, wHandicap, wAdjustedHandicap];
+
+    //net stroke
     const MNet1: any[] = [eventsData[0].m_net_stroke_1];
     const MNet2: any[] = [eventsData[0].m_net_stroke_2];
     const MNet3: any[] = [eventsData[0].m_net_stroke_3];
@@ -832,8 +845,8 @@ return (
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                           <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調稈</h4>
                             <div className="grid grid-cols-2 gap-4">
-                               <p className="font-bold text-blue-800">{MStrokeWinner[0].name}</p>
-                               <p className="font-bold text-red-800">{WStrokeWinner[0].name}</p>                         
+                              <p className="font-bold text-blue-800">{MStrokeWinner[0].name} ({MStrokeWinner[1]}) → ({MStrokeWinner[2]})</p> 
+                              <p className="font-bold text-red-800">{WStrokeWinner[0].name} ({WStrokeWinner[1]}) → ({WStrokeWinner[2]})</p> 
                             </div>
                         </div>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
