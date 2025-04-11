@@ -287,12 +287,12 @@ export default function EventsView() {
 
     const table2: number[][] = [
       // [0-9, 10-15, 16-21, 22-26, 27-32, 33-38]
-      [0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5], // handi 0-9
-      [0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6 ,6 ,7], // handi 10-15
-      [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10], // handi 16-21
-      [1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9, 10, 10, 11, 12, 12, 13, 14], // handi 22-26
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], // handi 27-32
-      [1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 19, 20, 21, 23, 24], // handi 33 - 38
+      [0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7], // handi 0-9
+      [0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6 ,6 ,7, 7, 7, 8, 8, 8, 9, 9, 9,10], // handi 10-15
+      [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,10,10,11,11,12,12,13,13,14,14,15], // handi 16-21
+      [1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9,10,10,11,12,12,13,14,14,15,16,16,17,18,18,19,20], // handi 22-26
+      [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], // handi 27-32
+      [1, 2, 3, 5, 6, 7, 8, 9,10,12,13,14,15,16,17,19,20,21,23,24,25,26,27,28,29,31,32,33,34], // handi 33-38
     ];
 
     const getHandicapRangeIndex = (handicap: number): number => {
@@ -318,7 +318,7 @@ export default function EventsView() {
       }
     
       const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
-      const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
+      const clampedIndex = clamp(lookUpStroke, 0, 28) - 1;
       const table1Value = table1[placeIndex]?.[rangeIndex];
       const table2Value = table2[rangeIndex]?.[clampedIndex];
       const adjusted = parsedHandicap - table1Value - table2Value;
@@ -597,20 +597,23 @@ return (
                         <div className="flex gap-2">
                           <button
                             onClick={handleToggle}
-                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
-                          >
+                            className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                              showRankings ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                            }`}                               >
                             {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
                           </button>
                           <button
                             onClick={handleToggleNet}
-                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
-                          >
+                            className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                              showRankingsNet ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                            }`}                               >
                             {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
                           </button>
                           <button
                             onClick={handleToggleStroke}
-                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
-                          >
+                            className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                              showStrokes ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                            }`}                          >
                             {showStrokes ? "隱藏調稈一覽" : "顯示調稈一覽"}
                           </button>
                           {adminName && (
