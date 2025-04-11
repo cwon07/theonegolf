@@ -90,11 +90,17 @@ export default function EventsView() {
   const [showRankings, setShowRankings] = useState(false);
   const [showAwards, setShowAwards] = useState(false);
   const [showStrokes, setShowStrokes] = useState(false);
+  const [showGroups, setShowGroups] = useState(false);
   const [showRankingsNet, setShowRankingsNet] = useState(false);
   const router = useRouter();
   const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
   const [memberId, setMemberId] = useState(''); // For member ID input
   const [message, setMessage] = useState(''); // For success/error feedback
+  const [isGreen0, setisGreen0] = useState(false);
+  const [isGreen1, setisGreen1] = useState(false);
+  const [isGreen2, setisGreen2] = useState(false);
+  const [isGreen3, setisGreen3] = useState(false);
+  const [isGreen4, setisGreen4] = useState(false);
 
 
     useEffect(() => {
@@ -138,32 +144,69 @@ export default function EventsView() {
     fetchEvents();
   }, []);
 
-  const handleToggle = () => {    
-    setShowRankings(true);
-    setShowRankingsNet(false);
+  const handleToggleGroup = () => { 
+    setShowGroups(true);
     setShowAwards(false);
-    setShowStrokes(false);
-  };
-
-  const handleToggleNet = () => { 
-    setShowRankingsNet(true);
     setShowRankings(false);
-    setShowAwards(false);
+    setShowRankingsNet(false);
     setShowStrokes(false);
+    setisGreen0(true);
+    setisGreen1(false);
+    setisGreen2(false);
+    setisGreen3(false);
+    setisGreen4(false);
   };
 
   const handleToggleAward = () => { 
+    setShowGroups(false);
     setShowAwards(true);
     setShowRankings(false);
     setShowRankingsNet(false);
     setShowStrokes(false);
+    setisGreen0(false);
+    setisGreen1(true);
+    setisGreen2(false);
+    setisGreen3(false);
+    setisGreen4(false);
   };
 
   const handleToggleStroke = () => {    
+    setShowGroups(false);
     setShowStrokes(true);
     setShowRankings(false);
     setShowRankingsNet(false);
-    setShowAwards(false);    
+    setShowAwards(false);
+    setisGreen0(false);
+    setisGreen1(false);
+    setisGreen2(true);
+    setisGreen3(false);
+    setisGreen4(false);
+  };
+
+  const handleToggle = () => {    
+    setShowGroups(false);
+    setShowRankings(true);
+    setShowRankingsNet(false);
+    setShowAwards(false);
+    setShowStrokes(false);
+    setisGreen0(false);
+    setisGreen1(false);
+    setisGreen2(false);
+    setisGreen3(true);
+    setisGreen4(false);
+  };
+
+  const handleToggleNet = () => { 
+    setShowGroups(false);
+    setShowRankingsNet(true);
+    setShowRankings(false);
+    setShowAwards(false);
+    setShowStrokes(false);
+    setisGreen0(false);
+    setisGreen1(false);
+    setisGreen2(false);
+    setisGreen3(false);
+    setisGreen4(true);
   };
 
   const calculateRankings = (eventsData: Event[]) => {
@@ -607,35 +650,51 @@ return (
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
                   {event.is_tourn && (
-                    <div className="flex flex-wrap gap-2">
-                          <button
-                            onClick={handleToggleAward}
-                            className="px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"
-                          >
-                           得獎名單
-                          </button>
-                        <button
-                          onClick={handleToggleStroke}
-                          className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
-                        >
-                          調桿一覽
-                        </button>
-                        <button
-                          onClick={handleToggle}
-                          className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
-                        >
-                          總桿排名
-                        </button>
+                    <div className="flex flex-wrap gap-1 md:flex-nowrap overflow-x-auto">
+                      <button
+                        onClick={handleToggleGroup}
+                        className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 ${
+                          isGreen0 ? 'bg-green-500' : 'bg-blue-500'
+                        } min-w-fit`}
+                      >
+                        比賽排組
+                      </button>
+                      <button
+                        onClick={handleToggleAward}
+                        className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 ${
+                          isGreen1 ? 'bg-green-500' : 'bg-blue-500'
+                        } min-w-fit`}
+                      >
+                        得獎名單
+                      </button>
+                      <button
+                        onClick={handleToggleStroke}
+                        className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 ${
+                          isGreen2 ? 'bg-green-500' : 'bg-blue-500'
+                        } min-w-fit`}
+                      >
+                        調桿一覽
+                      </button>
+                      <button
+                        onClick={handleToggle}
+                        className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 ${
+                          isGreen3 ? 'bg-green-500' : 'bg-blue-500'
+                        } min-w-fit`}
+                      >
+                        總桿排名
+                      </button>
                       <button
                         onClick={handleToggleNet}
-                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
+                        className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 ${
+                          isGreen4 ? 'bg-green-500' : 'bg-blue-500'
+                        } min-w-fit`}
                       >
                         净桿排名
                       </button>
                       {adminName && (
                         <button
                           onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
-                          className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
+                          className="bg-blue-700 text-white px-2 py-1 rounded h-10 text-lg w-20"
                         >
                           記錄得獎名單
                         </button>
@@ -1170,7 +1229,7 @@ return (
                     </div>                  
                 
                 {/* Render Groups in 3 columns */}
-                {event.groups && event.groups.length > 0 && (
+                {showGroups && event.groups && event.groups.length > 0 && (
                   <div className="text-black mt-4">
                     <h3 className="font-semibold text-lg text-blue-800">球員分組 & 開球時間</h3>
                     {adminName && (
