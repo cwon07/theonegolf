@@ -2,6 +2,7 @@
 
 import { FC, useState, useEffect, useRef } from "react";
 import mongoose from 'mongoose';
+import { Types } from 'mongoose';
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Header from "../components/Header"
@@ -303,8 +304,61 @@ export default function EventsView() {
       return 5; // 33-38
     };
 
+    const clamp = (num: number, min: number, max: number) => Math.max(min, Math.min(num, max));
+
+    const getNetStrokeAdjustment = (original: Member, placeIndex: number): any[] => {
+      const handicap = original.handicap.at(-1);
+      const parsedHandicap = Number(handicap);
+      const rangeIndex = getHandicapRangeIndex(parsedHandicap);
+      const round = allRounds.find((r) => r._id === original._id);
+      const totalScore = round?.totalScore;
+    
+      if (handicap === undefined || totalScore === undefined) {
+        return [original, handicap, undefined, undefined, undefined];
+      }
+    
+      const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
+      const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
+      const table1Value = table1[placeIndex]?.[rangeIndex];
+      const table2Value = table2[rangeIndex]?.[clampedIndex];
+      const adjusted = parsedHandicap - table1Value - table2Value;
+    
+      return [original, handicap, table1Value, table2Value, adjusted];
+    };
+
+    const getNewStrokeAdjustment = (original: Member): any[] => {
+      const handicap = original.handicap.at(-1);
+      const parsedHandicap = Number(handicap);
+      const rangeIndex = getHandicapRangeIndex(parsedHandicap);
+      const round = allRounds.find((r) => r._id === original._id);
+      const totalScore = round?.totalScore;
+    
+      if (handicap === undefined || totalScore === undefined) {
+        return [original, handicap, undefined, undefined, undefined];
+      }
+    
+      const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
+      let table2Value: number | undefined;
+      let adjusted: number | undefined;
+
+      if (lookUpStroke <= 0) {
+        table2Value = 0;
+        adjusted = parsedHandicap;
+      } else {
+        const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
+        table2Value = table2[rangeIndex]?.[clampedIndex];
+        adjusted = parsedHandicap - table2Value;
+      }
+    
+      return [original, handicap, table2Value, adjusted];
+    };
+
     // Separate into male and female rankings with custom sorting
     const NewMemberRounds = allRounds.filter((round) => round.is_new === true);
+    const adjustedNewMember = NewMemberRounds.map((round) => {
+      const result = getNewStrokeAdjustment(round); // round is a Member
+      return { result };
+    });    
 
     // Total stroke winner handicap change
     // Calculate updated handicaps for MWinner and WWinner
@@ -319,44 +373,15 @@ export default function EventsView() {
     const WWinner: any[] = [wOriginal, wHandicap, wAdjustedHandicap];
 
     //net stroke
-     //M1
-    const mN1Original = eventsData[0].m_net_stroke_1;
-    const mN1Handicap = mN1Original.handicap.at(-1);
-    const table1_value = table1[0][getHandicapRangeIndex(Number(mN1Handicap))];
-    const mN1Round = allRounds.find((round) => round._id === mN1Original?._id);
-    const mN1TotalScore = mN1Round?.totalScore;
-    const look_up_stroke = mN1TotalScore !== undefined && mN1Handicap !== undefined
-    ? -1 * (mN1TotalScore - mN1Handicap - 72)
-    : 0;
-    const table2_value = table2[getHandicapRangeIndex(Number(mN1Handicap))][look_up_stroke];
-    console.log(table2_value, table2[getHandicapRangeIndex(Number(mN1Handicap))][look_up_stroke], getHandicapRangeIndex(Number(mN1Handicap)), look_up_stroke)
-    const mN1AdjustedHandicap = mN1Handicap !== undefined && table1_value !== undefined && table2_value !== undefined
-    ? Number(mN1Handicap) - table1_value - table2_value
-    : undefined;    
-    const MNet1: any[] = [mN1Original, mN1Handicap, table1_value, table2_value, mN1AdjustedHandicap];
+    const MNet1 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_1, 0);
+    const MNet2 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_2, 1);
+    const MNet3 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_3, 2);
+    const MNet4 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_4, 3);
+    const MNet5 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_5, 4);
 
-    //M2
-    const mN2Original = eventsData[0].m_net_stroke_2;
-    const mN2Handicap = mN2Original.handicap.at(-1);
-    const mN2table1_value = table1[1][getHandicapRangeIndex(Number(mN2Handicap))];
-    const mN2Round = allRounds.find((round) => round._id === mN2Original?._id);
-    const mN2TotalScore = mN2Round?.totalScore;
-    const mN2look_up_stroke = mN2TotalScore !== undefined && mN2Handicap !== undefined
-    ? -1 * (mN2TotalScore - mN2Handicap - 72)
-    : 0;
-    const mN2table2_value = table2[getHandicapRangeIndex(Number(mN2Handicap))][mN2look_up_stroke];
-    const mN2AdjustedHandicap = mN2Handicap !== undefined && mN2table1_value !== undefined && mN2table2_value !== undefined
-    ? Number(mN2Handicap) - mN2table1_value - mN2table2_value
-    : undefined;    
-    const MNet2: any[] = [mN2Original, mN2Handicap, mN2table1_value, mN2table2_value, mN2AdjustedHandicap];
+    const WNet1 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_1, 0);
+    const WNet2 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_2, 1);
 
-    //M3
-    const MNet3: any[] = [eventsData[0].m_net_stroke_3];
-    const MNet4: any[] = [eventsData[0].m_net_stroke_4];
-    const MNet5: any[] = [eventsData[0].m_net_stroke_5];
-
-    const WNet1: any[] = [eventsData[0].w_net_stroke_1];
-    const WNet2: any[] = [eventsData[0].w_net_stroke_2];
     // Update state with sorted rankings
     setMStrokeWinner(MWinner);
     setWStrokeWinner(WWinner);
@@ -367,8 +392,8 @@ export default function EventsView() {
     setMNet5Winner(MNet5);
     setWNet1Winner(WNet1);
     setWNet2Winner(WNet2);
-    setNewStrokeList(NewMemberRounds);
-  };
+    setNewStrokeList(adjustedNewMember);
+    };
 
   const handleSelectMenu = (menu: string) => {
     console.log("Selected menu:", menu);
@@ -915,11 +940,11 @@ return (
                             <div className="grid grid-cols-4 gap-4">
                                 <p className="font-bold text-blue-800">{MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})</p> 
                                 <p className="font-bold text-blue-800">{MNet2Winner[0].name} ({MNet2Winner[1]}) - {MNet2Winner[2]} - {MNet2Winner[3]} = ({MNet2Winner[4]})</p> 
-                                <p className="font-bold text-blue-800">{MNet3Winner[0].name}</p>
-                                <p className="font-bold text-blue-800">{MNet4Winner[0].name}</p>
-                                <p className="font-bold text-blue-800">{MNet5Winner[0].name}</p>
-                                <p className="font-bold text-red-800">{WNet1Winner[0].name}</p>
-                                <p className="font-bold text-red-800">{WNet2Winner[0].name}</p>
+                                <p className="font-bold text-blue-800">{MNet3Winner[0].name} ({MNet3Winner[1]}) - {MNet3Winner[2]} - {MNet3Winner[3]} = ({MNet3Winner[4]})</p> 
+                                <p className="font-bold text-blue-800">{MNet4Winner[0].name} ({MNet4Winner[1]}) - {MNet4Winner[2]} - {MNet4Winner[3]} = ({MNet4Winner[4]})</p> 
+                                <p className="font-bold text-blue-800">{MNet5Winner[0].name} ({MNet5Winner[1]}) - {MNet5Winner[2]} - {MNet5Winner[3]} = ({MNet5Winner[4]})</p>
+                                <p className="font-bold text-red-800">{WNet1Winner[0].name} ({WNet1Winner[1]}) - {WNet1Winner[2]} - {WNet1Winner[3]} = ({WNet1Winner[4]})</p> 
+                                <p className="font-bold text-red-800">{WNet2Winner[0].name} ({WNet2Winner[1]}) - {WNet2Winner[2]} - {WNet2Winner[3]} = ({WNet2Winner[4]})</p>
                             </div>
                         </div>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
@@ -927,17 +952,19 @@ return (
                           <h3 className="text-left text-ml mb-2 text-purple-800">照表二調稈，下列新會員將成爲正式會員 （移除⭐)</h3>
                           {NewstrokeList.length > 0 ? (
                             <div className="grid grid-cols-4 gap-4">
-                              {NewstrokeList.map((player, idx) => (
-                                <div
-                                  key={idx}
-                                  className={`mt-2 ${
-                                    player.sex === "Male" ? "font-bold text-blue-800" : "font-bold text-red-800"
-                                  }`}
-                                >
-                                  {player.name} ({player.handicap})
-                                  {player.is_new ? "⭐" : ""}
-                                </div>
-                              ))}
+                              {NewstrokeList.map((item, idx) => {
+                                const [member, handicap, value, adjusted] = item.result;
+                                return (
+                                  <div
+                                    key={idx}
+                                    className={`mt-2 ${
+                                      member.sex === "Male" ? "font-bold text-blue-800" : "font-bold text-red-800"
+                                    }`}
+                                  >
+                                    {member.name} {member.is_new && "⭐"} ({handicap}) - {value} = ({adjusted})
+                                  </div>
+                                );
+                              })}
                             </div>
                           ) : (
                             <p className="text-gray-600">無調稈數據</p>
