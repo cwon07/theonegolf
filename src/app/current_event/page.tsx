@@ -88,13 +88,14 @@ export default function EventsView() {
   const [WNet2Winner, setWNet2Winner] = useState<any[]>([]); // State for rankings
   const [NewstrokeList, setNewStrokeList] = useState<any[]>([]); // State for rankings
   const [showRankings, setShowRankings] = useState(false);
-  const [showAwards, setShowAwards] = useState(true);
+  const [showAwards, setShowAwards] = useState(false);
   const [showStrokes, setShowStrokes] = useState(false);
   const [showRankingsNet, setShowRankingsNet] = useState(false);
   const router = useRouter();
   const [groupIndexInput, setGroupIndexInput] = useState(''); // For group ID input
   const [memberId, setMemberId] = useState(''); // For member ID input
   const [message, setMessage] = useState(''); // For success/error feedback
+
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -138,28 +139,28 @@ export default function EventsView() {
   }, []);
 
   const handleToggle = () => {    
-    setShowRankings((prev) => !prev);
+    setShowRankings(true);
     setShowRankingsNet(false);
     setShowAwards(false);
     setShowStrokes(false);
   };
 
   const handleToggleNet = () => { 
-    setShowRankingsNet((prev) => !prev);
+    setShowRankingsNet(true);
     setShowRankings(false);
     setShowAwards(false);
     setShowStrokes(false);
   };
 
   const handleToggleAward = () => { 
-    setShowAwards((prev) => !prev);
+    setShowAwards(true);
     setShowRankings(false);
     setShowRankingsNet(false);
     setShowStrokes(false);
   };
 
   const handleToggleStroke = () => {    
-    setShowStrokes((prev) => !prev);
+    setShowStrokes(true);
     setShowRankings(false);
     setShowRankingsNet(false);
     setShowAwards(false);    
@@ -607,30 +608,30 @@ return (
                   <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
                   {event.is_tourn && (
                     <div className="flex flex-wrap gap-2">
-                      <button
-                        onClick={handleToggleAward}
-                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
-                      >
-                        {showAwards ? "顯示得獎名單" : "隱藏得獎名單"}
-                      </button>
-                      <button
-                        onClick={handleToggleStroke}
-                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
-                      >
-                        {showStrokes ? "隱藏調桿一覽" : "顯示調桿一覽"}
-                      </button>
-                      <button
-                        onClick={handleToggle}
-                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
-                      >
-                        {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
-                      </button>
+                          <button
+                            onClick={handleToggleAward}
+                            className="px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"
+                          >
+                           得獎名單
+                          </button>
+                        <button
+                          onClick={handleToggleStroke}
+                          className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
+                        >
+                          調桿一覽
+                        </button>
+                        <button
+                          onClick={handleToggle}
+                          className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
+                        >
+                          總桿排名
+                        </button>
                       <button
                         onClick={handleToggleNet}
                         className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
                       >
-                        {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
-                      </button>                      
+                        净桿排名
+                      </button>
                       {adminName && (
                         <button
                           onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
