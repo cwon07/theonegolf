@@ -614,7 +614,7 @@ return (
                             className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
                               showStrokes ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
                             }`}                          >
-                            {showStrokes ? "隱藏調稈一覽" : "顯示調稈一覽"}
+                            {showStrokes ? "隱藏調桿一覽" : "顯示調桿一覽"}
                           </button>
                           {adminName && (
                             <button
@@ -634,7 +634,7 @@ return (
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
                       <div className="grid grid-cols-2 gap-4">
                       <div className="flex items-center gap-2">
-                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男）:</p>
+                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士）:</p>
                           {event.m_total_stroke ? (
                             <span className="flex items-center gap-2">
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -648,7 +648,7 @@ return (
                         </div>
 
                           <div className="flex items-center gap-2">
-                          <p className="text-red-800 font-bold">冠軍 (女）: </p>
+                          <p className="text-red-800 font-bold">冠軍 (女士）: </p>
                           {event.w_total_stroke ? (
                             <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -669,7 +669,7 @@ return (
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">遠桿獎</h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="flex items-center gap-2">
-                          <p className="text-blue-800 font-bold">遠桿獎 (男): </p>
+                          <p className="text-blue-800 font-bold">遠桿獎 (男士): </p>
                           {event.m_long_drive ? (
                             <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -683,7 +683,7 @@ return (
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                          <p className="text-red-800 font-bold">遠桿獎 (女): </p>
+                          <p className="text-red-800 font-bold">遠桿獎 (女士): </p>
                           {event.w_long_drive ? (
                             <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -707,7 +707,7 @@ return (
                           {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => (
                             <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
                               <span className="font-bold">
-                                {["冠軍 (男)", "亞軍 (男)", "季軍 (男)", "殿軍 (男)", "老五 (男)"][i]}:
+                                {["冠軍 (男士)", "亞軍 (男士)", "季軍 (男士)", "殿軍 (男士)", "老五 (男士)"][i]}:
                               </span>{" "}
                               {
                               <span className="flex items-center gap-2">
@@ -724,7 +724,7 @@ return (
                           {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => (
                             <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
                               <span className="font-bold">
-                                {["冠軍 (女)", "亞軍 (女)"][i]}:
+                                {["冠軍 (女士)", "亞軍 (女士)"][i]}:
                               </span>{" "}
                               <span className="flex items-center gap-2">
                                 <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -745,7 +745,7 @@ return (
                         <div>
                           {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => (
                             <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
-                              <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男):</span>{" "}
+                              <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
                               <span className="flex items-center gap-2">
                                 <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                   {event[key].id}
@@ -758,7 +758,7 @@ return (
                         <div>
                           {["w_close_pin_7", "w_close_pin_12"].map((key, i) => (
                             <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">第{[" 7", "12"][i]}洞 (男):</span>{" "}
+                            <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
                             <span className="flex items-center gap-2">
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {event[key].id}
@@ -777,7 +777,7 @@ return (
                       <div className="text-blue-800">
                       <div className="flex items-center gap-2">
                         <span className="font-bold">
-                          <span className="text-purple-700">近中獎 <span className="text-green-700">(長青)</span></span>:
+                          <span className="text-purple-700">近中獎 <span className="text-green-700">(長青男士)</span></span>:
                         </span>{" "}
                         <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -794,7 +794,7 @@ return (
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">BB獎</h4>
                       <div className="grid grid-cols-2 gap-4">
                           <div className="flex items-center gap-2">
-                          <p className="text-blue-800 font-bold">BB獎 (男): </p>
+                          <p className="text-blue-800 font-bold">BB獎 (男士): </p>
                           {event.m_bb ? (
                             <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -808,7 +808,7 @@ return (
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                          <p className="text-red-800 font-bold">BB獎 (女): </p>
+                          <p className="text-red-800 font-bold">BB獎 (女士): </p>
                           {event.w_bb ? (
                             <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -928,18 +928,18 @@ return (
                 {/* handicap adjustment */}
                 {showStrokes && (
                 <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
-                      <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調稈一覽</h4>
+                      <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調稈</h4>
-                          <h3 className="text-left text-ml mb-2 text-purple-800">冠軍調一稈</h3>
+                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
+                          <h3 className="text-left text-ml mb-2 text-purple-800">冠軍調一桿</h3>
                             <div className="grid grid-cols-2 gap-4">
                               <p className="font-bold text-blue-800">{MStrokeWinner[0].name} ({MStrokeWinner[1]}) - 1 = ({MStrokeWinner[2]})</p> 
                               <p className="font-bold text-red-800">{WStrokeWinner[0].name} ({WStrokeWinner[1]}) - 1 = ({WStrokeWinner[2]})</p> 
                             </div>
                         </div>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調稈</h4>
-                        <h3 className="text-left text-ml mb-2 text-purple-800">照表一&表二調稈 (請看差點調整詳解)</h3>
+                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調桿</h4>
+                        <h3 className="text-left text-ml mb-2 text-purple-800">照表一&表二調桿 (請看差點調整詳解)</h3>
                         <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
                             <div className="grid grid-cols-4 gap-4">
                                 <p className="font-bold text-blue-800">{MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})</p> 
@@ -952,8 +952,8 @@ return (
                             </div>
                         </div>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調稈</h4>
-                          <h3 className="text-left text-ml mb-2 text-purple-800">照表二調稈，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
+                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
+                          <h3 className="text-left text-ml mb-2 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
                           <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
                           {NewstrokeList.length > 0 ? (
                             <div className="grid grid-cols-4 gap-4">
@@ -972,7 +972,7 @@ return (
                               })}
                             </div>
                           ) : (
-                            <p className="text-gray-600">無調稈數據</p>
+                            <p className="text-gray-600">無調桿數據</p>
                           )}
                         </div>                
                 </div>

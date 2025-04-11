@@ -32,12 +32,12 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-purple-700 mb-4">本年度差點調整規則</h2>
             <ul className="text-xl list-none space-y-4">
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
-                得總稈冠軍者，不論男女，調一稈
+                得總桿冠軍者，不論男女，調一桿
               </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如無參照差點 (完全新手) 則直接以 35 計算 </li>
-              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 如果已有USGA或其他俱樂部正式差點，經過委員會同意則可以直接采用 (第一場比賽仍需照新會員規則調稈一次) </li>
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 如果已有USGA或其他俱樂部正式差點，經過委員會同意則可以直接採用 (第一場比賽仍需照新會員規則調桿一次) </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
-                净稈得獎者，不論男女，照以下表格條稈
+                净桿得獎者，不論男女，照以下表格調桿
               </li>
               
               <div className="mt-8">
@@ -110,7 +110,7 @@ export default function Home() {
                 <table className="text-black table-auto border-collapse border border-gray-300 w-full mb-8">
                 <thead>
                   <tr className="text-blue-800">
-                    <th className="border border-gray-300 p-1 w-16">差點 \ 差稈</th>
+                    <th className="border border-gray-300 p-1 w-16">差點 \ 差桿</th>
                     <th className="border border-gray-300 p-1 w-2">1</th>
                     <th className="border border-gray-300 p-1 w-2">2</th>
                     <th className="border border-gray-300 p-1 w-2">3</th>
@@ -220,19 +220,19 @@ export default function Home() {
               </table>
               </div>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
-                <p className="text-blue-500"> 調稈例子 1</p> 
-                <p>差點18，第二名，總稈83</p>
+                <p className="text-blue-500"> 調桿例子 1</p> 
+                <p>差點18，第二名，總桿83</p>
                 <p>18 - 2 (第一表格) - 4 (第二表格) = 12 （新差點）</p>
               </li>
 
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
-                <p className="text-blue-500"> 調稈例子 2</p> 
-                <p>差點32，第1名，總稈83</p>
+                <p className="text-blue-500"> 調桿例子 2</p> 
+                <p>差點32，第1名，總桿83</p>
                 <p>32 - 5 (第一表格) - 21 (第二表格,如爆表將按照現有表格進行推算) = 6 （新差點）</p>
               </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
-                <p className="text-blue-500"> 新會員調稈例子</p> 
-                <p>差點34，總稈92</p>
+                <p className="text-blue-500"> 新會員調桿例子</p> 
+                <p>差點34，總桿92</p>
                 <p>34 - 14 (第二表格,如報表將按照現有表格推算) = 20 （新差點）</p>
               </li>            
             </ul>
@@ -247,7 +247,7 @@ export default function Home() {
                 <p>新年度差點 = (差點 1+差點 2) / 2</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-                最好與最差，最多相差9稈，如超過則以9稈計算
+                最好與最差，最多相差9桿，如超過則以9桿計算
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
                 差點超過26桿，最好最差不以9桿為限 （可超過）
