@@ -139,18 +139,30 @@ export default function EventsView() {
 
   const handleToggle = () => {    
     setShowRankings((prev) => !prev);
+    setShowRankingsNet(false);
+    setShowAwards(false);
+    setShowStrokes(false);
   };
 
   const handleToggleNet = () => { 
     setShowRankingsNet((prev) => !prev);
+    setShowRankings(false);
+    setShowAwards(false);
+    setShowStrokes(false);
   };
 
   const handleToggleAward = () => { 
     setShowAwards((prev) => !prev);
+    setShowRankings(false);
+    setShowRankingsNet(false);
+    setShowStrokes(false);
   };
 
   const handleToggleStroke = () => {    
     setShowStrokes((prev) => !prev);
+    setShowRankings(false);
+    setShowRankingsNet(false);
+    setShowAwards(false);    
   };
 
   const calculateRankings = (eventsData: Event[]) => {
