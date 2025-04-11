@@ -99,8 +99,7 @@ export default function Home() {
                   <li>4. 前九洞比分</li>
                 </ul>
                 <p className="font-bold text-black">新會員第一次參加比賽，淨桿獎不予計算并以此次比賽桿數進行新會員調桿</p>
-                <p className="font-bold text-black">新會員第二次參加比賽，可得淨桿獎，然後需照規矩調桿</p>
-                <p className="font-bold text-black">新會員第二次參加比賽將去除 ”新“ 頭銜，成爲常規會員</p>
+                <p className="font-bold text-black">新會員第一次參加比賽之後將去除 ”新“ 頭銜，成爲常規會員</p>
                 
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">

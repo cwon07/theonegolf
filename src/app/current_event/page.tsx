@@ -937,6 +937,7 @@ return (
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
                         <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調稈</h4>
                         <h3 className="text-left text-ml mb-2 text-purple-800">照表一&表二調稈 (請看差點調整詳解)</h3>
+                        <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
                             <div className="grid grid-cols-4 gap-4">
                                 <p className="font-bold text-blue-800">{MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})</p> 
                                 <p className="font-bold text-blue-800">{MNet2Winner[0].name} ({MNet2Winner[1]}) - {MNet2Winner[2]} - {MNet2Winner[3]} = ({MNet2Winner[4]})</p> 
@@ -949,7 +950,8 @@ return (
                         </div>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
                           <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調稈</h4>
-                          <h3 className="text-left text-ml mb-2 text-purple-800">照表二調稈，下列新會員將成爲正式會員 （移除⭐)</h3>
+                          <h3 className="text-left text-ml mb-2 text-purple-800">照表二調稈，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
+                          <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
                           {NewstrokeList.length > 0 ? (
                             <div className="grid grid-cols-4 gap-4">
                               {NewstrokeList.map((item, idx) => {
