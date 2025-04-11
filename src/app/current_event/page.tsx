@@ -609,33 +609,25 @@ return (
                     <div className="flex flex-wrap gap-2">
                       <button
                         onClick={handleToggleAward}
-                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                          showAwards ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                        }`}
+                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
                       >
                         {showAwards ? "顯示得獎名單" : "隱藏得獎名單"}
                       </button>
                       <button
                         onClick={handleToggleStroke}
-                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                          showStrokes ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                        }`}
+                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
                       >
                         {showStrokes ? "隱藏調桿一覽" : "顯示調桿一覽"}
                       </button>
                       <button
                         onClick={handleToggle}
-                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                          showRankings ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                        }`}
+                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
                       >
                         {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
                       </button>
                       <button
                         onClick={handleToggleNet}
-                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                          showRankingsNet ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                        }`}
+                        className={"px-4 py-1 rounded h-10 text-white transition-colors duration-300 bg-blue-500"}
                       >
                         {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
                       </button>                      
