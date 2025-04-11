@@ -103,8 +103,8 @@ export default function Home() {
                 
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md text-black">
-              <span className="font-bold text-purple-600"> 遠桿獎 </span> （<span className="font-bold text-blue-800">男</span>&
-                <span className="font-bold text-red-800">女</span>）
+              <span className="font-bold text-purple-600"> 遠桿獎 </span> （<span className="font-bold text-blue-800">男士</span>&
+                <span className="font-bold text-red-800">女士</span>）
                 <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
                 <p className="font-bold text-black"> 遠桿獎一年一次為限, 男女分開計算</p>
               </li>
