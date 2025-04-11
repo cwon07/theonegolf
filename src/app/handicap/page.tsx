@@ -40,7 +40,7 @@ export default function Home() {
                 净桿得獎者，不論男女，照以下表格調桿
               </li>
               
-              <div className="mt-8">
+              <div className="mt-8 overflow-x-auto">
                 {/* First Table (7 rows, 6 columns) */}
                 <table className="text-black table-auto border-collapse border border-black w-full mb-8">
                 <thead>
@@ -105,7 +105,7 @@ export default function Home() {
               </table>
               </div>
               
-              <div className="mt-8">
+              <div className="mt-8 overflow-x-auto">
                 {/* First Table (7 rows, 6 columns) */}
                 <table className="text-black table-auto border-collapse border border-gray-300 w-full mb-8">
                 <thead>

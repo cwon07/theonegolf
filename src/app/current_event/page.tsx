@@ -703,12 +703,9 @@ return (
                   )}
                 </div>
                 
-                <div className="mt-4">
-                  {event.is_tourn && showAwards && (
+              <div className="mt-4 overflow-x-auto">
+                {event.is_tourn && showAwards && (
                     <div className="text-gray-800 mt-4">
-                      <div className="flex items-center justify-between w-full">
-                        <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>                    
-                      </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
 
@@ -716,7 +713,7 @@ return (
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
                       <div className="grid grid-cols-2 gap-4">
-                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2">
                           <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士）:</p>
                           {event.m_total_stroke ? (
                             <span className="flex items-center gap-2">
@@ -1009,6 +1006,7 @@ return (
                   </div>
                   </div> 
                 )}
+              
 
                 {showStrokes && (
                   <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
@@ -1060,33 +1058,30 @@ return (
                             )}
                           </div>                
                     </div>
-                  )}
-                
-                  {/* handicap adjustment */}
-                      {showRankings && (
-                        <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                          <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
-                          <h2 className="font-bold text-medium text-purple-800">總桿同桿決勝規則優先排序：</h2>
-                          <h1 className="font-bold text-medium text-purple-800">1. 差點高者 2. 後九洞 3. 年長者 </h1>
-                          {rankingsMale.length > 0 || rankingsFemale.length > 0 ? (
-                            <div className="mt-4">
-                              {/* Header Row */}
-                              <div className="grid grid-cols-2 gap-4">
-                                {/* Male Header */}
-                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                )}
+
+              {/* handicap adjustment */}
+                {showRankings && (
+                  <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                    <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
+                    <h2 className="font-bold text-medium text-purple-800">總桿同桿決勝規則優先排序：</h2>
+                    <h1 className="font-bold text-medium text-purple-800">1. 差點高者 2. 後九洞 3. 年長者 </h1>
+                    {rankingsMale.length > 0 || rankingsFemale.length > 0 ? (
+                      <div className="mt-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
                                   <span>[ID] 姓名 (差點)</span>
                                   <span>前9洞</span>
                                   <span>後9洞</span>
                                   <span>總成績</span>                                  
-                                </div>
-                                {/* Female Header */}
-                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                          </div>
+                          <div className="grid grid-cols-[2fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
                                   <span>[ID] 姓名 (差點)</span>
                                   <span>前9洞</span>
                                   <span>後9洞</span>
                                   <span>總成績</span>                                  
-                                </div>
-                              </div>
+                          </div>
+                        </div>
 
                               {/* Rankings Data */}
                               <div className="grid grid-cols-2 gap-4 mt-2">
@@ -1141,8 +1136,7 @@ return (
                             <p className="text-gray-600">無完整成績數據可供排名</p>
                           )}
                         </div>
-                      )}
-
+                )}
                       {showRankingsNet && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                           <h4 className="font-bold text-lg text-blue-800">當前净桿排名</h4>
@@ -1225,13 +1219,11 @@ return (
                             <p className="text-gray-600">無完整成績數據可供排名</p>
                           )}
                         </div>
-                      )}                      
-                    </div>                  
+                      )}                                     
                 
                 {/* Render Groups in 3 columns */}
                 {showGroups && event.groups && event.groups.length > 0 && (
                   <div className="text-black mt-4">
-                    <h3 className="font-semibold text-lg text-blue-800">球員分組 & 開球時間</h3>
                     {adminName && (
                     <div>
                       <div className="flex items-center space-x-2">
@@ -1351,6 +1343,7 @@ return (
                     </div>
                   </div>
                 )}
+              </div>
               </div>
             ))}
           </div>
