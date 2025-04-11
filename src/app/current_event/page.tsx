@@ -88,6 +88,7 @@ export default function EventsView() {
   const [WNet2Winner, setWNet2Winner] = useState<any[]>([]); // State for rankings
   const [NewstrokeList, setNewStrokeList] = useState<any[]>([]); // State for rankings
   const [showRankings, setShowRankings] = useState(false);
+  const [showAwards, setShowAwards] = useState(true);
   const [showStrokes, setShowStrokes] = useState(false);
   const [showRankingsNet, setShowRankingsNet] = useState(false);
   const router = useRouter();
@@ -142,6 +143,10 @@ export default function EventsView() {
 
   const handleToggleNet = () => { 
     setShowRankingsNet((prev) => !prev);
+  };
+
+  const handleToggleAward = () => { 
+    setShowAwards((prev) => !prev);
   };
 
   const handleToggleStroke = () => {    
@@ -586,48 +591,62 @@ return (
                   eventIndex === events.length - 1 ? "" : "border-b border-gray-300 pb-4"
                 }`}
               >
-                <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
-
-                {/* Toggle for additional event details */}
-                <div className="mt-4">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
                   {event.is_tourn && (
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={handleToggleAward}
+                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                          showAwards ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                        }`}
+                      >
+                        {showAwards ? "顯示得獎名單" : "隱藏得獎名單"}
+                      </button>
+                      <button
+                        onClick={handleToggleStroke}
+                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                          showStrokes ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                        }`}
+                      >
+                        {showStrokes ? "隱藏調桿一覽" : "顯示調桿一覽"}
+                      </button>
+                      <button
+                        onClick={handleToggle}
+                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                          showRankings ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                        }`}
+                      >
+                        {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
+                      </button>
+                      <button
+                        onClick={handleToggleNet}
+                        className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
+                          showRankingsNet ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
+                        }`}
+                      >
+                        {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
+                      </button>                      
+                      {adminName && (
+                        <button
+                          onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
+                          className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
+                        >
+                          記錄得獎名單
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-4">
+                  {event.is_tourn && showAwards && (
                     <div className="text-gray-800 mt-4">
-                     <div className="flex items-center justify-between w-full">
-                        <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={handleToggle}
-                            className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                              showRankings ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                            }`}                               >
-                            {showRankings ? "隱藏總桿排名" : "顯示總桿排名"}
-                          </button>
-                          <button
-                            onClick={handleToggleNet}
-                            className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                              showRankingsNet ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                            }`}                               >
-                            {showRankingsNet ? "隱藏净桿排名" : "顯示净桿排名"}
-                          </button>
-                          <button
-                            onClick={handleToggleStroke}
-                            className={`px-4 py-1 rounded h-10 text-white transition-colors duration-300 ${
-                              showStrokes ? "bg-blue-800 hover:bg-blue-500" : "bg-blue-500 hover:bg-blue-800"
-                            }`}                          >
-                            {showStrokes ? "隱藏調桿一覽" : "顯示調桿一覽"}
-                          </button>
-                          {adminName && (
-                            <button
-                              onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
-                              className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
-                            >
-                              記錄得獎名單
-                            </button>
-                          )}
-                        </div>
+                      <div className="flex items-center justify-between w-full">
+                        <h3 className="font-semibold text-lg text-yellow-600">月賽得獎名單</h3>                    
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
 
                     {/* 總桿獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
@@ -924,10 +943,11 @@ return (
                       </div>
                     </div>                      
                   </div>
+                  </div> 
+                )}
 
-                {/* handicap adjustment */}
                 {showStrokes && (
-                <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
+                  <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
                       <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
                         <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                           <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
@@ -951,34 +971,34 @@ return (
                                 <p className="font-bold text-red-800">{WNet2Winner[0].name} ({WNet2Winner[1]}) - {WNet2Winner[2]} - {WNet2Winner[3]} = ({WNet2Winner[4]})</p>
                             </div>
                         </div>
-                        <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
-                          <h3 className="text-left text-ml mb-2 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
-                          <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
-                          {NewstrokeList.length > 0 ? (
-                            <div className="grid grid-cols-4 gap-4">
-                              {NewstrokeList.map((item, idx) => {
-                                const [member, handicap, value, adjusted] = item.result;
-                                return (
-                                  <div
-                                    key={idx}
-                                    className={`mt-2 ${
-                                      member.sex === "Male" ? "font-bold text-blue-800" : "font-bold text-red-800"
-                                    }`}
-                                  >
-                                    {member.name} {member.is_new && "⭐"} ({handicap}) - {value} = ({adjusted})
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          ) : (
-                            <p className="text-gray-600">無調桿數據</p>
-                          )}
-                        </div>                
-                </div>
-                )}
-
-
+                          <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                            <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
+                            <h3 className="text-left text-ml mb-2 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
+                            <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
+                            {NewstrokeList.length > 0 ? (
+                              <div className="grid grid-cols-4 gap-4">
+                                {NewstrokeList.map((item, idx) => {
+                                  const [member, handicap, value, adjusted] = item.result;
+                                  return (
+                                    <div
+                                      key={idx}
+                                      className={`mt-2 ${
+                                        member.sex === "Male" ? "font-bold text-blue-800" : "font-bold text-red-800"
+                                      }`}
+                                    >
+                                      {member.name} {member.is_new && "⭐"} ({handicap}) - {value} = ({adjusted})
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              <p className="text-gray-600">無調桿數據</p>
+                            )}
+                          </div>                
+                    </div>
+                  )}
+                
+                  {/* handicap adjustment */}
                       {showRankings && (
                         <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                           <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
@@ -1143,9 +1163,7 @@ return (
                         </div>
                       )}                      
                     </div>                  
-                  )}
-                </div>
-
+                
                 {/* Render Groups in 3 columns */}
                 {event.groups && event.groups.length > 0 && (
                   <div className="text-black mt-4">
