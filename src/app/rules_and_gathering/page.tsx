@@ -127,17 +127,17 @@ export default function Home() {
               <p className="font-bold text-black">同一個比賽可重複得獎</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-              <span className="font-bold text-purple-600">Birdie (不限次數)</span>
+              <span className="font-bold text-purple-600">Birdie 小鳥 (不限次數)</span>
               <p className="font-bold text-yellow-600"> 獎勵：球（1條）</p>
               <p className="font-bold text-black">同一個比賽最多18個</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-              <span className="font-bold text-purple-600"> Eagle (不限次數)</span>
+              <span className="font-bold text-purple-600"> Eagle 老鷹 (不限次數)</span>
               <p className="font-bold text-yellow-600"> 獎勵：球（2條）</p>
               <p className="font-bold text-black">超過三個算你厲害</p>
               </li>
               <li className="bg-gray-100 p-4 rounded-md shadow-md">
-              <span className="font-bold text-purple-600">Albatrose (不限次數)</span>
+              <span className="font-bold text-purple-600">Albatrose 信天翁 (不限次數)</span>
               <p className="font-bold text-yellow-600"> 獎勵：球（3條）</p>
               <p className="font-bold text-black">本俱樂部成立以來沒人得過</p>
               </li>
