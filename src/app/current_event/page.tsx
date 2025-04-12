@@ -709,9 +709,8 @@ return (
                 
               <div className="mt-4 overflow-x-auto">
                 {event.is_tourn && showAwards && (
-                    <div className="text-gray-800 mt-4">
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
+                <div className="text-gray-800 mt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
 
                     {/* 總桿獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
@@ -1090,8 +1089,8 @@ return (
 
                 
 
-              {/* total stroke ranking */}
-              {showRankings && (
+            {/* total stroke ranking */}
+            {showRankings && (
               <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                 <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
                 <h2 className="font-bold text-base text-purple-800">總桿同桿決勝規則優先排序：</h2>
@@ -1165,101 +1164,95 @@ return (
                         ))}
                       </div>
                     </div>
-                  )}
-                </div>
-              ) : (
-                <p className="text-gray-600">無完整成績數據可供排名</p>
-              )}
-
-                
-
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-gray-600">無完整成績數據可供排名</p>
+                )}
               </div>
             )}
-  
 
-                      {showRankingsNet && (
-                        <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                          <h4 className="font-bold text-lg text-blue-800">當前净桿排名</h4>
-                          <h2 className="font-bold text-medium text-purple-800">净桿同桿決勝規則優先排序：</h2>
-                          <h1 className="font-bold text-medium text-purple-800">1. 差點低者 2. 年長者 3. 後九洞 4. 前九洞</h1>
-                          {rankingsMaleNet.length > 0 || rankingsFemaleNet.length > 0 ? (
-                            <div className="mt-4">
-                              {/* Header Row */}
-                              <div className="grid grid-cols-2 gap-4">
-                                {/* Male Header */}
-                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                  <span>[ID] 姓名 (差點)</span>
-                                  <span>前9洞</span>
-                                  <span>後9洞</span>
-                                  <span>總成績</span>
-                                  <span>净成績</span>
-                                </div>
-                                {/* Female Header */}
-                                <div className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                  <span>[ID] 姓名 (差點)</span>
-                                  <span>前9洞</span>
-                                  <span>後9洞</span>
-                                  <span>總成績</span>
-                                  <span>净成績</span>
-                                </div>
-                              </div>
+            {showRankingsNet && (
+              <div className="mt-4 p-4 border rounded-lg bg-gray-50">
+                <h4 className="font-bold text-lg text-blue-800">當前净桿排名</h4>
+                <h2 className="font-bold text-base text-purple-800">净桿同桿決勝規則優先排序：</h2>
+                <h1 className="font-bold text-base text-purple-800">1. 差點低者 2. 年長者 3. 後九洞 4. 前九洞</h1>
 
-                              {/* Rankings Data */}
-                              <div className="grid grid-cols-2 gap-4 mt-2">
-                                {/* Male Rankings */}
-                                <div>
-                                  {rankingsMaleNet.map((player, idx) => (
-                                    <div key={idx} className="mt-2">
-                                      <ul className="list-none space-y-1">
-                                        <li className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
-                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-800" : "text-red-800"}`}>
-                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                              {player.id}
-                                            </span>{" "}
-                                            {player.name} ({player.handicap}){player.is_new ? "⭐" : ""}
-                                          </span>
-                                          <span className="text-left w-16">{player.front_9}</span>
-                                          <span className="text-left w-16">{player.back_9}</span>
-                                          <span className="text-left w-16">{player.totalScore}</span>
-                                          <span className="text-left w-16 font-bold text-xl text-blue-800">
-                                            {player.netScore}  {/* Changed from NetScore to netScore */}
-                                          </span>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  ))}
-                                </div>
+                {(rankingsMaleNet.length > 0 || rankingsFemaleNet.length > 0) ? (
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">                  
+                  {/* Male Section */}
+                  {rankingsMaleNet.length > 0 && (
+                    <div>
+                      <div className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left text-sm">
+                        <span>[ID] 姓名 (差點)</span>
+                        <span>前9洞</span>
+                        <span>後9洞</span>
+                        <span>總成績</span>
+                      </div>
+                      <div className="mt-2 space-y-1">
+                        {rankingsMaleNet.map((player, idx) => (
+                          <li
+                            key={idx}
+                            className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 text-sm sm:text-base"
+                          >
+                            <span
+                              className={`font-bold text-left ${
+                                player.sex === 'Male' ? 'text-blue-800' : 'text-red-800'
+                              }`}
+                            >
+                              <span className="px-1.5 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-md">
+                                {player.id}
+                              </span>{' '}
+                              {player.name} ({player.handicap}){player.is_new ? '⭐' : ''}
+                            </span>
+                            <span className="text-left">{player.front_9}</span>
+                            <span className="text-left">{player.back_9}</span>
+                            <span className="text-left font-bold text-blue-800">{player.netScore}</span>
+                          </li>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                                {/* Female Rankings */}
-                                <div>
-                                  {rankingsFemaleNet.map((player, idx) => (
-                                    <div key={idx} className="mt-2">
-                                      <ul className="list-none space-y-1">
-                                        <li className="grid grid-cols-[2fr,1fr,1fr,1fr,1fr] border-b pb-1 text-gray-800">
-                                          <span className={`font-bold text-left ${player.sex === "Male" ? "text-blue-800" : "text-red-800"}`}>
-                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                              {player.id}
-                                            </span>{" "}
-                                            {player.name} ({player.handicap}){player.is_new ? "⭐" : ""}
-                                          </span>
-                                          <span className="text-left w-16">{player.front_9}</span>
-                                          <span className="text-left w-16">{player.back_9}</span>
-                                          <span className="text-left w-16">{player.totalScore}</span>
-                                          <span className="text-left w-16 font-bold text-xl text-blue-800">
-                                            {player.netScore}  {/* Changed from NetScore to netScore */}
-                                          </span>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          ) : (
-                            <p className="text-gray-600">無完整成績數據可供排名</p>
-                          )}
-                        </div>
-                      )}                                     
+                  {/* Female Section */}
+                  {rankingsFemaleNet.length > 0 && (
+                    <div>
+                      <div className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left text-sm">
+                        <span>[ID] 姓名 (差點)</span>
+                        <span>前9洞</span>
+                        <span>後9洞</span>
+                        <span>總成績</span>
+                      </div>
+                      <div className="mt-2 space-y-1">
+                        {rankingsFemaleNet.map((player, idx) => (
+                          <li
+                            key={idx}
+                            className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 text-sm sm:text-base"
+                          >
+                            <span
+                              className={`font-bold text-left ${
+                                player.sex === 'Male' ? 'text-blue-800' : 'text-red-800'
+                              }`}
+                            >
+                              <span className="px-1.5 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-md">
+                                {player.id}
+                              </span>{' '}
+                              {player.name} ({player.handicap}){player.is_new ? '⭐' : ''}
+                            </span>
+                            <span className="text-left">{player.front_9}</span>
+                            <span className="text-left">{player.back_9}</span>
+                            <span className="text-left font-bold text-blue-800">{player.netScore}</span>
+                          </li>
+                        ))}
+                      </div>
+                    </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-gray-600">無完整成績數據可供排名</p>
+                )}
+              </div>
+            )}                            
                 
                 {/* Render Groups in 3 columns */}
                 {showGroups && event.groups && event.groups.length > 0 && (
