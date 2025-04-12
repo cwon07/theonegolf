@@ -1229,122 +1229,143 @@ return (
                 {showGroups && event.groups && event.groups.length > 0 && (
                   <div className="text-black mt-4">
                     {adminName && (
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="text"
-                          value={groupIndexInput}
-                          onChange={(e) => setGroupIndexInput(e.target.value)}
-                          className="border border-gray-300 rounded px-2 py-1 h-10"
-                          placeholder="組別編號輸入 (例如: 1, 2, 3)"
-                        />
-                        <input
-                          type="text"
-                          value={memberId}
-                          onChange={(e) => setMemberId(e.target.value)}
-                          className="border border-gray-300 rounded px-2 py-1 h-10"
-                          placeholder="會員編號輸入"
-                        />
-                        <button
-                          onClick={handleMoveRound}
-                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10"
-                        >
-                          移動
-                        </button>
-                        <button
-                          onClick={handleAddRound}
-                          className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10"
-                        >
-                          新增
-                        </button>
-                        <button
-                          onClick={handleDeleteRound}
-                          className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 h-10"
-                        >
-                          刪除
-                        </button>
+                      <div>
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
+                          <input
+                            type="text"
+                            value={groupIndexInput}
+                            onChange={(e) => setGroupIndexInput(e.target.value)}
+                            className="border border-gray-300 rounded px-2 py-1 h-10 w-full sm:w-auto"
+                            placeholder="組別編號輸入 (例如: 1, 2, 3)"
+                          />
+                          <input
+                            type="text"
+                            value={memberId}
+                            onChange={(e) => setMemberId(e.target.value)}
+                            className="border border-gray-300 rounded px-2 py-1 h-10 w-full sm:w-auto"
+                            placeholder="會員編號輸入"
+                          />
+                          <button
+                            onClick={handleMoveRound}
+                            className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10 w-full sm:w-auto"
+                          >
+                            移動
+                          </button>
+                          <button
+                            onClick={handleAddRound}
+                            className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 h-10 w-full sm:w-auto"
+                          >
+                            新增
+                          </button>
+                          <button
+                            onClick={handleDeleteRound}
+                            className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 h-10 w-full sm:w-auto"
+                          >
+                            刪除
+                          </button>
+                        </div>
+                        {message && (
+                          <p className="text-sm text-red-500 mt-2">{message}</p>
+                        )}
                       </div>
-                      {message && (
-                        <p className="text-sm text-red-500 mt-2">{message}</p>
-                      )}
-                    </div>
                     )}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-                    {event.groups
-                        .slice() // Create a copy to avoid mutating the original array
-                        .sort((a: any, b: any) => a.time.localeCompare(b.time)) // Sort by time
-                        .map((group: any, groupIndex: number) => (
-                        <div
-                          key={group._id || `group-${event.event_id}-${groupIndex}`}
-                          className="p-4 border rounded-md shadow-sm bg-gray-50"
-                        >
-                          <div className="flex justify-between items-center">
-                            <div>
-                             <p className="font-bold text-lg text-blue-800">第 {groupIndex+1} 組</p>
-                              <p className="font-bold">日期: {group.date}</p>
-                              <p className="font-bold">Tee Time: {group.time}</p>
-                            </div>
-                            {adminName && `group-${event.event_id}-${groupIndex}` && (
-                              <button
-                                onClick={() => router.push(`/admin/update_group?groupId=${group._id}`)}
-                                className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-                              >
-                                球組更新
-                              </button>
-                            )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                  {event.groups
+                    .slice()
+                    .sort((a: any, b: any) => a.time.localeCompare(b.time))
+                    .map((group: any, groupIndex: number) => (
+                      <div
+                        key={group._id || `group-${event.event_id}-${groupIndex}`}
+                        className="p-4 border rounded-md shadow-sm bg-gray-50"
+                      >
+                        <div className="flex justify-between items-start gap-2 flex-wrap">
+                          <div>
+                            <p className="font-bold text-lg text-blue-800">第 {groupIndex + 1} 組</p>
+                            <p className="font-bold text-sm">日期: {group.date}</p>
+                            <p className="font-bold text-sm">Tee Time: {group.time}</p>
                           </div>
-
-                          {/* Render Rounds */}
-                          {group.rounds && group.rounds.length > 0 && (
-                            <div className="mt-4">
-                              <div className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                                <span>[ID] 姓名 (差點）</span>
-                                <span>前9洞</span>
-                                <span>後9洞</span>
-                                <span>總成績</span>
-                              </div>
-                              
-                              {group.rounds.map((round: any) => (
-                                <div
-                                  key={round._id || `round-${group._id}-${Math.random()}`}
-                                  className="mt-2"
-                                >
-                                  <ul className="list-none space-y-1">
-                                    {/* Render Member Data */}
-                                    {round.member && (
-                                      <li
-                                        key={round.member._id || `member-${round._id}-${Math.random()}`}
-                                        className="grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800"
-                                      >
-                                        {/* Conditional Styling for Member Name */}
-                                        <span
-                                          className={`font-bold text-left ${
-                                            round.member.sex === "Male" ? "text-blue-800" : "text-red-800"
-                                          }`}
-                                        >
-                                          <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                          {round.member.id}
-                                          </span> {round.member.name} ({round.member.handicap.at(-1)}){round.member.is_new ? "⭐" : ""}
-                                        </span>
-
-                                        {/* Scores with Alignment */}
-                                        <span className="text-left w-12">{round.front_9 ?? ""}</span>
-                                        <span className="text-left w-12">{round.back_9 ?? ""}</span>
-                                        <span className="text-left w-12 font-bold text-xl text-blue-800">
-                                          {round.front_9 && round.back_9
-                                            ? Number(round.front_9) + Number(round.back_9)
-                                            : ""}
-                                        </span>
-                                      </li>
-                                    )}
-                                  </ul>
-                                </div>
-                              ))}
-                            </div>
+                          {adminName && (
+                            <button
+                              onClick={() =>
+                                router.push(`/admin/update_group?groupId=${group._id}`)
+                              }
+                              className="mt-2 sm:mt-0 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm"
+                            >
+                              球組更新
+                            </button>
                           )}
                         </div>
-                      ))}
-                    </div>
+
+                        {/* Render Rounds */}
+                        {group.rounds && group.rounds.length > 0 && (
+                          <div className="mt-4">
+                            <div className="hidden sm:grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
+                              <span>[ID] 姓名 (差點）</span>
+                              <span>前9洞</span>
+                              <span>後9洞</span>
+                              <span>總成績</span>
+                            </div>
+
+                            {group.rounds.map((round: any) => (
+                              <div
+                                key={round._id || `round-${group._id}-${Math.random()}`}
+                                className="mt-2"
+                              >
+                                <ul className="list-none space-y-1">
+                                  {round.member && (
+                                    <li
+                                      key={round.member._id || `member-${round._id}-${Math.random()}`}
+                                      className="grid sm:grid-cols-[3fr,1fr,1fr,1fr] grid-cols-1 border-b pb-2 text-gray-800 gap-1"
+                                    >
+                                      <span
+                                        className={`font-bold text-left ${
+                                          round.member.sex === 'Male'
+                                            ? 'text-blue-800'
+                                            : 'text-red-800'
+                                        }`}
+                                      >
+                                        <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg mr-1">
+                                          {round.member.id}
+                                        </span>
+                                        {round.member.name} ({round.member.handicap.at(-1)})
+                                        {round.member.is_new ? '⭐' : ''}
+                                      </span>
+
+                                      <div className="flex sm:hidden text-sm text-gray-600 justify-between px-1">
+                                        <span>前9洞: {round.front_9 ?? '-'}</span>
+                                        <span>後9洞: {round.back_9 ?? '-'}</span>
+                                        <span className="font-bold text-blue-800">
+                                          總: 
+                                          {round.front_9 && round.back_9
+                                            ? Number(round.front_9) + Number(round.back_9)
+                                            : '-'}
+                                        </span>
+                                      </div>
+
+                                      {/* Desktop score columns */}
+                                      <span className="hidden sm:block text-left w-12">
+                                        {round.front_9 ?? ''}
+                                      </span>
+                                      <span className="hidden sm:block text-left w-12">
+                                        {round.back_9 ?? ''}
+                                      </span>
+                                      <span className="hidden sm:block text-left w-12 font-bold text-xl text-blue-800">
+                                        {round.front_9 && round.back_9
+                                          ? Number(round.front_9) + Number(round.back_9)
+                                          : ''}
+                                      </span>
+                                    </li>
+                                  )}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+
                   </div>
                 )}
               </div>
