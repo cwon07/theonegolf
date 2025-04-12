@@ -10,12 +10,37 @@ export async function GET(req: Request) {
   try {
     await connectToDatabase();
 
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1); 
+    let todayPST = new Date();
+    todayPST.setHours(todayPST.getHours() - 7); // Adjust for UTC-7 (PST)
 
     // Fetch all past events
-    const events = await Event.find({ date: { $lte: yesterday.toISOString().split("T")[0] } }).lean();
-
+    let events = await Event.find({ date: { $gte: todayPST.toISOString().split("T")[0] } })
+    .populate([
+      { path: "m_total_stroke", select: "id name handicap" },
+      { path: "w_total_stroke", select: "id name handicap" },
+      { path: "m_net_stroke_1", select: "id name handicap" },
+      { path: "m_net_stroke_2", select: "id name handicap" },
+      { path: "m_net_stroke_3", select: "id name handicap" },
+      { path: "m_net_stroke_4", select: "id name handicap" },
+      { path: "m_net_stroke_5", select: "id name handicap" },
+      { path: "w_net_stroke_1", select: "id name handicap" },
+      { path: "w_net_stroke_2", select: "id name handicap" },
+      { path: "m_long_drive", select: "id name" },
+      { path: "w_long_drive", select: "id name" },
+      { path: "close_to_center", select: "id name" },
+      { path: "m_close_pin_2", select: "id name" },
+      { path: "m_close_pin_7", select: "id name" },
+      { path: "m_close_pin_12", select: "id name" },
+      { path: "m_close_pin_16", select: "id name" },
+      { path: "w_close_pin_7", select: "id name" },
+      { path: "w_close_pin_12", select: "id name" },
+      { path: "m_bb", select: "id name" },
+      { path: "w_bb", select: "id name" },
+      { path: "birdies", select: "id name" },
+      { path: "eagles", select: "id name" },
+      { path: "albatrosses", select: "id name" },
+    ])
+    .lean();
     if (events.length === 0) {
       return NextResponse.json({ error: "No past events found" }, { status: 404 });
     }

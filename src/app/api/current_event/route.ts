@@ -10,13 +10,11 @@ export async function GET(req: NextRequest) {
   try {
     await connectToDatabase();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize to start of the day
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    let todayPST = new Date();
+    todayPST.setHours(todayPST.getHours() - 7); // Adjust for UTC-7 (PST)
 
     // Fetch events occurring today or in the future
-    let events = await Event.find({ date: { $gte: yesterday.toISOString().split("T")[0] } })
+    let events = await Event.find({ date: { $gte: todayPST.toISOString().split("T")[0] } })
     .populate([
       { path: "m_total_stroke", select: "id name handicap" },
       { path: "w_total_stroke", select: "id name handicap" },

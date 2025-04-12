@@ -1022,6 +1022,14 @@ return (
               {showStrokes && (
                 <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
                   <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
+                  <h3 className="text-left text-base mb-2 text-blue-800">
+                    調桿將於比賽後一天自動生效, 請看
+                    <a href="/list_members" className="text-blue-800 font-bold underline">
+                      會員總覽
+                    </a>                    
+                  </h3>
+                  <h3 className="text-left text-base mb-2 text-blue-800">如有疑問，請聯絡管理委員會</h3>
+                  
 
                   {/* 總桿調桿 */}
                   <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
