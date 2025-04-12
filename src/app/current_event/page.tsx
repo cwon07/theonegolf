@@ -1011,60 +1011,86 @@ return (
                   </div> 
                 )}
               
-
-                {showStrokes && (
-                  <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
-                      <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
-                        <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                          <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
-                          <h3 className="text-left text-ml mb-2 text-purple-800">冠軍調一桿</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                              <p className="font-bold text-blue-800">{MStrokeWinner[0].name} ({MStrokeWinner[1]}) - 1 = ({MStrokeWinner[2]})</p> 
-                              <p className="font-bold text-red-800">{WStrokeWinner[0].name} ({WStrokeWinner[1]}) - 1 = ({WStrokeWinner[2]})</p> 
-                            </div>
-                        </div>
-                        <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調桿</h4>
-                        <h3 className="text-left text-ml mb-2 text-purple-800">照表一&表二調桿 (請看差點調整詳解)</h3>
-                        <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
-                            <div className="grid grid-cols-4 gap-4">
-                                <p className="font-bold text-blue-800">{MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})</p> 
-                                <p className="font-bold text-blue-800">{MNet2Winner[0].name} ({MNet2Winner[1]}) - {MNet2Winner[2]} - {MNet2Winner[3]} = ({MNet2Winner[4]})</p> 
-                                <p className="font-bold text-blue-800">{MNet3Winner[0].name} ({MNet3Winner[1]}) - {MNet3Winner[2]} - {MNet3Winner[3]} = ({MNet3Winner[4]})</p> 
-                                <p className="font-bold text-blue-800">{MNet4Winner[0].name} ({MNet4Winner[1]}) - {MNet4Winner[2]} - {MNet4Winner[3]} = ({MNet4Winner[4]})</p> 
-                                <p className="font-bold text-blue-800">{MNet5Winner[0].name} ({MNet5Winner[1]}) - {MNet5Winner[2]} - {MNet5Winner[3]} = ({MNet5Winner[4]})</p>
-                                <p className="font-bold text-red-800">{WNet1Winner[0].name} ({WNet1Winner[1]}) - {WNet1Winner[2]} - {WNet1Winner[3]} = ({WNet1Winner[4]})</p> 
-                                <p className="font-bold text-red-800">{WNet2Winner[0].name} ({WNet2Winner[1]}) - {WNet2Winner[2]} - {WNet2Winner[3]} = ({WNet2Winner[4]})</p>
-                            </div>
-                        </div>
-                          <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                            <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
-                            <h3 className="text-left text-ml mb-2 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
-                            <h3 className="text-left text-ml mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
-                            {NewstrokeList.length > 0 ? (
-                              <div className="grid grid-cols-4 gap-4">
-                                {NewstrokeList.map((item, idx) => {
-                                  const [member, handicap, value, adjusted] = item.result;
-                                  return (
-                                    <div
-                                      key={idx}
-                                      className={`mt-2 ${
-                                        member.sex === "Male" ? "font-bold text-blue-800" : "font-bold text-red-800"
-                                      }`}
-                                    >
-                                      {member.name} {member.is_new && "⭐"} ({handicap}) - {value} = ({adjusted})
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            ) : (
-                              <p className="text-gray-600">無調桿數據</p>
-                            )}
-                          </div>                
-                    </div>
-                )}
-
               {/* handicap adjustment */}
+              {showStrokes && (
+                <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
+                  <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
+
+                  {/* 總桿調桿 */}
+                  <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                    <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
+                    <h3 className="text-left text-base mb-2 text-purple-800">冠軍調一桿</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                      <p className="font-bold text-blue-800">
+                        {MStrokeWinner[0].name} ({MStrokeWinner[1]}) - 1 = ({MStrokeWinner[2]})
+                      </p>
+                      <p className="font-bold text-red-800">
+                        {WStrokeWinner[0].name} ({WStrokeWinner[1]}) - 1 = ({WStrokeWinner[2]})
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 净桿調桿 */}
+                  <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                    <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調桿</h4>
+                    <h3 className="text-left text-base mb-1 text-purple-800">照表一&表二調桿 (請看差點調整詳解)</h3>
+                    <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <p className="font-bold text-blue-800">
+                        {MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})
+                      </p>
+                      <p className="font-bold text-blue-800">
+                        {MNet2Winner[0].name} ({MNet2Winner[1]}) - {MNet2Winner[2]} - {MNet2Winner[3]} = ({MNet2Winner[4]})
+                      </p>
+                      <p className="font-bold text-blue-800">
+                        {MNet3Winner[0].name} ({MNet3Winner[1]}) - {MNet3Winner[2]} - {MNet3Winner[3]} = ({MNet3Winner[4]})
+                      </p>
+                      <p className="font-bold text-blue-800">
+                        {MNet4Winner[0].name} ({MNet4Winner[1]}) - {MNet4Winner[2]} - {MNet4Winner[3]} = ({MNet4Winner[4]})
+                      </p>
+                      <p className="font-bold text-blue-800">
+                        {MNet5Winner[0].name} ({MNet5Winner[1]}) - {MNet5Winner[2]} - {MNet5Winner[3]} = ({MNet5Winner[4]})
+                      </p>
+                      <p className="font-bold text-red-800">
+                        {WNet1Winner[0].name} ({WNet1Winner[1]}) - {WNet1Winner[2]} - {WNet1Winner[3]} = ({WNet1Winner[4]})
+                      </p>
+                      <p className="font-bold text-red-800">
+                        {WNet2Winner[0].name} ({WNet2Winner[1]}) - {WNet2Winner[2]} - {WNet2Winner[3]} = ({WNet2Winner[4]})
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 新會員調桿 */}
+                  <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                    <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
+                    <h3 className="text-left text-base mb-1 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
+                    <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
+                    {NewstrokeList.length > 0 ? (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                        {NewstrokeList.map((item, idx) => {
+                          const [member, handicap, value, adjusted] = item.result;
+                          return (
+                            <div
+                              key={idx}
+                              className={`mt-2 ${
+                                member.sex === 'Male' ? 'font-bold text-blue-800' : 'font-bold text-red-800'
+                              }`}
+                            >
+                              {member.name} {member.is_new && '⭐'} ({handicap}) - {value} = ({adjusted})
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className="text-gray-600">無調桿數據</p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+                
+
+              {/* total stroke ranking */}
                 {showRankings && (
                   <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                     <h4 className="font-bold text-lg text-blue-800">當前總桿排名</h4>
