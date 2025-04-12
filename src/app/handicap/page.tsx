@@ -42,7 +42,7 @@ export default function Home() {
               
               <div className="mt-8 overflow-x-auto">
                 {/* First Table (7 rows, 6 columns) */}
-                <table className="text-black table-auto border-collapse border border-black w-full mb-8">
+                <table className="text-black text-xs sm:text-sm table-auto border-collapse border border-black w-full mb-8">
                 <thead>
                   <tr className="text-blue-800">
                     <th className="border border-gray-300 p-1 w-12">名次 \ 差點</th>
@@ -107,7 +107,7 @@ export default function Home() {
               
               <div className="mt-8 overflow-x-auto">
                 {/* First Table (7 rows, 6 columns) */}
-                <table className="text-black table-auto border-collapse border border-gray-300 w-full mb-8">
+                <table className="text-black text-xs sm:text-sm table-auto border-collapse border border-black w-full mb-8">
                 <thead>
                   <tr className="text-blue-800">
                     <th className="border border-gray-300 p-1 w-16">差點 \ 差桿</th>

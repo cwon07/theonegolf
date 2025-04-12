@@ -76,7 +76,7 @@ export default function Home() {
                 <p className="text-black font-bold text-yellow-600"> 獎勵：球（一盒）</p>
                 <p className="text-black">總桿獎一年一次為限， 男女分開計</p>
                 <p className="text-black">最低桿者勝, 如有平手，以下面方案決定勝負</p>
-                <ul className="text-black text-center pl-6">
+                <ul className="text-black text-center">
                   <li>1. 差點高者勝</li>
                   <li>2. 後九洞比分</li>                  
                   <li>3. 年長者為勝</li>
@@ -92,7 +92,7 @@ export default function Home() {
                 <p className="font-bold text-yellow-600"> 第5名獎勵：球（2條）</p>
                 <p className="font-bold text-black">得獎次數無限制, 男女分開計算</p>
                 <p className="font-bold text-black">如有平手，以下面方案決定勝負</p>
-                <ul className="text-black text-center pl-6">                
+                <ul className="text-black text-center">                
                   <li>1. 差點低者勝</li>
                   <li>2. 年長者為勝</li>
                   <li>3. 後九洞比分</li>
