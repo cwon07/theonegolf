@@ -85,8 +85,8 @@ export default function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="text-black flex flex-col items-center items-center min-h-screen p-4 bg-gray-100">
-      <div className="w-full max-w-2xl p-6 bg- shadow-lg rounded-lg bg-white">
+      <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+      <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-4">新增會員</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

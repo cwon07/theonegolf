@@ -1187,7 +1187,7 @@ return (
                         <span>[ID] 姓名 (差點)</span>
                         <span>前9洞</span>
                         <span>後9洞</span>
-                        <span>總成績</span>
+                        <span>净成績</span>
                       </div>
                       <div className="mt-2 space-y-1">
                         {rankingsMaleNet.map((player, idx) => (
@@ -1221,7 +1221,7 @@ return (
                         <span>[ID] 姓名 (差點)</span>
                         <span>前9洞</span>
                         <span>後9洞</span>
-                        <span>總成績</span>
+                        <span>净成績</span>
                       </div>
                       <div className="mt-2 space-y-1">
                         {rankingsFemaleNet.map((player, idx) => (

@@ -117,9 +117,27 @@ function EventContent() {
         const data = await response.json();
         if (response.ok) {
           setEvent(data);
-          setEventData({
-            ...data,            
-          });
+          setEventData({ ...data });
+    
+          const birdiesString =
+            data.birdies && data.birdies.length > 0
+            ? (data.birdies as { id: number }[]).map((birdies) => birdies.id).join(', ')
+            : '';
+            const eaglesString =
+            data.eagles && data.eagles.length > 0
+            ? (data.eagles as { id: number }[]).map((eagles) => eagles.id).join(', ')
+            : '';
+            const albatrossesString =
+            data.albatrosses && data.albatrosses.length > 0
+            ? (data.albatrosses as { id: number }[]).map((albatrosses) => albatrosses.id).join(', ')
+            : '';
+    
+          setFormData((prev) => ({
+            ...prev,
+            birdies: birdiesString,
+            eagles: eaglesString,
+            albatrosses: albatrossesString,
+          }));
         } else {
           setError(data.error || "Failed to fetch group");
         }
@@ -130,7 +148,6 @@ function EventContent() {
         setLoading(false);
       }
     };
-
     fetchEvent();
   }, [eventId, router]);
 
@@ -167,8 +184,8 @@ function EventContent() {
   if (!event || !eventData) return <div>No group data found</div>;
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 bg-gray-100 text-black">
-      <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
+    <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+      <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6">賽事結果更新</h1>
         <div className="space-y-6">
           {/* Date */}
@@ -497,11 +514,7 @@ function EventContent() {
               value={formData.birdies}
               onChange={(e) => setFormData({ ...formData, birdies: e.target.value })}
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder={
-                event.birdies && event.birdies.length > 0
-                  ? event.birdies.map((birdie) => birdie.id).join(", ") // Join IDs with commas
-                  : "輸入會員編號 (數字, 用逗號分隔)"
-              }
+              placeholder= "輸入會員編號 (數字, 用逗號分隔)"              
             />
           </div>
           <div>
@@ -512,11 +525,8 @@ function EventContent() {
               value={formData.eagles}
               onChange={(e) => setFormData({ ...formData, eagles: e.target.value })}
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder={
-                event.eagles && event.eagles.length > 0
-                  ? event.eagles.map((eagles) => eagles.id).join(", ") // Join IDs with commas
-                  : "輸入會員編號 (數字, 用逗號分隔)"
-              }
+              placeholder= "輸入會員編號 (數字, 用逗號分隔)"              
+
             />
           </div>
           <div>
@@ -527,11 +537,8 @@ function EventContent() {
               value={formData.albatrosses}
               onChange={(e) => setFormData({ ...formData, albatrosses: e.target.value })}
               className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder={
-                event.albatrosses && event.albatrosses.length > 0
-                  ? event.albatrosses.map((albatrosses) => albatrosses.id).join(", ") // Join IDs with commas
-                  : "輸入會員編號 (數字, 用逗號分隔)"
-              }
+              placeholder= "輸入會員編號 (數字, 用逗號分隔)"              
+
             />
           </div>
 

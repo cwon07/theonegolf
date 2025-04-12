@@ -212,33 +212,35 @@ export default function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="text-black flex flex-col items-center items-center min-h-screen p-4 bg-gray-100">
-      <div className="w-full max-w-2xl p-6 bg- shadow-lg rounded-lg bg-white">
+      <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+        <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-4">修改會員</h1>
-          <div className="block flex items-center space-x-2">
-            <input 
-              type="text" 
-              value={searchId}
-              onChange={(e) => setSearchId(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1 flex-grow h-10"
-              placeholder="Enter Member ID"
-            />
+        <div className="flex flex-col w-full space-y-2">
+          <input 
+            type="text" 
+            value={searchId}
+            onChange={(e) => setSearchId(e.target.value)}
+            className="border border-gray-300 rounded px-2 py-1 h-10 text-sm w-full"
+            placeholder="Enter Member ID"
+          />
+          <div className="flex justify-between space-x-2">
             <button 
-             onClick={() =>{
-              setShowForm(true);
-              handleSearch();
-            }}
-             className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 h-10">
+              onClick={() => {
+                setShowForm(true);
+                handleSearch();
+              }}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+            >
               搜尋
             </button>
             <button 
-            onClick={() =>{
-              handleDelete();
-            }}
-             className="test-right bg-red-500 text-white px-4 py-1 rounded hover:bg-gray-600 h-10">
+              onClick={handleDelete}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-gray-600 w-full"
+            >
               刪除
             </button>
           </div>
+        </div>
         {showForm && (
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <div>

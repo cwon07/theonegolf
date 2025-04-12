@@ -104,8 +104,8 @@ export default function DeleteEventsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="text-black flex flex-col items-center min-h-screen p-4 bg-gray-100">
-        <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
+      <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+      <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-center mb-4">刪除賽事&球叙</h1>
 
           {/* Date Selector */}
