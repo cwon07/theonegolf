@@ -18,13 +18,14 @@ export async function POST(req: Request) {
     }
     await connectToDatabase();
 
-    const convertToAMPM = (time: string) => {
-      const [hours, minutes] = time.split(':').map(Number);
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const newHours = hours % 12 || 12;
-      const newMinutes = minutes.toString().padStart(2, '0');
-      return `${newHours}:${newMinutes} ${period}`;
-    };
+    // Check if an event already exists on the given date
+    const existingEvent = await Event.findOne({ date });
+    if (existingEvent) {
+      return NextResponse.json(
+        { error: "An event already exists on this date, you can delete the current event before creating a new one" },
+        { status: 400 }
+      );
+    }
 
     // Fetch member details (id, name, sex)
     const playerDetails = await Member.find({ id: { $in: players } }).select("id sex");

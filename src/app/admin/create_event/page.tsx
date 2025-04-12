@@ -71,7 +71,8 @@ export default function AdminDashboard() {
       if (response.ok) {
         alert("Tournament created successfully!");
       } else {
-        alert("Failed to create event.");
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to create event.");
       }
     } catch (error) {
       console.error("Error creating event:", error);
