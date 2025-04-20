@@ -722,7 +722,7 @@ return (
                       {adminName && (
                         <button
                           onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
-                          className="bg-blue-700 text-white px-2 py-1 rounded h-10 text-lg w-20"
+                          className="bg-green-700 text-white px-2 py-1 rounded h-10 text-lg w-20"
                         >
                           記錄得獎名單
                         </button>
@@ -761,7 +761,7 @@ return (
                               <span className="font-bold text-black">{event.m_total_stroke.name}</span>
                             </span>
                           ) : (
-                            <span>N/A</span>
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
 
@@ -775,7 +775,7 @@ return (
                               <span className="font-bold text-black">{event.w_total_stroke.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -796,7 +796,7 @@ return (
                               <span className="font-bold text-black">{event.m_long_drive.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
 
@@ -811,7 +811,7 @@ return (
                               <span className="font-bold text-black">{event.w_long_drive.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -823,36 +823,47 @@ return (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Male Net Stroke Winners */}
                       <div>
-                        {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => (
-                          <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">
+                        {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => {
+                          const winner = event[key];
+                          return (
+                            <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">
                               {["冠軍 (男士)", "亞軍 (男士)", "季軍 (男士)", "殿軍 (男士)", "老五 (男士)"][i]}:
-                            </span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {event[key].id}
+                              </span>{" "}                              
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{event[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
+
 
                       {/* Female Net Stroke Winners */}
                       <div>
-                        {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => (
-                          <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">
-                              {["冠軍 (女士)", "亞軍 (女士)"][i]}:
-                            </span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {event[key].id}
+                        {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => {
+                          const winner = event[key];
+                          return (
+                            <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">
+                                {["冠軍 (女士)", "亞軍 (女士)"][i]}:
+                              </span>{" "}                              
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{event[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -863,32 +874,42 @@ return (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Male Close Pin Winners */}
                       <div>
-                        {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => (
-                          <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {event[key].id}
+                        {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => {
+                          const winner = event[key];
+                          return (
+                            <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{event[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
 
                       {/* Female Close Pin Winners */}
                       <div>
-                        {["w_close_pin_7", "w_close_pin_12"].map((key, i) => (
-                          <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {event[key].id}
+                        {["w_close_pin_7", "w_close_pin_12"].map((key, i) => {
+                          const winner = event[key];
+                          return (
+                            <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{event[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -900,12 +921,14 @@ return (
                       <div className="flex items-center gap-2">
                         <span className="font-bold">
                           <span className="text-purple-700">近中獎 <span className="text-green-700">(長青男士)</span></span>:
-                        </span>{" "}
+                        </span>
                         <span className="flex items-center gap-2">
-                          <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                            {event.close_to_center.id}
-                          </span>
-                          <span className="font-bold text-black">{event.close_to_center.name}</span>
+                            {event.close_to_center?.id && (
+                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                {event.close_to_center.id}
+                              </span>
+                            )}
+                          <span className="font-bold text-black">{event.close_to_center?.name ?? "暫無得獎者"}</span>
                         </span>
                       </div>
                     </div>
@@ -926,7 +949,7 @@ return (
                             <span className="font-bold text-black">{event.m_bb.name}</span>
                           </span>
                         ) : (
-                          "N/A"
+                          <span className="font-bold text-black">暫無得獎者</span>
                         )}
                       </div>
 
@@ -942,7 +965,7 @@ return (
                               <span className="font-bold text-black">{event.w_bb.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -1071,12 +1094,12 @@ return (
                     <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
                     <h3 className="text-left text-base mb-2 text-purple-800">冠軍調一桿</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                      <p className="font-bold text-blue-800">
-                        {MStrokeWinner[0].name} ({MStrokeWinner[1]}) - 1 = ({MStrokeWinner[2]})
-                      </p>
-                      <p className="font-bold text-red-800">
-                        {WStrokeWinner[0].name} ({WStrokeWinner[1]}) - 1 = ({WStrokeWinner[2]})
-                      </p>
+                    <p className="font-bold text-blue-800">
+                      {MStrokeWinner[0]?.name || ""} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
+                    </p>
+                    <p className="font-bold text-red-800">
+                      {WStrokeWinner[0]?.name || ""} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
+                    </p>
                     </div>
                   </div>
 
@@ -1087,27 +1110,28 @@ return (
                     <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <p className="font-bold text-blue-800">
-                        {MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})
+                        {MNet1Winner[0]?.name || ""} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet2Winner[0].name} ({MNet2Winner[1]}) - {MNet2Winner[2]} - {MNet2Winner[3]} = ({MNet2Winner[4]})
+                        {MNet2Winner[0]?.name || ""} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet3Winner[0].name} ({MNet3Winner[1]}) - {MNet3Winner[2]} - {MNet3Winner[3]} = ({MNet3Winner[4]})
+                        {MNet3Winner[0]?.name || ""} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet4Winner[0].name} ({MNet4Winner[1]}) - {MNet4Winner[2]} - {MNet4Winner[3]} = ({MNet4Winner[4]})
+                        {MNet4Winner[0]?.name || ""} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet5Winner[0].name} ({MNet5Winner[1]}) - {MNet5Winner[2]} - {MNet5Winner[3]} = ({MNet5Winner[4]})
+                        {MNet5Winner[0]?.name || ""} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
                       </p>
                       <p className="font-bold text-red-800">
-                        {WNet1Winner[0].name} ({WNet1Winner[1]}) - {WNet1Winner[2]} - {WNet1Winner[3]} = ({WNet1Winner[4]})
+                        {WNet1Winner[0]?.name || ""} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
                       </p>
                       <p className="font-bold text-red-800">
-                        {WNet2Winner[0].name} ({WNet2Winner[1]}) - {WNet2Winner[2]} - {WNet2Winner[3]} = ({WNet2Winner[4]})
+                        {WNet2Winner[0]?.name || ""} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
                       </p>
                     </div>
+
                   </div>
 
                   {/* 新會員調桿 */}
@@ -1378,7 +1402,8 @@ return (
                         </div>
 
                         {/* Render Rounds */}
-                        {group.rounds && group.rounds.length > 0 && (
+                        <div>
+                          {/* Render the group header regardless of whether there are rounds */}
                           <div className="mt-4">
                             <div className="hidden sm:grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
                               <span>[ID] 姓名 (差點）</span>
@@ -1387,61 +1412,67 @@ return (
                               <span>總成績</span>
                             </div>
 
-                            {group.rounds.map((round: any) => (
-                              <div
-                                key={round._id || `round-${group._id}-${Math.random()}`}
-                                className="mt-2"
-                              >
-                                <ul className="list-none space-y-1">
-                                  {round.member && (
-                                    <li
-                                      key={round.member._id || `member-${round._id}-${Math.random()}`}
-                                      className="grid sm:grid-cols-[3fr,1fr,1fr,1fr] grid-cols-1 border-b pb-2 text-gray-800 gap-1"
-                                    >
-                                      <span
-                                        className={`font-bold text-left ${
-                                          round.member.sex === 'Male'
-                                            ? 'text-blue-800'
-                                            : 'text-red-800'
-                                        }`}
+                            {/* If there are rounds, map through them, else show a "No rounds" message */}
+                            {group.rounds && group.rounds.length > 0 ? (
+                              group.rounds.map((round: any) => (
+                                <div
+                                  key={round._id || `round-${group._id}-${Math.random()}`}
+                                  className="mt-2"
+                                >
+                                  <ul className="list-none space-y-1">
+                                    {round.member && (
+                                      <li
+                                        key={round.member._id || `member-${round._id}-${Math.random()}`}
+                                        className="grid sm:grid-cols-[3fr,1fr,1fr,1fr] grid-cols-1 border-b pb-2 text-gray-800 gap-1"
                                       >
-                                        <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg mr-1">
-                                          {round.member.id}
+                                        <span
+                                          className={`font-bold text-left ${
+                                            round.member.sex === 'Male'
+                                              ? 'text-blue-800'
+                                              : 'text-red-800'
+                                          }`}
+                                        >
+                                          <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg mr-1">
+                                            {round.member.id}
+                                          </span>
+                                          {round.member.name} ({round.member.handicap.at(-1)})
+                                          {round.member.is_new ? '⭐' : ''}
                                         </span>
-                                        {round.member.name} ({round.member.handicap.at(-1)})
-                                        {round.member.is_new ? '⭐' : ''}
-                                      </span>
 
-                                      <div className="flex sm:hidden text-sm text-gray-600 justify-between px-1">
-                                        <span>前9洞: {round.front_9 ?? '-'}</span>
-                                        <span>後9洞: {round.back_9 ?? '-'}</span>
-                                        <span className="font-bold text-blue-800">
-                                          總: 
+                                        <div className="flex sm:hidden text-sm text-gray-600 justify-between px-1">
+                                          <span>前9洞: {round.front_9 ?? '-'}</span>
+                                          <span>後9洞: {round.back_9 ?? '-'}</span>
+                                          <span className="font-bold text-blue-800">
+                                            總: 
+                                            {round.front_9 && round.back_9
+                                              ? Number(round.front_9) + Number(round.back_9)
+                                              : '-'}
+                                          </span>
+                                        </div>
+
+                                        {/* Desktop score columns */}
+                                        <span className="hidden sm:block text-left w-12">
+                                          {round.front_9 ?? ''}
+                                        </span>
+                                        <span className="hidden sm:block text-left w-12">
+                                          {round.back_9 ?? ''}
+                                        </span>
+                                        <span className="hidden sm:block text-left w-12 font-bold text-xl text-blue-800">
                                           {round.front_9 && round.back_9
                                             ? Number(round.front_9) + Number(round.back_9)
-                                            : '-'}
+                                            : ''}
                                         </span>
-                                      </div>
-
-                                      {/* Desktop score columns */}
-                                      <span className="hidden sm:block text-left w-12">
-                                        {round.front_9 ?? ''}
-                                      </span>
-                                      <span className="hidden sm:block text-left w-12">
-                                        {round.back_9 ?? ''}
-                                      </span>
-                                      <span className="hidden sm:block text-left w-12 font-bold text-xl text-blue-800">
-                                        {round.front_9 && round.back_9
-                                          ? Number(round.front_9) + Number(round.back_9)
-                                          : ''}
-                                      </span>
-                                    </li>
-                                  )}
-                                </ul>
-                              </div>
-                            ))}
+                                      </li>
+                                    )}
+                                  </ul>
+                                </div>
+                              ))
+                            ) : (
+                              <div className="text-gray-600 text-sm">尚無會員加入此組</div>
+                            )}
                           </div>
-                        )}
+                        </div>
+
                       </div>
                     ))}
                 </div>

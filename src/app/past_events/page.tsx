@@ -605,37 +605,38 @@ export default function EventsView() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                     {/* 總桿獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                        <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="flex items-center gap-2">
-                            <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士）:</p>
-                            {selectedEvent.m_total_stroke ? (
-                              <span className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                  {selectedEvent.m_total_stroke.id}
-                                </span>
-                                <span className="font-bold text-black">{selectedEvent.m_total_stroke.name}</span>
+                      <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="flex items-center gap-2">
+                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士）:</p>
+                          {selectedEvent.m_total_stroke ? (
+                            <span className="flex items-center gap-2">
+                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                {selectedEvent.m_total_stroke.id}
                               </span>
-                            ) : (
-                              <span>N/A</span>
-                            )}
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            <p className="text-red-800 font-bold">冠軍 (女士）: </p>
-                            {selectedEvent.w_total_stroke ? (
-                              <span className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                  {selectedEvent.w_total_stroke.id}
-                                </span>
-                                <span className="font-bold text-black">{selectedEvent.w_total_stroke.name}</span>
-                              </span>
-                            ) : (
-                              "N/A"
-                            )}
-                          </div>
+                              <span className="font-bold text-black">{selectedEvent.m_total_stroke.name}</span>
+                            </span>
+                          ) : (
+                            <span className="font-bold text-black">暫無得獎者</span>
+                          )}
                         </div>
-                    </div>   
+
+                        <div className="flex items-center gap-2">
+                          <p className="text-red-800 font-bold">冠軍 (女士）: </p>
+                          {selectedEvent.w_total_stroke ? (
+                            <span className="flex items-center gap-2">
+                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                {selectedEvent.w_total_stroke.id}
+                              </span>
+                              <span className="font-bold text-black">{selectedEvent.w_total_stroke.name}</span>
+                            </span>
+                          ) : (
+                            <span className="font-bold text-black">暫無得獎者</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>                    
+
                     {/* 遠桿獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">遠桿獎</h4>
@@ -651,7 +652,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.m_long_drive.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
 
@@ -666,47 +667,59 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.w_long_drive.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
                     </div>
-                    {/* 净桿獎 */}
+                  
+                  {/* 净桿獎 */}
                   <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                     <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">净桿獎</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Male Net Stroke Winners */}
                       <div>
-                        {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => (
-                          <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">
+                        {["m_net_stroke_1", "m_net_stroke_2", "m_net_stroke_3", "m_net_stroke_4", "m_net_stroke_5"].map((key, i) => {
+                          const winner = selectedEvent[key];
+                          return (
+                            <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">
                               {["冠軍 (男士)", "亞軍 (男士)", "季軍 (男士)", "殿軍 (男士)", "老五 (男士)"][i]}:
-                            </span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {selectedEvent[key].id}
+                              </span>{" "}                              
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{selectedEvent[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
+
 
                       {/* Female Net Stroke Winners */}
                       <div>
-                        {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => (
-                          <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">
-                              {["冠軍 (女士)", "亞軍 (女士)"][i]}:
-                            </span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {selectedEvent[key].id}
+                        {["w_net_stroke_1", "w_net_stroke_2"].map((key, i) => {
+                          const winner = selectedEvent[key];
+                          return (
+                            <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">
+                                {["冠軍 (女士)", "亞軍 (女士)"][i]}:
+                              </span>{" "}                              
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{selectedEvent[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -717,32 +730,42 @@ export default function EventsView() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Male Close Pin Winners */}
                       <div>
-                        {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => (
-                          <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {selectedEvent[key].id}
+                        {["m_close_pin_2", "m_close_pin_7", "m_close_pin_12", "m_close_pin_16"].map((key, i) => {
+                          const winner = selectedEvent[key];
+                          return (
+                            <p key={key} className="text-blue-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{selectedEvent[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
 
                       {/* Female Close Pin Winners */}
                       <div>
-                        {["w_close_pin_7", "w_close_pin_12"].map((key, i) => (
-                          <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
-                            <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {selectedEvent[key].id}
+                        {["w_close_pin_7", "w_close_pin_12"].map((key, i) => {
+                          const winner = selectedEvent[key];
+                          return (
+                            <p key={key} className="text-red-800 flex items-center gap-2 mb-1">
+                              <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
+                              <span className="flex items-center gap-2">
+                                {winner?.id && (
+                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                    {winner.id}
+                                  </span>
+                                )}
+                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
-                              <span className="font-bold text-black">{selectedEvent[key].name}</span>
-                            </span>
-                          </p>
-                        ))}
+                            </p>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -754,12 +777,14 @@ export default function EventsView() {
                       <div className="flex items-center gap-2">
                         <span className="font-bold">
                           <span className="text-purple-700">近中獎 <span className="text-green-700">(長青男士)</span></span>:
-                        </span>{" "}
+                        </span>
                         <span className="flex items-center gap-2">
-                          <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                            {selectedEvent.close_to_center.id}
-                          </span>
-                          <span className="font-bold text-black">{selectedEvent.close_to_center.name}</span>
+                            {selectedEvent.close_to_center?.id && (
+                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                {selectedEvent.close_to_center.id}
+                              </span>
+                            )}
+                          <span className="font-bold text-black">{selectedEvent.close_to_center?.name ?? "暫無得獎者"}</span>
                         </span>
                       </div>
                     </div>
@@ -780,7 +805,7 @@ export default function EventsView() {
                             <span className="font-bold text-black">{selectedEvent.m_bb.name}</span>
                           </span>
                         ) : (
-                          "N/A"
+                          <span className="font-bold text-black">暫無得獎者</span>
                         )}
                       </div>
 
@@ -796,7 +821,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.w_bb.name}</span>
                             </span>
                           ) : (
-                            "N/A"
+                            <span className="font-bold text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -926,12 +951,12 @@ export default function EventsView() {
                     <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
                     <h3 className="text-left text-base mb-2 text-purple-800">冠軍調一桿</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                      <p className="font-bold text-blue-800">
-                        {MStrokeWinner[0].name} ({MStrokeWinner[1]}) - 1 = ({MStrokeWinner[2]})
-                      </p>
-                      <p className="font-bold text-red-800">
-                        {WStrokeWinner[0].name} ({WStrokeWinner[1]}) - 1 = ({WStrokeWinner[2]})
-                      </p>
+                    <p className="font-bold text-blue-800">
+                      {MStrokeWinner[0]?.name || ""} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
+                    </p>
+                    <p className="font-bold text-red-800">
+                      {WStrokeWinner[0]?.name || ""} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
+                    </p>
                     </div>
                   </div>
 
@@ -942,27 +967,28 @@ export default function EventsView() {
                     <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <p className="font-bold text-blue-800">
-                        {MNet1Winner[0].name} ({MNet1Winner[1]}) - {MNet1Winner[2]} - {MNet1Winner[3]} = ({MNet1Winner[4]})
+                        {MNet1Winner[0]?.name || ""} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet2Winner[0].name} ({MNet2Winner[1]}) - {MNet2Winner[2]} - {MNet2Winner[3]} = ({MNet2Winner[4]})
+                        {MNet2Winner[0]?.name || ""} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet3Winner[0].name} ({MNet3Winner[1]}) - {MNet3Winner[2]} - {MNet3Winner[3]} = ({MNet3Winner[4]})
+                        {MNet3Winner[0]?.name || ""} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet4Winner[0].name} ({MNet4Winner[1]}) - {MNet4Winner[2]} - {MNet4Winner[3]} = ({MNet4Winner[4]})
+                        {MNet4Winner[0]?.name || ""} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
                       </p>
                       <p className="font-bold text-blue-800">
-                        {MNet5Winner[0].name} ({MNet5Winner[1]}) - {MNet5Winner[2]} - {MNet5Winner[3]} = ({MNet5Winner[4]})
+                        {MNet5Winner[0]?.name || ""} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
                       </p>
                       <p className="font-bold text-red-800">
-                        {WNet1Winner[0].name} ({WNet1Winner[1]}) - {WNet1Winner[2]} - {WNet1Winner[3]} = ({WNet1Winner[4]})
+                        {WNet1Winner[0]?.name || ""} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
                       </p>
                       <p className="font-bold text-red-800">
-                        {WNet2Winner[0].name} ({WNet2Winner[1]}) - {WNet2Winner[2]} - {WNet2Winner[3]} = ({WNet2Winner[4]})
+                        {WNet2Winner[0]?.name || ""} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
                       </p>
                     </div>
+
                   </div>
 
                   {/* 新會員調桿 */}
