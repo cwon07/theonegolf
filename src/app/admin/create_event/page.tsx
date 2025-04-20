@@ -38,36 +38,40 @@ export default function AdminDashboard() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!event.date || !event.time || !event.group_count || !event.players.trim()) {
       alert("Please fill in all required fields.");
       return;
     }
-
-    console.log("Tournament Created:", event);
-
-    // Send the event data to the API
+  
+    const playerList = event.players.split(",").map((player) => player.trim()).filter(Boolean);
+    const maxPlayers = Number(event.group_count) * 4;
+  
+    if (playerList.length > maxPlayers) {
+      alert(`Total players exceed group capacity. Max allowed: ${maxPlayers} players.`);
+      return;
+    }
+  
     const eventData = {
       date: event.date,
       time: event.time,
       is_tourn: event.is_tourn,
       group_count: Number(event.group_count),
-      players: event.players.split(",").map((player) => player.trim()),
+      players: playerList,
     };
-
+  
     try {
       const response = await fetch("/api/create_event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        //body: JSON.stringify(eventData),
         body: JSON.stringify({
           ...eventData,
           teeTimeInterval, // Pass teeTimeInterval separately
         }),
       });
-
+  
       if (response.ok) {
         alert("Tournament created successfully!");
       } else {
@@ -79,6 +83,7 @@ export default function AdminDashboard() {
       alert("An error occurred while creating the event.");
     }
   };
+  
 
   return (
 
