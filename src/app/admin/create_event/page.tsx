@@ -163,7 +163,7 @@ export default function AdminDashboard() {
               value={event.group_count}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
-              placeholder="eg. 4"
+              placeholder="例如： 4"
               required
               min="1"
             />
@@ -176,13 +176,13 @@ export default function AdminDashboard() {
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
               rows={3}
-              placeholder="Enter player IDs, separated by commas eg. 1,15,19"
+              placeholder="輸入會員ID，逗號分隔 例如. 1,15,19"
               required
             />
           </div>
 
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-            Create Tournament Event
+            新增賽事
           </button>
         </form>
       </div>

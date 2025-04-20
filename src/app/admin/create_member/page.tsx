@@ -97,6 +97,7 @@ export default function AdminDashboard() {
               value={member.id}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
+              placeholder="必須與現有會員無重複。例如： 4"
               required
             />
           </div>
@@ -109,6 +110,7 @@ export default function AdminDashboard() {
               value={member.name}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
+              placeholder="例如： 隔壁王大明"
               required
             />
           </div>
@@ -124,7 +126,6 @@ export default function AdminDashboard() {
             >
                 <option value="Male">男</option>
                 <option value="Female">女</option>
-                <option value="Other">其他</option>
             </select>
             </div>
 
@@ -136,6 +137,8 @@ export default function AdminDashboard() {
               value={member.eng_name}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
+              placeholder="例如： DaMing Wang"
+
             />
           </div>
 
@@ -147,6 +150,7 @@ export default function AdminDashboard() {
               value={member.handicap}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
+              placeholder="例如： 16"
               min="-18"
               max="45"
               required

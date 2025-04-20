@@ -368,48 +368,72 @@ export default function EventsView() {
     const clamp = (num: number, min: number, max: number) => Math.max(min, Math.min(num, max));
 
     const getNetStrokeAdjustment = (original: Member, placeIndex: number): any[] => {
-      const handicap = original.handicap.at(-1);
-      const parsedHandicap = Number(handicap);
-      const rangeIndex = getHandicapRangeIndex(parsedHandicap);
-      const round = allRounds.find((r) => r._id === original._id);
-      const totalScore = round?.totalScore;
+      const handicap = original?.handicap?.at?.(-1);
+      const parsedHandicap = handicap !== undefined ? Number(handicap) : undefined;
+      const rangeIndex = parsedHandicap !== undefined ? getHandicapRangeIndex(parsedHandicap) : undefined;
+      
+      const round = allRounds.find((r) => r._id === original?._id);
+      const totalScore = round?.totalScore ?? null; // fallback to null if undefined
     
       if (handicap === undefined || totalScore === undefined) {
         return [original, handicap, undefined, undefined, undefined];
       }
     
-      const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
-      const clampedIndex = clamp(lookUpStroke, 0, 28) - 1;
-      const table1Value = table1[placeIndex]?.[rangeIndex];
-      const table2Value = table2[rangeIndex]?.[clampedIndex];
-      const adjusted = parsedHandicap - table1Value - table2Value;
+      const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - 72) : undefined;
+      const clampedIndex = lookUpStroke !== undefined ? clamp(lookUpStroke, 0, 28) - 1 : undefined;
+      
+      const table1Value = (rangeIndex !== undefined && table1?.[placeIndex]?.[rangeIndex] !== undefined) ? table1[placeIndex][rangeIndex] : 0;
+      const table2Value = (rangeIndex !== undefined && clampedIndex !== undefined && table2?.[rangeIndex]?.[clampedIndex] !== undefined) ? table2[rangeIndex][clampedIndex] : 0;
+      
+      const adjusted = parsedHandicap !== undefined ? parsedHandicap - table1Value - table2Value : undefined;
+      
     
       return [original, handicap, table1Value, table2Value, adjusted];
     };
 
     const getNewStrokeAdjustment = (original: Member): any[] => {
-      const handicap = original.handicap.at(-1);
-      const parsedHandicap = Number(handicap);
-      const rangeIndex = getHandicapRangeIndex(parsedHandicap);
-      const round = allRounds.find((r) => r._id === original._id);
+      const handicap = original?.handicap?.at(-1);
+      const parsedHandicap = handicap !== undefined ? Number(handicap) : undefined;
+      const rangeIndex = parsedHandicap !== undefined && !isNaN(parsedHandicap)
+        ? getHandicapRangeIndex(parsedHandicap)
+        : undefined;
+      
+      const round = original?._id
+        ? allRounds.find((r) => r._id === original._id)
+        : undefined;
+      
       const totalScore = round?.totalScore;
+      
     
       if (handicap === undefined || totalScore === undefined) {
         return [original, handicap, undefined, undefined, undefined];
       }
     
-      const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
       let table2Value: number | undefined;
       let adjusted: number | undefined;
-
-      if (lookUpStroke <= 0) {
-        table2Value = 0;
-        adjusted = parsedHandicap;
+      
+      if (
+        typeof parsedHandicap === 'number' &&
+        !isNaN(parsedHandicap) &&
+        typeof rangeIndex === 'number' &&
+        !isNaN(rangeIndex) &&
+        typeof totalScore === 'number'
+      ) {
+        const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
+      
+        if (lookUpStroke <= 0) {
+          table2Value = 0;
+          adjusted = parsedHandicap;
+        } else {
+          const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
+          table2Value = table2?.[rangeIndex]?.[clampedIndex] ?? 0;
+          adjusted = parsedHandicap - table2Value;
+        }
       } else {
-        const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
-        table2Value = table2[rangeIndex]?.[clampedIndex];
-        adjusted = parsedHandicap - table2Value;
+        table2Value = undefined;
+        adjusted = undefined;
       }
+      
     
       return [original, handicap, table2Value, adjusted];
     };
@@ -423,13 +447,13 @@ export default function EventsView() {
 
     // Total stroke winner handicap change
     // Calculate updated handicaps for MWinner and WWinner
-    const mOriginal = eventsData[0].m_total_stroke;
-    const mHandicap = eventsData[0].m_total_stroke.handicap.at(-1);
+    const mOriginal = eventsData[0].m_total_stroke || null;
+    const mHandicap = mOriginal?.handicap?.at(-1);
     const mAdjustedHandicap = mHandicap !== undefined ? Number(mHandicap) - 1 : undefined;
     const MWinner: any[] = [mOriginal, mHandicap, mAdjustedHandicap];
-    
-    const wOriginal = eventsData[0].w_total_stroke;
-    const wHandicap = eventsData[0].w_total_stroke.handicap.at(-1);
+
+    const wOriginal = eventsData[0].w_total_stroke || null;
+    const wHandicap = wOriginal?.handicap?.at(-1);
     const wAdjustedHandicap = wHandicap !== undefined ? Number(wHandicap) - 1 : undefined;
     const WWinner: any[] = [wOriginal, wHandicap, wAdjustedHandicap];
 
@@ -653,7 +677,7 @@ return (
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <h2 className="text-black text-xl font-semibold">日期: {event.date}</h2>
-                  {event.is_tourn && (
+                  {event.is_tourn ? (
                     <div className="flex flex-wrap gap-1 md:flex-nowrap overflow-x-auto">
                       <button
                         onClick={handleToggleGroup}
@@ -704,11 +728,22 @@ return (
                         </button>
                       )}
                     </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-1 md:flex-nowrap overflow-x-auto">
+                      <button
+                        onClick={handleToggleGroup}
+                        className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 ${
+                          isGreen0 ? 'bg-green-500' : 'bg-blue-500'
+                        } min-w-fit`}
+                      >
+                        球叙排組
+                      </button>
+                    </div>
                   )}
                 </div>
                 
-              <div className="mt-4 overflow-x-auto">
-                {event.is_tourn && showAwards && (
+            <div className="mt-4 overflow-x-auto">
+              {event.is_tourn && showAwards && (
                 <div className="text-gray-800 mt-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
 
@@ -1016,7 +1051,7 @@ return (
                     </div>                      
                   </div>
                   </div> 
-                )}
+              )}
               
               {/* handicap adjustment */}
               {showStrokes && (
@@ -1270,7 +1305,7 @@ return (
               </div>
             )}                            
                 
-                {/* Render Groups in 3 columns */}
+              {/* Render Groups in 3 columns */}
                 {showGroups && event.groups && event.groups.length > 0 && (
                   <div className="text-black mt-4">
                     {adminName && (
