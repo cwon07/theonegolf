@@ -496,18 +496,18 @@ export default function EventsView() {
   
           {/* Dropdown for selecting event date */}
           <div className="mb-4">
-            <label className="font-bold text-xl mr-2 text-black">選擇日期:</label>
-            <select
-              value={selectedDate}
-              onChange={handleDateChange}
-              className="p-2 border rounded-md text-black"
-            >
-              {events.map((event) => (
-                <option key={event._id} value={event.date} style={{ color: '#000000' }}>
-                  {event.date}
-                </option>
-              ))}
-            </select>
+            <label className="font-bold text-xl mr-2 text-black">日期:</label>
+              <select
+                value={selectedDate}
+                onChange={handleDateChange}
+                className="p-2 border rounded-md text-black"
+              >
+                {events.map((event) => (
+                  <option key={event._id} value={event.date} style={{ color: '#000000' }}>
+                    {event.date} {event.is_tourn ? '🏆' : ''}
+                  </option>
+                ))}
+              </select>
             <button
               onClick={async () => {
                 try {
@@ -532,7 +532,8 @@ export default function EventsView() {
                   console.error('Error loading event:', err);
                 }
               }}
-              className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+              className={`ml-2 px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 bg-blue-500
+              min-w-fit`}
               disabled={!selectedDate}
             >
               載入
@@ -617,7 +618,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.m_total_stroke.name}</span>
                             </span>
                           ) : (
-                            <span className="font-bold text-black">暫無得獎者</span>
+                            <span className="text-black">暫無得獎者</span>
                           )}
                         </div>
 
@@ -631,7 +632,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.w_total_stroke.name}</span>
                             </span>
                           ) : (
-                            <span className="font-bold text-black">暫無得獎者</span>
+                            <span className="text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -652,7 +653,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.m_long_drive.name}</span>
                             </span>
                           ) : (
-                            <span className="font-bold text-black">暫無得獎者</span>
+                            <span className="text-black">暫無得獎者</span>
                           )}
                         </div>
 
@@ -667,7 +668,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.w_long_drive.name}</span>
                             </span>
                           ) : (
-                            <span className="font-bold text-black">暫無得獎者</span>
+                            <span className="text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -692,7 +693,7 @@ export default function EventsView() {
                                     {winner.id}
                                   </span>
                                 )}
-                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
+                                <span className="text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
                             </p>
                           );
@@ -715,7 +716,7 @@ export default function EventsView() {
                                     {winner.id}
                                   </span>
                                 )}
-                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
+                                <span className="text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
                             </p>
                           );
@@ -741,7 +742,7 @@ export default function EventsView() {
                                     {winner.id}
                                   </span>
                                 )}
-                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
+                                <span className="text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
                             </p>
                           );
@@ -761,7 +762,7 @@ export default function EventsView() {
                                     {winner.id}
                                   </span>
                                 )}
-                                <span className="font-bold text-black">{winner?.name ?? "暫無得獎者"}</span>
+                                <span className="text-black">{winner?.name ?? "暫無得獎者"}</span>
                               </span>
                             </p>
                           );
@@ -784,7 +785,7 @@ export default function EventsView() {
                                 {selectedEvent.close_to_center.id}
                               </span>
                             )}
-                          <span className="font-bold text-black">{selectedEvent.close_to_center?.name ?? "暫無得獎者"}</span>
+                          <span className="text-black">{selectedEvent.close_to_center?.name ?? "暫無得獎者"}</span>
                         </span>
                       </div>
                     </div>
@@ -805,7 +806,7 @@ export default function EventsView() {
                             <span className="font-bold text-black">{selectedEvent.m_bb.name}</span>
                           </span>
                         ) : (
-                          <span className="font-bold text-black">暫無得獎者</span>
+                          <span className="text-black">暫無得獎者</span>
                         )}
                       </div>
 
@@ -821,7 +822,7 @@ export default function EventsView() {
                               <span className="font-bold text-black">{selectedEvent.w_bb.name}</span>
                             </span>
                           ) : (
-                            <span className="font-bold text-black">暫無得獎者</span>
+                            <span className="text-black">暫無得獎者</span>
                           )}
                         </div>
                       </div>
@@ -832,7 +833,7 @@ export default function EventsView() {
                     {/* 小鳥獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">小鳥獎 (Birdies)</h4>
-                      <div className="font-bold text-black">
+                      <div className="text-black">
                         {Array.isArray(selectedEvent.birdies) && selectedEvent.birdies.length > 0 ? (
                           <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                             {Object.values(
@@ -866,7 +867,7 @@ export default function EventsView() {
                     {/* 老鷹獎 */}
                       <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">老鷹獎 (Eagles)</h4>
-                      <div className="font-bold text-black">
+                      <div className="text-black">
                         {Array.isArray(selectedEvent.eagles) && selectedEvent.eagles.length > 0 ? (
                           <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                             {Object.values(
@@ -899,7 +900,7 @@ export default function EventsView() {
                     {/* 信天翁獎 */}
                     <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">信天翁獎 (Albatrosses)</h4>
-                      <div className="font-bold text-black">
+                      <div className="text-black">
                         {Array.isArray(selectedEvent.albatrosses) && selectedEvent.albatrosses.length > 0 ? (
                           <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                             {Object.values(
@@ -951,12 +952,17 @@ export default function EventsView() {
                     <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
                     <h3 className="text-left text-base mb-2 text-purple-800">冠軍調一桿</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                    <p className="font-bold text-blue-800">
-                      {MStrokeWinner[0]?.name || ""} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
-                    </p>
-                    <p className="font-bold text-red-800">
-                      {WStrokeWinner[0]?.name || ""} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
-                    </p>
+                      {MStrokeWinner[0]?.name && (
+                          <p className="font-bold text-blue-800">
+                            {MStrokeWinner[0]?.name} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
+                          </p>
+                        )}
+
+                        {WStrokeWinner[0]?.name && (
+                          <p className="font-bold text-red-800">
+                            {WStrokeWinner[0]?.name} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
+                          </p>
+                        )}
                     </div>
                   </div>
 
@@ -966,27 +972,47 @@ export default function EventsView() {
                     <h3 className="text-left text-base mb-1 text-purple-800">照表一&表二調桿 (請看差點調整詳解)</h3>
                     <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                      <p className="font-bold text-blue-800">
-                        {MNet1Winner[0]?.name || ""} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
-                      </p>
-                      <p className="font-bold text-blue-800">
-                        {MNet2Winner[0]?.name || ""} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
-                      </p>
-                      <p className="font-bold text-blue-800">
-                        {MNet3Winner[0]?.name || ""} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
-                      </p>
-                      <p className="font-bold text-blue-800">
-                        {MNet4Winner[0]?.name || ""} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
-                      </p>
-                      <p className="font-bold text-blue-800">
-                        {MNet5Winner[0]?.name || ""} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
-                      </p>
-                      <p className="font-bold text-red-800">
-                        {WNet1Winner[0]?.name || ""} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
-                      </p>
-                      <p className="font-bold text-red-800">
-                        {WNet2Winner[0]?.name || ""} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
-                      </p>
+                    {MNet1Winner[0]?.name && (
+                        <p className="font-bold text-blue-800">
+                          {MNet1Winner[0]?.name} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
+                        </p>
+                      )}
+
+                      {MNet2Winner[0]?.name && (
+                        <p className="font-bold text-blue-800">
+                          {MNet2Winner[0]?.name} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
+                        </p>
+                      )}
+
+                      {MNet3Winner[0]?.name && (
+                        <p className="font-bold text-blue-800">
+                          {MNet3Winner[0]?.name} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
+                        </p>
+                      )}
+
+                      {MNet4Winner[0]?.name && (
+                        <p className="font-bold text-blue-800">
+                          {MNet4Winner[0]?.name} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
+                        </p>
+                      )}
+
+                      {MNet5Winner[0]?.name && (
+                        <p className="font-bold text-blue-800">
+                          {MNet5Winner[0]?.name} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
+                        </p>
+                      )}
+
+                      {WNet1Winner[0]?.name && (
+                        <p className="font-bold text-red-800">
+                          {WNet1Winner[0]?.name} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
+                        </p>
+                      )}
+
+                      {WNet2Winner[0]?.name && (
+                        <p className="font-bold text-red-800">
+                          {WNet2Winner[0]?.name} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
+                        </p>
+                      )}
                     </div>
 
                   </div>
@@ -1256,7 +1282,7 @@ export default function EventsView() {
                                         <span>前9洞: {round.front_9 ?? '-'}</span>
                                         <span>後9洞: {round.back_9 ?? '-'}</span>
                                         <span className="font-bold text-blue-800">
-                                          總: 
+                                          總成績: 
                                           {round.front_9 && round.back_9
                                             ? Number(round.front_9) + Number(round.back_9)
                                             : '-'}

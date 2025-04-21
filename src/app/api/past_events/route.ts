@@ -15,7 +15,7 @@ export async function GET(request: Request) {
 
     const events = await Event.find(
       { date: { $lt: todayStr } },
-      'date' // Only return the 'date' field
+      'date is_tourn'
     ).sort({ date: 1 });
 
     return NextResponse.json(events, { status: 200 });
