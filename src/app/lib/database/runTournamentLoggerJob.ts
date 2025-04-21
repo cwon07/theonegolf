@@ -81,19 +81,23 @@ export async function runTournamentLoggerJob() {
           const adjustedNewMember = result.adjustedNewMember || [];
 
           // Format the strings for both MStrokeWinner and WStrokeWinner
-          const formattedMWinner = `${(MWinner[0] as Member)?.name} (${MWinner[1] || ""}) - 1 = (${MWinner[2] || ""})`;
-          const formattedWWinner = `${(WWinner[0] as Member)?.name} (${WWinner[1] || ""}) - 1 = (${WWinner[2] || ""})`;
-          const formattedMNet1 = `${(MNet1[0] as Member)?.name} (${MNet1[1] || ""}) - ${MNet1[2] || ""} - ${MNet1[3] || ""} = (${MNet1[4] || ""})`;
-          const formattedMNet2 = `${(MNet2[0] as Member)?.name} (${MNet2[1] || ""}) - ${MNet2[2] || ""} - ${MNet2[3] || ""} = (${MNet2[4] || ""})`;
-          const formattedMNet3 = `${(MNet3[0] as Member)?.name} (${MNet3[1] || ""}) - ${MNet3[2] || ""} - ${MNet3[3] || ""} = (${MNet3[4] || ""})`;
-          const formattedMNet4 = `${(MNet4[0] as Member)?.name} (${MNet4[1] || ""}) - ${MNet4[2] || ""} - ${MNet4[3] || ""} = (${MNet4[4] || ""})`;
-          const formattedMNet5 = `${(MNet5[0] as Member)?.name} (${MNet5[1] || ""}) - ${MNet5[2] || ""} - ${MNet5[3] || ""} = (${MNet5[4] || ""})`;
-          const formattedWNet1 = `${(WNet1[0] as Member)?.name} (${WNet1[1] || ""}) - ${WNet1[2] || ""} - ${WNet1[3] || ""} = (${WNet1[4] || ""})`;
-          const formattedWNet2 = `${(WNet2[0] as Member)?.name} (${WNet2[1] || ""}) - ${WNet2[2] || ""} - ${WNet2[3] || ""} = (${WNet2[4] || ""})`;
+          const formattedMWinner = `${(MWinner[0] as Member)?.name} (${MWinner[1] === 0 ? 0 : MWinner[1] || "N/A"}) - 1 = (${MWinner[2] === 0 ? 0 : MWinner[2] || "N/A"})`;
+          const formattedWWinner = `${(WWinner[0] as Member)?.name} (${WWinner[1] === 0 ? 0 : WWinner[1] || "N/A"}) - 1 = (${WWinner[2] === 0 ? 0 : WWinner[2] || "N/A"})`;
+          
+          const formattedMNet1 = `${(MNet1[0] as Member)?.name} (${MNet1[1] === 0 ? 0 : MNet1[1] || "N/A"}) - ${MNet1[2] === 0 ? 0 : MNet1[2] || "N/A"} - ${MNet1[3] === 0 ? 0 : MNet1[3] || "N/A"} = (${MNet1[4] === 0 ? 0 : MNet1[4] || "N/A"})`;
+          const formattedMNet2 = `${(MNet2[0] as Member)?.name} (${MNet2[1] === 0 ? 0 : MNet2[1] || "N/A"}) - ${MNet2[2] === 0 ? 0 : MNet2[2] || "N/A"} - ${MNet2[3] === 0 ? 0 : MNet2[3] || "N/A"} = (${MNet2[4] === 0 ? 0 : MNet2[4] || "N/A"})`;
+          const formattedMNet3 = `${(MNet3[0] as Member)?.name} (${MNet3[1] === 0 ? 0 : MNet3[1] || "N/A"}) - ${MNet3[2] === 0 ? 0 : MNet3[2] || "N/A"} - ${MNet3[3] === 0 ? 0 : MNet3[3] || "N/A"} = (${MNet3[4] === 0 ? 0 : MNet3[4] || "N/A"})`;
+          const formattedMNet4 = `${(MNet4[0] as Member)?.name} (${MNet4[1] === 0 ? 0 : MNet4[1] || "N/A"}) - ${MNet4[2] === 0 ? 0 : MNet4[2] || "N/A"} - ${MNet4[3] === 0 ? 0 : MNet4[3] || "N/A"} = (${MNet4[4] === 0 ? 0 : MNet4[4] || "N/A"})`;
+          const formattedMNet5 = `${(MNet5[0] as Member)?.name} (${MNet5[1] === 0 ? 0 : MNet5[1] || "N/A"}) - ${MNet5[2] === 0 ? 0 : MNet5[2] || "N/A"} - ${MNet5[3] === 0 ? 0 : MNet5[3] || "N/A"} = (${MNet5[4] === 0 ? 0 : MNet5[4] || "N/A"})`;
+          
+          const formattedWNet1 = `${(WNet1[0] as Member)?.name} (${WNet1[1] === 0 ? 0 : WNet1[1] || "N/A"}) - ${WNet1[2] === 0 ? 0 : WNet1[2] || "N/A"} - ${WNet1[3] === 0 ? 0 : WNet1[3] || "N/A"} = (${WNet1[4] === 0 ? 0 : WNet1[4] || "N/A"})`;
+          const formattedWNet2 = `${(WNet2[0] as Member)?.name} (${WNet2[1] === 0 ? 0 : WNet2[1] || "N/A"}) - ${WNet2[2] === 0 ? 0 : WNet2[2] || "N/A"} - ${WNet2[3] === 0 ? 0 : WNet2[3] || "N/A"} = (${WNet2[4] === 0 ? 0 : WNet2[4] || "N/A"})`;
+          
           const newMemberStrings = adjustedNewMember.map((item) => {
             const [member, handicap, value, adjusted] = item.result;
-            return `${member.name} (${handicap}) - ${value} = (${adjusted})`;
+            return `${member.name} (${handicap === 0 ? 0 : handicap || "N/A"}) - ${value === 0 ? 0 : value || "N/A"} = (${adjusted === 0 ? 0 : adjusted || "N/A"})`;
           });
+          
                     
     
           //const logMsg = `🏁 比賽日期: ${fullEvent.date} | Winners: ${winnerSummary}`;
