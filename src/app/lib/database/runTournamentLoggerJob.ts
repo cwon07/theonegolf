@@ -15,6 +15,50 @@ interface Member {
   is_new: boolean;
 }
 
+interface Round {
+  _id:  mongoose.Types.ObjectId;
+  member:  Member
+  front_9?: string;
+  back_9?: string;
+}
+
+interface Group {
+  _id: mongoose.Types.ObjectId;
+  date: string;
+  time: string;
+  rounds: Round[];
+}
+
+interface Event {
+  _id: string;
+  date: string;
+  is_tourn: boolean;
+  groups: Group[]
+  m_total_stroke: Member;
+  w_total_stroke: Member;
+  m_net_stroke_1: Member;
+  m_net_stroke_2: Member;
+  m_net_stroke_3: Member;
+  m_net_stroke_4: Member;
+  m_net_stroke_5: Member;
+  w_net_stroke_1: Member;
+  w_net_stroke_2: Member;
+  m_long_drive: Member;
+  w_long_drive: Member;
+  close_to_center: Member;
+  m_close_pin_2: Member;
+  m_close_pin_7: Member;
+  m_close_pin_12: Member;
+  m_close_pin_16: Member;
+  w_close_pin_7: Member;
+  w_close_pin_12: Member;
+  m_bb: Member;
+  w_bb: Member;
+  birdies: Member[];
+  eagles: Member[];
+  albatrosses: Member[];
+}
+
 export async function runTournamentLoggerJob() {
   console.log("Cron job triggered manually or on schedule");
 
@@ -62,12 +106,13 @@ export async function runTournamentLoggerJob() {
     if (newTournaments.length > 0) {
       for (const tournament of newTournaments) {
         try {
-          const fullEvent = await fetchEventWithDetails(tournament.date);
-    
-          if (!fullEvent || !fullEvent.event_id) {
-            throw new Error('Invalid event data');
-          }
-    
+          const response = await fetchEventWithDetails(tournament.date);
+
+          if (response.ok) {
+            const fullEvent = await response.json() as Event; // Now asserting the correct type after extraction
+            if (!fullEvent || !fullEvent._id) {
+              throw new Error('Invalid event data');
+            }
           const result = calculateStrokes([fullEvent]);
           const MWinner = result.MWinner || [];
           const WWinner = result.WWinner || [];
@@ -122,6 +167,10 @@ export async function runTournamentLoggerJob() {
           `.trim();
           
           await CronLog.create({ message: logMsg, createdAt: jobStartTime });
+          } else {
+            // Handle the case where the response was not successful
+            console.error("Error fetching event details");
+          }
     
         } catch (err) {
           console.error(`❌ Error processing tournament on ${tournament.date}:`, err);
