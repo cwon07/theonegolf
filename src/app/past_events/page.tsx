@@ -80,6 +80,8 @@ export default function EventsView() {
   const [isGreen2, setisGreen2] = useState(false);
   const [isGreen3, setisGreen3] = useState(false);
   const [isGreen4, setisGreen4] = useState(false);
+  const [loadingEvent, setLoadingEvent] = useState(false);
+
 
 
   useEffect(() => {
@@ -510,11 +512,12 @@ export default function EventsView() {
               </select>
             <button
               onClick={async () => {
+                setLoadingEvent(true);
                 try {
                   const res = await fetch(`/api/past_event_populate?date=${selectedDate}`);
                   if (!res.ok) throw new Error('Failed to fetch event');
                   const data = await res.json();
-                  setSelectedEvent(data);                  
+                  setSelectedEvent(data);
                   calculateRankings([data]);
                   calculateRankingsNet([data]);
                   calculateStrokes([data]);
@@ -530,14 +533,19 @@ export default function EventsView() {
                   setisGreen4(false);
                 } catch (err) {
                   console.error('Error loading event:', err);
+                } finally {
+                  setLoadingEvent(false);
                 }
-              }}
+              }}              
               className={`ml-2 px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 bg-blue-500
               min-w-fit`}
               disabled={!selectedDate}
             >
               載入
             </button>
+            {loadingEvent && (
+              <p className="mt-2 text-gray-600 italic">Loading event...</p>
+            )}
           </div>
   
           {selectedEvent && (
