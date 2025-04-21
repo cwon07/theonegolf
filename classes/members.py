@@ -78,10 +78,10 @@ def main():
     try:
         handicap = float(sys.argv[1])
         front_9, back_9, total = generate_golf_score(handicap)
-        print(f"Handicap: {handicap}")
+        #print(f"Handicap: {handicap}")
         print(f"Front 9 score: {front_9}")
         print(f"Back 9 score: {back_9}")
-        print(f"Total score: {total}")
+        #print(f"Total score: {total}")
     except ValueError as e:
         print(f"Error: {e}")
         sys.exit(1)
