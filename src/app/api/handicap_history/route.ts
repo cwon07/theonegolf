@@ -55,11 +55,11 @@ cron.schedule('0 8 * * *', async () => {
     const jobStartTime = new Date();
 
     if (newTournaments.length > 0) {
-      const logMsg = `🏁 ${newTournaments.length} tournament(s) ended on or before ${yesterdayStr}: ` +
-        newTournaments.map(e => e.date).join(', ');
-
-      await CronLog.create({ message: logMsg, createdAt: jobStartTime });
-    }
+      for (const tournament of newTournaments) {
+        const logMsg = `🏁 比賽日期: ${tournament.date}`;
+        await CronLog.create({ message: logMsg, createdAt: jobStartTime });
+      }
+    }    
 
     await CronLock.updateOne({ jobName: 'log-tourn-job' }, { isRunning: false });
 

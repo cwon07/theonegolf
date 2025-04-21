@@ -212,10 +212,10 @@ export default function LogTournPage() {
       <div className="min-h-screen bg-gray-300 p-8 flex flex-col items-center">
         <div className="max-w-4xl w-full bg-white shadow-lg rounded-xl p-6">
           <h1 className="text-black text-4xl font-extrabold text-center mb-8">
-            Cron Job Logs
+            調桿歷史
           </h1>
           <h2 className="text-black text-xl text-center mb-4">
-            Current Time: {currentTime}
+            現在時間: {currentTime}
           </h2>
   
           <section className="space-y-4">
@@ -229,23 +229,105 @@ export default function LogTournPage() {
                   key={index}
                   className="bg-gray-100 p-4 rounded-md shadow-md text-black"
                 >
-                  <p className="font-semibold text-purple-700">{convertToPST(log.createdAt)}</p>
+                  <p className="font-semibold text-purple-700">調桿生效時日： {convertToPST(log.createdAt)}</p>
                   <p>{log.message}</p>
-  
-                  {/* Display event details */}
-                  {log.event && (
-                    <div className="mt-4 p-4 bg-gray-200 rounded-md">
-                      <h3 className="font-semibold text-lg text-purple-800">Event Details</h3>
-                      <p><strong>Event ID:</strong> {log.event.event_id}</p>
-                      <p><strong>Date:</strong> {log.event.date}</p>
-                      <p><strong>Total Strokes (Men):</strong> {log.event.m_total_stroke?.name}</p>
-                      <p><strong>Total Strokes (Women):</strong> {log.event.w_total_stroke?.name}</p>
-                      {/* Add other event fields you want to display */}
-                      <p><strong>Birdies:</strong> {log.event.birdies?.length}</p>
-                      <p><strong>Eagles:</strong> {log.event.eagles?.length}</p>
-                      {/* Add more event data here */}
+
+                  {/* handicap adjustment */}
+                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
+                      <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
+                      {/* 總桿調桿 */}
+                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                          {MStrokeWinner[0]?.name && (
+                              <p className="font-bold text-blue-800">
+                                {MStrokeWinner[0]?.name} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
+                              </p>
+                            )}
+
+                            {WStrokeWinner[0]?.name && (
+                              <p className="font-bold text-red-800">
+                                {WStrokeWinner[0]?.name} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
+                              </p>
+                            )}
+                        </div>
+                      </div>
+
+                      {/* 净桿調桿 */}
+                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調桿</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                        {MNet1Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet1Winner[0]?.name} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
+                            </p>
+                          )}
+
+                          {MNet2Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet2Winner[0]?.name} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
+                            </p>
+                          )}
+
+                          {MNet3Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet3Winner[0]?.name} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
+                            </p>
+                          )}
+
+                          {MNet4Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet4Winner[0]?.name} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
+                            </p>
+                          )}
+
+                          {MNet5Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet5Winner[0]?.name} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
+                            </p>
+                          )}
+
+                          {WNet1Winner[0]?.name && (
+                            <p className="font-bold text-red-800">
+                              {WNet1Winner[0]?.name} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
+                            </p>
+                          )}
+
+                          {WNet2Winner[0]?.name && (
+                            <p className="font-bold text-red-800">
+                              {WNet2Winner[0]?.name} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
+                            </p>
+                          )}
+                        </div>
+
+                      </div>
+
+                      {/* 新會員調桿 */}
+                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
+                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
+                        {NewstrokeList.length > 0 ? (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            {NewstrokeList.map((item, idx) => {
+                              const [member, handicap, value, adjusted] = item.result;
+                              return (
+                                <div
+                                  key={idx}
+                                  className={`mt-2 ${
+                                    member.sex === 'Male' ? 'font-bold text-blue-800' : 'font-bold text-red-800'
+                                  }`}
+                                >
+                                  {member.name} {member.is_new && '⭐'} ({handicap}) - {value} = ({adjusted})
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <p className="text-gray-600">無調桿數據</p>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  
+                {/* end of show strokes */}  
                 </div>
               ))
             ) : (
