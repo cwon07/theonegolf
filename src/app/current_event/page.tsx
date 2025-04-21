@@ -944,13 +944,13 @@ return (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                       {MStrokeWinner[0]?.name && (
                         <p className="font-bold text-blue-800">
-                          {MStrokeWinner[0]?.name} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
+                          {MStrokeWinner[0]?.name} ({MStrokeWinner[1] === 0 ? 0 : MStrokeWinner[1] || "N/A"}) - 1 = ({MStrokeWinner[2] === 0 ? 0 : MStrokeWinner[2] || "N/A"})
                         </p>
                       )}
 
                       {WStrokeWinner[0]?.name && (
                         <p className="font-bold text-red-800">
-                          {WStrokeWinner[0]?.name} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
+                          {WStrokeWinner[0]?.name} ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"}) - 1 = ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"})
                         </p>
                       )}
                     </div>
@@ -964,44 +964,44 @@ return (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       {MNet1Winner[0]?.name && (
                         <p className="font-bold text-blue-800">
-                          {MNet1Winner[0]?.name} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
+                          {MNet1Winner[0]?.name} ({MNet1Winner[1] === 0 ? 0 : MNet1Winner[1] || "N/A"}) - {MNet1Winner[2] === 0 ? 0 : MNet1Winner[2] || "N/A"} - {MNet1Winner[3] === 0 ? 0 : MNet1Winner[3] || "N/A"} = ({MNet1Winner[1] === 0 ? 0 : MNet1Winner[4] || "N/A"})
                         </p>
                       )}
 
                       {MNet2Winner[0]?.name && (
                         <p className="font-bold text-blue-800">
-                          {MNet2Winner[0]?.name} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
+                          {MNet2Winner[0]?.name} ({MNet2Winner[1] === 0 ? 0 : MNet2Winner[1] || "N/A"}) - {MNet2Winner[2] === 0 ? 0 : MNet2Winner[2] || "N/A"} - {MNet2Winner[3] === 0 ? 0 : MNet2Winner[3] || "N/A"} = ({MNet2Winner[1] === 0 ? 0 : MNet2Winner[4] || "N/A"})
                         </p>
                       )}
 
                       {MNet3Winner[0]?.name && (
                         <p className="font-bold text-blue-800">
-                          {MNet3Winner[0]?.name} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
-                        </p>
+                          {MNet3Winner[0]?.name} ({MNet3Winner[1] === 0 ? 0 : MNet3Winner[1] || "N/A"}) - {MNet3Winner[2] === 0 ? 0 : MNet3Winner[2] || "N/A"} - {MNet3Winner[3] === 0 ? 0 : MNet3Winner[3] || "N/A"} = ({MNet3Winner[1] === 0 ? 0 : MNet3Winner[4] || "N/A"})
+                          </p>
                       )}
 
                       {MNet4Winner[0]?.name && (
                         <p className="font-bold text-blue-800">
-                          {MNet4Winner[0]?.name} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
-                        </p>
+                          {MNet4Winner[0]?.name} ({MNet4Winner[1] === 0 ? 0 : MNet4Winner[1] || "N/A"}) - {MNet4Winner[2] === 0 ? 0 : MNet4Winner[2] || "N/A"} - {MNet4Winner[3] === 0 ? 0 : MNet4Winner[3] || "N/A"} = ({MNet4Winner[1] === 0 ? 0 : MNet4Winner[4] || "N/A"})
+                          </p>
                       )}
 
                       {MNet5Winner[0]?.name && (
                         <p className="font-bold text-blue-800">
-                          {MNet5Winner[0]?.name} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
+                          {MNet5Winner[0]?.name} ({MNet5Winner[1] === 0 ? 0 : MNet5Winner[1] || "N/A"}) - {MNet5Winner[2] === 0 ? 0 : MNet5Winner[2] || "N/A"} - {MNet5Winner[3] === 0 ? 0 : MNet5Winner[3] || "N/A"} = ({MNet5Winner[1] === 0 ? 0 : MNet5Winner[4] || "N/A"})
                         </p>
                       )}
 
                       {WNet1Winner[0]?.name && (
                         <p className="font-bold text-red-800">
-                          {WNet1Winner[0]?.name} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
-                        </p>
+                          {WNet1Winner[0]?.name} ({WNet1Winner[1] === 0 ? 0 : WNet1Winner[1] || "N/A"}) - {WNet1Winner[2] === 0 ? 0 : WNet1Winner[2] || "N/A"} - {WNet1Winner[3] === 0 ? 0 : WNet1Winner[3] || "N/A"} = ({WNet1Winner[1] === 0 ? 0 : WNet1Winner[4] || "N/A"})
+                          </p>
                       )}
 
                       {WNet2Winner[0]?.name && (
                         <p className="font-bold text-red-800">
-                          {WNet2Winner[0]?.name} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
-                        </p>
+                          {WNet2Winner[0]?.name} ({WNet2Winner[1] === 0 ? 0 : WNet2Winner[1] || "N/A"}) - {WNet2Winner[2] === 0 ? 0 : WNet2Winner[2] || "N/A"} - {WNet2Winner[3] === 0 ? 0 : WNet2Winner[3] || "N/A"} = ({WNet2Winner[1] === 0 ? 0 : WNet2Winner[4] || "N/A"})
+                          </p>
                       )}
                     </div>
                   </div>
