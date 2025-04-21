@@ -1,8 +1,0 @@
-{
-  "__cron_meta": [
-    {
-      "path": "/api/handicap_history",
-      "schedule": "0 8 * * *"
-    }
-  ]
-}
