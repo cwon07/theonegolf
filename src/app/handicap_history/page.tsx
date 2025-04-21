@@ -5,8 +5,6 @@ import mongoose from 'mongoose';
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import { calculateStrokes, setCalculatedStrokes } from "@/app/lib/database/calculateStrokes"; 
-import { fetchEventWithDetails } from "@/app/lib/database/fetchEventWithDetails";
-
 
 interface Member {
   _id: mongoose.Types.ObjectId;
