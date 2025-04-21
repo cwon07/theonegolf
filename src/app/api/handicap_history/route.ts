@@ -1,17 +1,6 @@
-import cron from 'node-cron';
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from "@/app/lib/database";
 import CronLog from "@/app/lib/database/models/cronLog.model";
-import { runTournamentLoggerJob } from "@/app/lib/database/runTournamentLoggerJob"; 
-
-
-// Cron job that runs every day at midnight PST (Pacific Standard Time)
-cron.schedule('0 8 * * *', async () => {
-  await runTournamentLoggerJob();
-}, {
-  scheduled: true,
-  timezone: "America/Los_Angeles"
-});
 
 export async function GET() {
   try {
