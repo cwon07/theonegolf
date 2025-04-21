@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Header from "../components/Header"
 import Navbar from "../components/Navbar";
+import { calculateStrokes, setCalculatedStrokes } from "@/app/lib/database/calculateStrokes"; 
+
 
 // Define the types for the event structure
 interface DecodedToken {
@@ -77,16 +79,6 @@ export default function EventsView() {
   const [rankingsFemale, setRankingsFemale] = useState<any[]>([]); // State for rankings
   const [rankingsMaleNet, setRankingsMaleNet] = useState<any[]>([]); // State for rankings
   const [rankingsFemaleNet, setRankingsFemaleNet] = useState<any[]>([]); // State for rankings
-  const [MStrokeWinner, setMStrokeWinner] = useState<any[]>([]); // State for rankings
-  const [WStrokeWinner, setWStrokeWinner] = useState<any[]>([]); // State for rankings
-  const [MNet1Winner, setMNet1Winner] = useState<any[]>([]); // State for rankings
-  const [MNet2Winner, setMNet2Winner] = useState<any[]>([]); // State for rankings
-  const [MNet3Winner, setMNet3Winner] = useState<any[]>([]); // State for rankings
-  const [MNet4Winner, setMNet4Winner] = useState<any[]>([]); // State for rankings
-  const [MNet5Winner, setMNet5Winner] = useState<any[]>([]); // State for rankings
-  const [WNet1Winner, setWNet1Winner] = useState<any[]>([]); // State for rankings
-  const [WNet2Winner, setWNet2Winner] = useState<any[]>([]); // State for rankings
-  const [NewstrokeList, setNewStrokeList] = useState<any[]>([]); // State for rankings
   const [showRankings, setShowRankings] = useState(false);
   const [showAwards, setShowAwards] = useState(false);
   const [showStrokes, setShowStrokes] = useState(false);
@@ -101,6 +93,17 @@ export default function EventsView() {
   const [isGreen2, setisGreen2] = useState(false);
   const [isGreen3, setisGreen3] = useState(false);
   const [isGreen4, setisGreen4] = useState(false);
+
+  const [MStrokeWinner, setMStrokeWinner] = useState<any[]>([]); // State for rankings
+  const [WStrokeWinner, setWStrokeWinner] = useState<any[]>([]); // State for rankings
+  const [MNet1Winner, setMNet1Winner] = useState<any[]>([]); // State for rankings
+  const [MNet2Winner, setMNet2Winner] = useState<any[]>([]); // State for rankings
+  const [MNet3Winner, setMNet3Winner] = useState<any[]>([]); // State for rankings
+  const [MNet4Winner, setMNet4Winner] = useState<any[]>([]); // State for rankings
+  const [MNet5Winner, setMNet5Winner] = useState<any[]>([]); // State for rankings
+  const [WNet1Winner, setWNet1Winner] = useState<any[]>([]); // State for rankings
+  const [WNet2Winner, setWNet2Winner] = useState<any[]>([]); // State for rankings
+  const [NewstrokeList, setNewStrokeList] = useState<any[]>([]); // State for rankings
 
 
     useEffect(() => {
@@ -130,7 +133,21 @@ export default function EventsView() {
           setEvents([data]);
           calculateRankings([data]);
           calculateRankingsNet([data]);
-          calculateStrokes([data]);
+        
+          const result = calculateStrokes([data]);
+          setCalculatedStrokes(result, {
+            setMStrokeWinner,
+            setWStrokeWinner,
+            setMNet1Winner,
+            setMNet2Winner,
+            setMNet3Winner,
+            setMNet4Winner,
+            setMNet5Winner,
+            setWNet1Winner,
+            setWNet2Winner,
+            setNewStrokeList,
+          });
+
         } else {
           console.error("Failed to fetch events:", data.error);
         }
@@ -311,174 +328,6 @@ export default function EventsView() {
     setRankingsMaleNet(maleRounds);
     setRankingsFemaleNet(femaleRounds);
   };
-
-  const calculateStrokes = (eventsData: Event[]) => {
-    const allRounds: any[] = [];
-  
-    // Aggregate all rounds from all events and groups
-    eventsData.forEach((event) => {
-      event.groups.forEach((group) => {
-        group.rounds.forEach((round) => {
-          if (round.front_9 && round.back_9) { // Only include rounds with complete scores
-            const totalScore = Number(round.front_9) + Number(round.back_9);
-            allRounds.push({
-              name: round.member.name,
-              _id: round.member._id,
-              id: round.member.id,
-              front_9: round.front_9,
-              back_9: round.back_9,
-              totalScore,
-              handicap: round.member.handicap,
-              sex: round.member.sex,
-              is_new: round.member.is_new,
-            });
-          }
-        });
-      });
-    });
-
-    const table1: number[][] = [
-      // [0-9, 10-15, 16-21, 22-26, 27-32, 33-38]
-      [1, 2, 3, 4, 5, 6], // 1st place (第1名)
-      [0, 1, 2, 3, 4, 5], // 2nd place (第2名)
-      [0, 0, 1, 2, 3, 4], // 3rd place (第3名)
-      [0, 0, 0, 1, 2, 3], // 4th place (第4名)
-      [0, 0, 0, 0, 1, 2], // 5th place (第5名)
-    ];
-
-    const table2: number[][] = [
-      // [0-9, 10-15, 16-21, 22-26, 27-32, 33-38]
-      [0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7], // handi 0-9
-      [0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6 ,6 ,7, 7, 7, 8, 8, 8, 9, 9, 9,10], // handi 10-15
-      [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,10,10,11,11,12,12,13,13,14,14,15], // handi 16-21
-      [1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9,10,10,11,12,12,13,14,14,15,16,16,17,18,18,19,20], // handi 22-26
-      [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], // handi 27-32
-      [1, 2, 3, 5, 6, 7, 8, 9,10,12,13,14,15,16,17,19,20,21,23,24,25,26,27,28,29,31,32,33,34], // handi 33-38
-    ];
-
-    const getHandicapRangeIndex = (handicap: number): number => {
-      if (handicap <= 9) return 0; // 0-9
-      if (handicap <= 15) return 1; // 10-15
-      if (handicap <= 21) return 2; // 16-21
-      if (handicap <= 26) return 3; // 22-26
-      if (handicap <= 32) return 4; // 27-32
-      return 5; // 33-38
-    };
-
-    const clamp = (num: number, min: number, max: number) => Math.max(min, Math.min(num, max));
-
-    const getNetStrokeAdjustment = (original: Member, placeIndex: number): any[] => {
-      const handicap = original?.handicap?.at?.(-1);
-      const parsedHandicap = handicap !== undefined ? Number(handicap) : undefined;
-      const rangeIndex = parsedHandicap !== undefined ? getHandicapRangeIndex(parsedHandicap) : undefined;
-      
-      const round = allRounds.find((r) => r._id === original?._id);
-      const totalScore = round?.totalScore ?? null; // fallback to null if undefined
-    
-      if (handicap === undefined || totalScore === undefined) {
-        return [original, handicap, undefined, undefined, undefined];
-      }
-    
-      const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - 72) : undefined;
-      const clampedIndex = lookUpStroke !== undefined ? clamp(lookUpStroke, 0, 28) - 1 : undefined;
-      
-      const table1Value = (rangeIndex !== undefined && table1?.[placeIndex]?.[rangeIndex] !== undefined) ? table1[placeIndex][rangeIndex] : 0;
-      const table2Value = (rangeIndex !== undefined && clampedIndex !== undefined && table2?.[rangeIndex]?.[clampedIndex] !== undefined) ? table2[rangeIndex][clampedIndex] : 0;
-      
-      const adjusted = parsedHandicap !== undefined ? parsedHandicap - table1Value - table2Value : undefined;
-      
-    
-      return [original, handicap, table1Value, table2Value, adjusted];
-    };
-
-    const getNewStrokeAdjustment = (original: Member): any[] => {
-      const handicap = original?.handicap?.at(-1);
-      const parsedHandicap = handicap !== undefined ? Number(handicap) : undefined;
-      const rangeIndex = parsedHandicap !== undefined && !isNaN(parsedHandicap)
-        ? getHandicapRangeIndex(parsedHandicap)
-        : undefined;
-      
-      const round = original?._id
-        ? allRounds.find((r) => r._id === original._id)
-        : undefined;
-      
-      const totalScore = round?.totalScore;
-      
-    
-      if (handicap === undefined || totalScore === undefined) {
-        return [original, handicap, undefined, undefined, undefined];
-      }
-    
-      let table2Value: number | undefined;
-      let adjusted: number | undefined;
-      
-      if (
-        typeof parsedHandicap === 'number' &&
-        !isNaN(parsedHandicap) &&
-        typeof rangeIndex === 'number' &&
-        !isNaN(rangeIndex) &&
-        typeof totalScore === 'number'
-      ) {
-        const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
-      
-        if (lookUpStroke <= 0) {
-          table2Value = 0;
-          adjusted = parsedHandicap;
-        } else {
-          const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
-          table2Value = table2?.[rangeIndex]?.[clampedIndex] ?? 0;
-          adjusted = parsedHandicap - table2Value;
-        }
-      } else {
-        table2Value = undefined;
-        adjusted = undefined;
-      }
-      
-    
-      return [original, handicap, table2Value, adjusted];
-    };
-
-    // Separate into male and female rankings with custom sorting
-    const NewMemberRounds = allRounds.filter((round) => round.is_new === true);
-    const adjustedNewMember = NewMemberRounds.map((round) => {
-      const result = getNewStrokeAdjustment(round); // round is a Member
-      return { result };
-    });    
-
-    // Total stroke winner handicap change
-    // Calculate updated handicaps for MWinner and WWinner
-    const mOriginal = eventsData[0].m_total_stroke || null;
-    const mHandicap = mOriginal?.handicap?.at(-1);
-    const mAdjustedHandicap = mHandicap !== undefined ? Number(mHandicap) - 1 : undefined;
-    const MWinner: any[] = [mOriginal, mHandicap, mAdjustedHandicap];
-
-    const wOriginal = eventsData[0].w_total_stroke || null;
-    const wHandicap = wOriginal?.handicap?.at(-1);
-    const wAdjustedHandicap = wHandicap !== undefined ? Number(wHandicap) - 1 : undefined;
-    const WWinner: any[] = [wOriginal, wHandicap, wAdjustedHandicap];
-
-    //net stroke
-    const MNet1 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_1, 0);
-    const MNet2 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_2, 1);
-    const MNet3 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_3, 2);
-    const MNet4 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_4, 3);
-    const MNet5 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_5, 4);
-
-    const WNet1 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_1, 0);
-    const WNet2 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_2, 1);
-
-    // Update state with sorted rankings
-    setMStrokeWinner(MWinner);
-    setWStrokeWinner(WWinner);
-    setMNet1Winner(MNet1);
-    setMNet2Winner(MNet2);
-    setMNet3Winner(MNet3);
-    setMNet4Winner(MNet4);
-    setMNet5Winner(MNet5);
-    setWNet1Winner(WNet1);
-    setWNet2Winner(WNet2);
-    setNewStrokeList(adjustedNewMember);
-    };
 
   const handleSelectMenu = (menu: string) => {
     console.log("Selected menu:", menu);
