@@ -245,7 +245,7 @@ export default function LogTournPage() {
                   key={index}
                   className="bg-gray-100 p-4 rounded-md shadow-md text-black"
                 >
-                  <p className="font-semibold text-purple-700">調桿生效時日： {convertToPST(log.createdAt)}</p>
+                  <p className="font-semibold text-purple-700">生效時日： {convertToPST(log.createdAt)}</p>
                   <p style={{ whiteSpace: 'pre-line' }}>
                     {renderLog(log.message)} {/* Dynamically render the message with colors */}
                   </p>
