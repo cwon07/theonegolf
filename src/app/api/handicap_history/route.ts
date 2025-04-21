@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from "@/app/lib/database";
 import CronLog from "@/app/lib/database/models/cronLog.model";
+import { runTournamentLoggerJob } from "@/app/lib/database/runTournamentLoggerJob";
 
 export async function GET() {
   try {
@@ -9,8 +10,8 @@ export async function GET() {
 
     //comment out the below two lines after testing
     
-    //console.log('🔧 Running tournament logger job manually via GET...');
-    //await runTournamentLoggerJob(); 
+    console.log('🔧 Running tournament logger job manually via GET...');
+    await runTournamentLoggerJob(); 
     
 
     // Fetch logs from the CronLog collection
