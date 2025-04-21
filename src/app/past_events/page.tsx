@@ -544,7 +544,7 @@ export default function EventsView() {
               載入
             </button>
             {loadingEvent && (
-              <p className="mt-2 text-gray-600 italic">Loading event...</p>
+              <p className="mt-2 text-gray-600 italic">載入中...</p>
             )}
           </div>
   
