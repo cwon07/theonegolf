@@ -14,6 +14,20 @@ export default function LogTournPage() {
   const [logs, setLogs] = useState<Log[]>([]); // Explicitly type the logs as an array of Log
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null); // Error state to show error messages
+  const [currentTime, setCurrentTime] = useState("");
+
+  useEffect(() => {
+    const updateCurrentTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleString());
+    };
+
+    updateCurrentTime(); // Set time immediately
+    const interval = setInterval(updateCurrentTime, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -87,6 +101,9 @@ export default function LogTournPage() {
           <h1 className="text-black text-4xl font-extrabold text-center mb-8">
             Cron Job Logs
           </h1>
+          <h2 className="text-black text-xl text-center mb-4">
+            Current Time: {currentTime}
+          </h2>
 
           <section className="space-y-4">
             {loading ? (
