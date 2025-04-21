@@ -11,12 +11,15 @@ export async function GET(request: Request) {
     await connectToDatabase();
 
     const today = new Date();
-    const todayStr = today.toISOString().split('T')[0];
+    const pstOffset = -7;
+    today.setHours(today.getHours() + pstOffset); 
+    const todayStr = today.toISOString().split('T')[0]; // Get date string in "YYYY-MM-DD" format
 
     const events = await Event.find(
       { date: { $lt: todayStr } },
       'date is_tourn'
     ).sort({ date: 1 });
+    
 
     return NextResponse.json(events, { status: 200 });
   } catch (err) {

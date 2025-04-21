@@ -17,6 +17,7 @@ interface DecodedToken {
 
 const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isMemDropdownOpen, setMemDropdownOpen] = useState(false);
   const [isEventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [isAdminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [adminName, setAdminName] = useState<string | null>(null);
@@ -24,6 +25,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const eventDropdownRef = useRef<HTMLDivElement>(null);
   const adminDropdownRef = useRef<HTMLDivElement>(null);
+  const memDropdownRef = useRef<HTMLDivElement>(null);
 
   // Check if admin is logged in
   useEffect(() => {
@@ -64,6 +66,9 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
       if (adminDropdownRef.current && !adminDropdownRef.current.contains(event.target as Node)) {
         setAdminDropdownOpen(false);
       }
+      if (memDropdownRef.current && !memDropdownRef.current.contains(event.target as Node)) {
+        setMemDropdownOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -82,39 +87,63 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
             晚宴 & 規則 ▼
           </button>
           {isDropdownOpen && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
-              <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/rules_and_gathering")}>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col items-center w-64">
+              <span
+                className="p-2 w-full hover:bg-gray-100 text-center cursor-pointer"
+                onClick={() => router.push("/rules_and_gathering")}>
                 月賽規則 & 晚宴
-              </button>
-              <button className="p-2 hover:bg-gray-200" onClick={() => router.push("/handicap")}>
+              </span>
+              <span
+                className="p-2 w-full hover:bg-gray-100 text-center cursor-pointer"
+                onClick={() => router.push("/handicap")}>
                 差點調整詳解
-              </button>
+              </span>
             </div>
           )}
         </div>
 
-    {/* Other Menu Items */}
-    <button className="text-black font-bold text-[1.2rem] p-2 w-full sm:w-auto" onClick={() => router.push("/list_members")}>
-      會員總覽
-    </button>
-
-    {/* Events Dropdown */}
-    <div className="relative text-black font-bold text-[1.2rem] w-full sm:w-auto" ref={eventDropdownRef}>
-      <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="p-2 w-full sm:w-auto">
-        賽事 & 球叙 ▼
-      </button>
-      {isEventDropdownOpen && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col w-64">
-          <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/current_event")}>
-            當前賽事&球叙
+        <div className="relative text-black font-bold text-[1.2rem] w-full sm:w-auto" ref={memDropdownRef}>
+          <button onClick={() => setMemDropdownOpen(!isMemDropdownOpen)} className="p-2 w-full sm:w-auto">
+            會員總覽 & 調桿歷史 ▼
           </button>
-          <button className="p-2 hover:bg-gray-100" onClick={() => router.push("/past_events")}>
-            過往賽事&球叙
-          </button>
+          {isMemDropdownOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col items-center w-64">
+              <span 
+                className="p-2 w-full hover:bg-gray-100 text-center cursor-pointer"
+                onClick={() => router.push("/list_members")}>
+                會員總覽
+              </span>
+              <span
+                className="p-2 w-full hover:bg-gray-100 text-center cursor-pointer"
+                onClick={() => router.push("/handicap_history")}>
+                調桿歷史
+              </span>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  </div>
+
+        {/* Events Dropdown */}
+        <div className="relative text-black font-bold text-[1.2rem] w-full sm:w-auto" ref={eventDropdownRef}>
+          <button onClick={() => setEventDropdownOpen(!isEventDropdownOpen)} className="p-2 w-full sm:w-auto">
+            賽事 & 球叙 ▼
+          </button>
+          {isEventDropdownOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col items-center w-64">
+              <span
+                className="p-2 w-full hover:bg-gray-100 text-center cursor-pointer"
+                onClick={() => router.push("/current_event")}>
+                當前賽事&球叙
+              </span>
+              <span
+                className="p-2 w-full hover:bg-gray-100 text-center cursor-pointer"
+                onClick={() => router.push("/past_events")}>
+                過往賽事&球叙
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
 
   {/* Right-side Admin Options */}
   <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center w-full sm:w-auto mt-4 sm:mt-0">
