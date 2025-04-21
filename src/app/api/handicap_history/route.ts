@@ -6,7 +6,7 @@ import CronLog from "@/app/lib/database/models/cronLog.model";
 import CronLock from "@/app/lib/database/models/cronlock.model";
 
 // Cron job that runs every day at midnight PST (Pacific Standard Time)
-cron.schedule('0 8 * * *', async () => {
+cron.schedule('0 * * * *', async () => {
   console.log("Cron job triggered at midnight PST");
 
   try {
