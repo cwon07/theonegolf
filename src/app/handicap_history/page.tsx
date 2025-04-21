@@ -65,29 +65,67 @@ interface Log {
   event?: Event | null;  // Event can be undefined or null
 }
 
+type StrokeWinner = { name: string; original: string; adjusted: string };
+type NetWinner = { name: string; original: string; table1: string; table2: string; adjusted: string };
+type NewMember = { name: string; original: string; value: string; adjusted: string };
+
+function parseLogString(log: string) {
+  const lines = log.split('\n').map(line => line.trim());
+  const dateMatch = lines[0].match(/(\d{4}-\d{2}-\d{2})/);
+  const date = dateMatch?.[1] ?? '';
+
+  const strokeWinners: { men?: StrokeWinner; women?: StrokeWinner } = {};
+  const netWinners: NetWinner[] = [];
+  const newMembers: NewMember[] = [];
+
+  let section = '';
+
+  for (const line of lines) {
+    if (line.includes('Stroke Winners')) section = 'stroke';
+    else if (line.includes('Net Winners')) section = 'net';
+    else if (line.includes('New Members Adjusted')) section = 'new';
+    else if (line.startsWith('-')) {
+      const content = line.replace(/^- /, '');
+      switch (section) {
+        case 'stroke': {
+          const match = content.match(/^(.+?) \((\d+)\) - 1 = \((\d+)\)/);
+          if (match) {
+            const [_, name, original, adjusted] = match;
+            if (line.includes('Men')) strokeWinners.men = { name, original, adjusted };
+            if (line.includes('Women')) strokeWinners.women = { name, original, adjusted };
+          }
+          break;
+        }
+
+        case 'net': {
+          const match = content.match(/^(.+?) \((\d+)\) - (\d+) - (\d+) = \((\d+)\)/);
+          if (match) {
+            const [_, name, original, table1, table2, adjusted] = match;
+            netWinners.push({ name, original, table1, table2, adjusted });
+          }
+          break;
+        }
+
+        case 'new': {
+          const match = content.match(/^(.+?) \((\d+)\) - (\d+) = \((\d+)\)/);
+          if (match) {
+            const [_, name, original, value, adjusted] = match;
+            newMembers.push({ name, original, value, adjusted });
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  return { date, strokeWinners, netWinners, newMembers };
+}
+
 export default function LogTournPage() {
   const [logs, setLogs] = useState<Log[]>([]); // Explicitly type the logs as an array of Log
-  const [eventData, setEventData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null); // Error state to show error messages
   const [currentTime, setCurrentTime] = useState("");
-  const [selectedDateArray, setSelectedDateArray] = useState<string>("");
-
-  const [MStrokeWinner, setMStrokeWinner] = useState<any[]>([]); // State for rankings
-  const [WStrokeWinner, setWStrokeWinner] = useState<any[]>([]); // State for rankings
-  const [MNet1Winner, setMNet1Winner] = useState<any[]>([]); // State for rankings
-  const [MNet2Winner, setMNet2Winner] = useState<any[]>([]); // State for rankings
-  const [MNet3Winner, setMNet3Winner] = useState<any[]>([]); // State for rankings
-  const [MNet4Winner, setMNet4Winner] = useState<any[]>([]); // State for rankings
-  const [MNet5Winner, setMNet5Winner] = useState<any[]>([]); // State for rankings
-  const [WNet1Winner, setWNet1Winner] = useState<any[]>([]); // State for rankings
-  const [WNet2Winner, setWNet2Winner] = useState<any[]>([]); // State for rankings
-  const [NewstrokeList, setNewStrokeList] = useState<any[]>([]); // State for rankings
-
-  function extractDateFromMessage(message: string): string | null {
-    const match = message.match(/\d{4}-\d{2}-\d{2}$/);
-    return match ? match[0] : null;
-  }
 
   useEffect(() => {
     const updateCurrentTime = () => {
@@ -124,51 +162,10 @@ export default function LogTournPage() {
         }
 
         if (data.logs && Array.isArray(data.logs)) {
-          const logsWithEvents = await Promise.all(
-            data.logs.map(async (log: Log) => {
-              const date = extractDateFromMessage(log.message); // Ensure this function returns the correct date string
-              if (!date) return log;
-
-              try {
-                const res = await fetch(`/api/past_event_populate?date=${date}`);
-                if (!res.ok) throw new Error('Failed to fetch event');
-                const data = await res.json();
-              
-                // Ensure data is of type Event here before passing it to calculateStrokes
-                if (!data || !data.event_id) {
-                  throw new Error('Invalid event data');
-                }
-              
-                // Use data as the event
-                const result = calculateStrokes([data]); // Passing data as an array
-                setCalculatedStrokes(result, {
-                  setMStrokeWinner,
-                  setWStrokeWinner,
-                  setMNet1Winner,
-                  setMNet2Winner,
-                  setMNet3Winner,
-                  setMNet4Winner,
-                  setMNet5Winner,
-                  setWNet1Winner,
-                  setWNet2Winner,
-                  setNewStrokeList,
-                });
-              
-                // Return the log along with the event data
-                console.log(date);
-                return { ...log, event: data };  // Attach event data to log
-              } catch (err) {
-                console.error(`Error fetching event for ${date}:`, err);
-                return log;  // Return log without event if fetching fails
-              }
-              
-            })
-          );
-
-          setLogs(logsWithEvents); // Update state with the fetched logs and their events
+          setLogs(data.logs); // logs are already strings (or contain message strings)
         } else {
           setError('Invalid data format: logs array not found.');
-        }
+        }        
 
       } catch (err: any) {
         console.error('❌ Error fetching cron logs:', err);
@@ -193,6 +190,25 @@ export default function LogTournPage() {
   const handleSelectMenu = (menu: string) => {
     console.log("Selected menu:", menu);
   };
+
+  const renderLog = (message: string) => {
+    const lines = message.split('\n'); // Split by newline character
+    return lines.map((line, index) => {
+      let textClass = 'text-black';
+      if (line.includes('(男士)')) {
+        textClass  = 'text-blue-800';
+      } else if (line.includes('(女士)')) {
+        textClass  = 'text-red-800';
+      }
+      return (
+        <span key={index} className={textClass}>
+          {line}
+          <br />
+        </span>
+      );
+    });
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -230,104 +246,9 @@ export default function LogTournPage() {
                   className="bg-gray-100 p-4 rounded-md shadow-md text-black"
                 >
                   <p className="font-semibold text-purple-700">調桿生效時日： {convertToPST(log.createdAt)}</p>
-                  <p>{log.message}</p>
-
-                  {/* handicap adjustment */}
-                    <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-4">
-                      <h4 className="font-bold text-left text-lg mb-2 text-blue-800">調桿一覽</h4>
-                      {/* 總桿調桿 */}
-                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                          {MStrokeWinner[0]?.name && (
-                              <p className="font-bold text-blue-800">
-                                {MStrokeWinner[0]?.name} ({MStrokeWinner[1] || ""}) - 1 = ({MStrokeWinner[2] || ""})
-                              </p>
-                            )}
-
-                            {WStrokeWinner[0]?.name && (
-                              <p className="font-bold text-red-800">
-                                {WStrokeWinner[0]?.name} ({WStrokeWinner[1] || ""}) - 1 = ({WStrokeWinner[2] || ""})
-                              </p>
-                            )}
-                        </div>
-                      </div>
-
-                      {/* 净桿調桿 */}
-                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">净桿調桿</h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        {MNet1Winner[0]?.name && (
-                            <p className="font-bold text-blue-800">
-                              {MNet1Winner[0]?.name} ({MNet1Winner[1] || ""}) - {MNet1Winner[2] || ""} - {MNet1Winner[3] || ""} = ({MNet1Winner[4] || ""})
-                            </p>
-                          )}
-
-                          {MNet2Winner[0]?.name && (
-                            <p className="font-bold text-blue-800">
-                              {MNet2Winner[0]?.name} ({MNet2Winner[1] || ""}) - {MNet2Winner[2] || ""} - {MNet2Winner[3] || ""} = ({MNet2Winner[4] || ""})
-                            </p>
-                          )}
-
-                          {MNet3Winner[0]?.name && (
-                            <p className="font-bold text-blue-800">
-                              {MNet3Winner[0]?.name} ({MNet3Winner[1] || ""}) - {MNet3Winner[2] || ""} - {MNet3Winner[3] || ""} = ({MNet3Winner[4] || ""})
-                            </p>
-                          )}
-
-                          {MNet4Winner[0]?.name && (
-                            <p className="font-bold text-blue-800">
-                              {MNet4Winner[0]?.name} ({MNet4Winner[1] || ""}) - {MNet4Winner[2] || ""} - {MNet4Winner[3] || ""} = ({MNet4Winner[4] || ""})
-                            </p>
-                          )}
-
-                          {MNet5Winner[0]?.name && (
-                            <p className="font-bold text-blue-800">
-                              {MNet5Winner[0]?.name} ({MNet5Winner[1] || ""}) - {MNet5Winner[2] || ""} - {MNet5Winner[3] || ""} = ({MNet5Winner[4] || ""})
-                            </p>
-                          )}
-
-                          {WNet1Winner[0]?.name && (
-                            <p className="font-bold text-red-800">
-                              {WNet1Winner[0]?.name} ({WNet1Winner[1] || ""}) - {WNet1Winner[2] || ""} - {WNet1Winner[3] || ""} = ({WNet1Winner[4] || ""})
-                            </p>
-                          )}
-
-                          {WNet2Winner[0]?.name && (
-                            <p className="font-bold text-red-800">
-                              {WNet2Winner[0]?.name} ({WNet2Winner[1] || ""}) - {WNet2Winner[2] || ""} - {WNet2Winner[3] || ""} = ({WNet2Winner[4] || ""})
-                            </p>
-                          )}
-                        </div>
-
-                      </div>
-
-                      {/* 新會員調桿 */}
-                      <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
-                        <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
-                        {NewstrokeList.length > 0 ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                            {NewstrokeList.map((item, idx) => {
-                              const [member, handicap, value, adjusted] = item.result;
-                              return (
-                                <div
-                                  key={idx}
-                                  className={`mt-2 ${
-                                    member.sex === 'Male' ? 'font-bold text-blue-800' : 'font-bold text-red-800'
-                                  }`}
-                                >
-                                  {member.name} {member.is_new && '⭐'} ({handicap}) - {value} = ({adjusted})
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          <p className="text-gray-600">無調桿數據</p>
-                        )}
-                      </div>
-                    </div>
-                  
-                {/* end of show strokes */}  
+                  <p style={{ whiteSpace: 'pre-line' }}>
+                    {renderLog(log.message)} {/* Dynamically render the message with colors */}
+                  </p>
                 </div>
               ))
             ) : (
