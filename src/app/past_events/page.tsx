@@ -453,7 +453,7 @@ export default function EventsView() {
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {selectedEvent.m_total_stroke.id}
                               </span>
-                              <span className="font-bold text-black">{selectedEvent.m_total_stroke.name}</span>
+                              <span className="text-black">{selectedEvent.m_total_stroke.name}</span>
                             </span>
                           ) : (
                             <span className="text-black">暫無得獎者</span>
@@ -467,7 +467,7 @@ export default function EventsView() {
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {selectedEvent.w_total_stroke.id}
                               </span>
-                              <span className="font-bold text-black">{selectedEvent.w_total_stroke.name}</span>
+                              <span className="text-black">{selectedEvent.w_total_stroke.name}</span>
                             </span>
                           ) : (
                             <span className="text-black">暫無得獎者</span>
@@ -488,7 +488,7 @@ export default function EventsView() {
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {selectedEvent.m_long_drive.id}
                               </span>
-                              <span className="font-bold text-black">{selectedEvent.m_long_drive.name}</span>
+                              <span className="text-black">{selectedEvent.m_long_drive.name}</span>
                             </span>
                           ) : (
                             <span className="text-black">暫無得獎者</span>
@@ -503,7 +503,7 @@ export default function EventsView() {
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {selectedEvent.w_long_drive.id}
                               </span>
-                              <span className="font-bold text-black">{selectedEvent.w_long_drive.name}</span>
+                              <span className="text-black">{selectedEvent.w_long_drive.name}</span>
                             </span>
                           ) : (
                             <span className="text-black">暫無得獎者</span>
@@ -641,7 +641,7 @@ export default function EventsView() {
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                               {selectedEvent.m_bb.id}
                             </span>
-                            <span className="font-bold text-black">{selectedEvent.m_bb.name}</span>
+                            <span className="text-black">{selectedEvent.m_bb.name}</span>
                           </span>
                         ) : (
                           <span className="text-black">暫無得獎者</span>
@@ -657,7 +657,7 @@ export default function EventsView() {
                               <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                 {selectedEvent.w_bb.id}
                               </span>
-                              <span className="font-bold text-black">{selectedEvent.w_bb.name}</span>
+                              <span className="text-black">{selectedEvent.w_bb.name}</span>
                             </span>
                           ) : (
                             <span className="text-black">暫無得獎者</span>
@@ -689,7 +689,7 @@ export default function EventsView() {
                                 <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                   {winner.id}
                                 </span>
-                                <span className="font-bold text-black">
+                                <span className="text-black">
                                   {winner.name} {winner.count > 1 && `(${winner.count})`}
                                 </span>
                               </span>
@@ -723,7 +723,7 @@ export default function EventsView() {
                                 <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                   {winner.id}
                                 </span>
-                                <span className="font-bold text-black">
+                                <span className="text-black">
                                   {winner.name} {winner.count > 1 && `(${winner.count})`}
                                 </span>
                               </span>
@@ -756,7 +756,7 @@ export default function EventsView() {
                                 <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
                                   {winner.id}
                                 </span>
-                                <span className="font-bold text-black">
+                                <span className="text-black">
                                   {winner.name} {winner.count > 1 && `(${winner.count})`}
                                 </span>
                               </span>
