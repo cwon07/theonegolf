@@ -104,7 +104,7 @@ const Navbar: FC<NavbarProps> = ({ onSelectMenu }) => {
 
         <div className="relative text-black font-bold text-[1.2rem] w-full sm:w-auto" ref={memDropdownRef}>
           <button onClick={() => setMemDropdownOpen(!isMemDropdownOpen)} className="p-2 w-full sm:w-auto">
-            會員總覽 & 調桿歷史 ▼
+            會員 & 調桿 ▼
           </button>
           {isMemDropdownOpen && (
             <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white border rounded shadow-lg flex flex-col items-center w-64 z-50">
