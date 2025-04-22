@@ -5,6 +5,7 @@ import CronLog from "@/app/lib/database/models/cronLog.model";
 import CronLock from "@/app/lib/database/models/cronlock.model";
 import { calculateStrokes } from "@/app/lib/database/calculateStrokes"; 
 import { fetchEventWithDetails } from "@/app/lib/database/fetchEventWithDetails"; 
+import { DateTime } from 'luxon';
 
 interface Member {
   _id: mongoose.Types.ObjectId;
@@ -80,9 +81,8 @@ export async function runTournamentLoggerJob() {
     }
 
     const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    const pacificNow = DateTime.now().setZone('America/Los_Angeles');
+    const pacificYesterday = pacificNow.minus({ days: 1 });
 
     const existingLogs = await CronLog.find({}, 'message');
     const loggedDates = new Set<string>();
@@ -94,7 +94,7 @@ export async function runTournamentLoggerJob() {
     const allEndedTournaments = await Event.find(
       {
         is_tourn: true,
-        date: { $lte: yesterdayStr }
+        date: { $lte: pacificYesterday }
       },
       'date is_tourn'
     ).sort({ date: 1 });
