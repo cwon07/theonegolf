@@ -232,7 +232,7 @@ export default function Home() {
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 <p className="text-blue-500"> 調桿例子 2</p> 
                 <p>差點32，第1名，總桿83</p>
-                <p>32 - 5 (第一表格) - 21 (第二表格,如爆表將按照現有表格進行推算) = 6 （新差點）</p>
+                <p>32 - 5 (第一表格) - 21 (第二表格,如爆表將按照現有表格推算) = 6 （新差點）</p>
               </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 <p className="text-blue-500"> 新會員調桿例子</p> 
