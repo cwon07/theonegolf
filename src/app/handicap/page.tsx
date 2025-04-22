@@ -46,10 +46,10 @@ export default function Home() {
               
               <div className="mt-8 overflow-x-auto">
                 {/* First Table (7 rows, 6 columns) */}
-                <table className="text-black text-xs sm:text-sm table-auto border-collapse border border-black w-full mb-8">
+                <table className="min-w-[600px] text-black text-sm sm:text-base table-auto border-collapse border border-black w-full mb-8">
                 <thead>
                   <tr className="text-blue-800">
-                    <th className="border border-gray-300 p-1 w-12">名次 \ 差點</th>
+                    <th className="border border-gray-300 p-1 w-12">差點<br/>名次</th>
                     <th className="border border-gray-300 p-1 w-4">0-9</th>
                     <th className="border border-gray-300 p-1 w-4">10-15</th>
                     <th className="border border-gray-300 p-1 w-4">16-21</th>
@@ -111,10 +111,10 @@ export default function Home() {
               
               <div className="mt-8 overflow-x-auto">
                 {/* First Table (7 rows, 6 columns) */}
-                <table className="text-black text-xs sm:text-sm table-auto border-collapse border border-black w-full mb-8">
+                <table className="min-w-[600px] text-black text-sm sm:text-base table-auto border-collapse border border-black w-full mb-8">
                 <thead>
                   <tr className="text-blue-800">
-                    <th className="border border-gray-300 p-1 w-16">差點 \ 差桿</th>
+                    <th className="border border-gray-300 p-1 w-16">差桿<br/>差點</th>
                     <th className="border border-gray-300 p-1 w-2">1</th>
                     <th className="border border-gray-300 p-1 w-2">2</th>
                     <th className="border border-gray-300 p-1 w-2">3</th>

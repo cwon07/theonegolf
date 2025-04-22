@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { connectToDatabase } from "@/app/lib/database";
 import Event from "@/app/lib/database/models/event.model";
+import Member from "@/app/lib/database/models/members.model";
 import CronLog from "@/app/lib/database/models/cronLog.model";
 import CronLock from "@/app/lib/database/models/cronlock.model";
 import { calculateStrokes } from "@/app/lib/database/calculateStrokes"; 
@@ -125,6 +126,19 @@ export async function runTournamentLoggerJob() {
           const WNet2 = result.WNet2 || [];
           const adjustedNewMember = result.adjustedNewMember || [];
 
+          const allHandicapUpdates = [
+            ...adjustedNewMember.map(item => item.result),
+            MWinner,
+            WWinner,
+            MNet1,
+            MNet2,
+            MNet3,
+            MNet4,
+            MNet5,
+            WNet1,
+            WNet2,
+          ];
+          
           // Format the strings for both MStrokeWinner and WStrokeWinner
           const formattedMWinner = `${(MWinner[0] as Member)?.name} (${MWinner[1] === 0 ? 0 : MWinner[1] || "N/A"}) - 1 = (${MWinner[2] === 0 ? 0 : MWinner[2] || "N/A"})`;
           const formattedWWinner = `${(WWinner[0] as Member)?.name} (${WWinner[1] === 0 ? 0 : WWinner[1] || "N/A"}) - 1 = (${WWinner[2] === 0 ? 0 : WWinner[2] || "N/A"})`;
@@ -142,9 +156,28 @@ export async function runTournamentLoggerJob() {
             const [member, handicap, value, adjusted] = item.result;
             return `${member.name} (${handicap === 0 ? 0 : handicap || "N/A"}) - ${value === 0 ? 0 : value || "N/A"} = (${adjusted === 0 ? 0 : adjusted || "N/A"})`;
           });
+
+          const updates = allHandicapUpdates
+          .filter(arr => arr?.length >= 2 && arr[0]?._id !== undefined && arr[arr.length - 1] !== undefined)
+          .map(arr => {
+            const member = arr[0];
+            const newHandicap = arr[arr.length - 1];
+        
+            return {
+              updateOne: {
+                filter: { _id: member._id },
+                update: { $push: { handicap: newHandicap } }
+              }
+            };
+          });
+
+          /*
+          if (updates.length > 0) {
+            await Member.bulkWrite(updates);
+          }
+          */
           
-                    
-    
+          
           //const logMsg = `🏁 比賽日期: ${fullEvent.date} | Winners: ${winnerSummary}`;
           const logMsg = `
           🏁 比賽日期: ${fullEvent.date}
