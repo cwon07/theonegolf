@@ -171,11 +171,11 @@ export async function runTournamentLoggerJob() {
             };
           });
 
-          /*
+          
           if (updates.length > 0) {
             await Member.bulkWrite(updates);
           }
-          */
+          
           
           
           //const logMsg = `🏁 比賽日期: ${fullEvent.date} | Winners: ${winnerSummary}`;
