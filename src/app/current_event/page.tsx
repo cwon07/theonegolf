@@ -571,9 +571,8 @@ return (
                       {adminName && (
                         <button
                           onClick={() => router.push(`/admin/update_winner?eventId=${event.event_id}`)}
-                          className="bg-green-700 text-white px-2 py-1 rounded h-10 text-lg w-20"
-                        >
-                          記錄得獎名單
+                          className={`px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 bg-blue-800 min-w-fit`}                        >
+                          記錄得獎
                         </button>
                       )}
                     </div>
@@ -1266,7 +1265,7 @@ return (
                               onClick={() =>
                                 router.push(`/admin/update_group?groupId=${group._id}`)
                               }
-                              className="mt-2 sm:mt-0 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-sm"
+                              className="px-2 py-1 rounded h-10 text-lg text-white transition-colors duration-300 bg-blue-500 min-w-fit"
                             >
                               球組更新
                             </button>
