@@ -241,7 +241,7 @@ export default function EventsView() {
               front_9: round.front_9,
               back_9: round.back_9,
               totalScore,
-              handicap: round.member.handicap,
+              handicap: round.member.handicap?.[round.member.handicap.length - 1] ?? null,
               sex: round.member.sex,
               is_new: round.member.is_new,
             });
@@ -282,7 +282,7 @@ export default function EventsView() {
         group.rounds.forEach((round) => {
           if (round.front_9 && round.back_9) { // Only include rounds with complete scores
             const totalScore = Number(round.front_9) + Number(round.back_9);
-            const netScore = totalScore - Number(round.member.handicap); // Calculate net score
+            const netScore = totalScore - Number(round.member.handicap?.[round.member.handicap.length - 1] ?? null); // Calculate net score
             allRounds.push({
               name: round.member.name,
               id: round.member.id,
@@ -290,7 +290,7 @@ export default function EventsView() {
               back_9: Number(round.back_9),
               totalScore,
               netScore,  // Add netScore to the object
-              handicap: Number(round.member.handicap),
+              handicap: Number(round.member.handicap?.[round.member.handicap.length - 1] ?? null),
               sex: round.member.sex,
               is_new: round.member.is_new,
             });
