@@ -166,7 +166,10 @@ export async function runTournamentLoggerJob() {
             return {
               updateOne: {
                 filter: { _id: member._id },
-                update: { $push: { handicap: newHandicap } }
+                update: {
+                  $push: { handicap: newHandicap },
+                  $set: { is_new: false }
+                }
               }
             };
           });
