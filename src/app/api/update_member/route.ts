@@ -18,6 +18,8 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "ID is required" }, { status: 400 });
   }
 
+  await connectToDatabase();
+
   try {
     const deletedMember = await Member.findOneAndDelete({ id: parseInt(id) }).exec();
     
@@ -41,6 +43,8 @@ export async function GET(req: NextRequest) {
   if (!id) {
     return NextResponse.json({ error: "ID is required" }, { status: 400 });
   }
+
+  await connectToDatabase();
 
   const member = await Member.findOne({ id: parseInt(id) }).exec();
   if (member) {
