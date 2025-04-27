@@ -819,7 +819,7 @@ export default function EventsView() {
                         {group.rounds && group.rounds.length > 0 && (
                           <div className="mt-4">
                             <div className="hidden sm:grid grid-cols-[3fr,1fr,1fr,1fr] border-b pb-1 text-gray-800 font-bold text-left">
-                              <span>[ID] 姓名 (差點）</span>
+                              <span>[ID] 姓名</span>
                               <span>前9洞</span>
                               <span>後9洞</span>
                               <span>總成績</span>
@@ -846,7 +846,7 @@ export default function EventsView() {
                                         <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg mr-1">
                                           {round.member.id}
                                         </span>
-                                        {round.member.name} ({round.member.handicap.at(-1)})
+                                        {round.member.name}
                                         {round.member.is_new ? '⭐' : ''}
                                       </span>
 
