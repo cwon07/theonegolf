@@ -127,7 +127,6 @@ export async function runTournamentLoggerJob() {
           const adjustedNewMember = result.adjustedNewMember || [];
 
           const allHandicapUpdates = [
-            ...adjustedNewMember.map(item => item.result),
             MWinner,
             WWinner,
             MNet1,
@@ -137,6 +136,7 @@ export async function runTournamentLoggerJob() {
             MNet5,
             WNet1,
             WNet2,
+            ...adjustedNewMember.map(item => item.result),
           ];
           
           // Format the strings for both MStrokeWinner and WStrokeWinner
@@ -157,30 +157,49 @@ export async function runTournamentLoggerJob() {
             return `${member.name} (${handicap === 0 ? 0 : handicap || "N/A"}) - ${value === 0 ? 0 : value || "N/A"} = (${adjusted === 0 ? 0 : adjusted || "N/A"})`;
           });
 
-          const updates = allHandicapUpdates
-          .filter(arr => arr?.length >= 2 && arr[0]?._id !== undefined && arr[arr.length - 1] !== undefined)
-          .map(arr => {
+          const memberUpdates: { [memberId: string]: number[] } = {};
+
+          // Step 1: Group all newHandicaps by member._id
+          allHandicapUpdates.forEach(arr => {
+            if (!arr || arr.length < 2) return; // skip bad data
+
             const member = arr[0];
             const newHandicap = arr[arr.length - 1];
-        
+
+            if (!member || !member._id) return;
+
+            if (!memberUpdates[member._id]) {
+              memberUpdates[member._id] = [];
+            }
+
+            memberUpdates[member._id].push(newHandicap);
+          });
+
+          // Step 2: Prepare the bulk updates
+          const updates = Object.entries(memberUpdates).map(([memberId, handicaps]) => {
+            let finalHandicap;
+
+            if (handicaps.length >= 2) {
+              finalHandicap = Math.min(...handicaps) - 1; // duplicated -> lowest -1
+            } else {
+              finalHandicap = handicaps[0]; // single -> as-is
+            }
+
             return {
               updateOne: {
-                filter: { _id: member._id },
+                filter: { _id: memberId },
                 update: {
-                  $push: { handicap: newHandicap },
+                  $push: { handicap: finalHandicap },
                   $set: { is_new: false }
                 }
               }
             };
           });
-
           
           if (updates.length > 0) {
             await Member.bulkWrite(updates);
           }
-          
-          
-          
+                    
           //const logMsg = `🏁 比賽日期: ${fullEvent.date} | Winners: ${winnerSummary}`;
           const logMsg = `
           🏁 比賽日期: ${fullEvent.date}
