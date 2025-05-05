@@ -941,19 +941,25 @@ return (
                     <h4 className="font-bold text-left text-lg mb-2 text-purple-800">總桿調桿</h4>
                     <h3 className="text-left text-base mb-2 text-purple-800">冠軍調一桿</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                      {MStrokeWinner[0]?.name && (
-                        <p className="font-bold text-blue-800">
-                          {MStrokeWinner[0]?.name} ({MStrokeWinner[1] === 0 ? 0 : MStrokeWinner[1] || "N/A"}) - 1 = ({MStrokeWinner[2] === 0 ? 0 : MStrokeWinner[2] || "N/A"})
-                        </p>
-                      )}
-
-                      {WStrokeWinner[0]?.name && (
-                        <p className="font-bold text-red-800">
-                          {WStrokeWinner[0]?.name} ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"}) - 1 = ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"})
-                        </p>
+                      {(MStrokeWinner[0]?.name || WStrokeWinner[0]?.name) ? (
+                        <>
+                          {MStrokeWinner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MStrokeWinner[0]?.name} ({MStrokeWinner[1] === 0 ? 0 : MStrokeWinner[1] || "N/A"}) - 1 = ({MStrokeWinner[2] === 0 ? 0 : MStrokeWinner[2] || "N/A"})
+                            </p>
+                          )}
+                          {WStrokeWinner[0]?.name && (
+                            <p className="font-bold text-red-800">
+                              {WStrokeWinner[0]?.name} ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"}) - 1 = ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"})
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        <p className="text-gray-500 col-span-full">無調桿數據</p>
                       )}
                     </div>
                   </div>
+
 
                   {/* 净桿調桿 */}
                   <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
@@ -961,55 +967,63 @@ return (
                     <h3 className="text-left text-base mb-1 text-purple-800">照表一&表二調桿 (請看差點調整詳解)</h3>
                     <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表一 - 表二 = 新差點</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                      {MNet1Winner[0]?.name && (
-                        <p className="font-bold text-blue-800">
-                          {MNet1Winner[0]?.name} ({MNet1Winner[1] === 0 ? 0 : MNet1Winner[1] || "N/A"}) - {MNet1Winner[2] === 0 ? 0 : MNet1Winner[2] || "N/A"} - {MNet1Winner[3] === 0 ? 0 : MNet1Winner[3] || "N/A"} = ({MNet1Winner[1] === 0 ? 0 : MNet1Winner[4] || "N/A"})
-                        </p>
-                      )}
-
-                      {MNet2Winner[0]?.name && (
-                        <p className="font-bold text-blue-800">
-                          {MNet2Winner[0]?.name} ({MNet2Winner[1] === 0 ? 0 : MNet2Winner[1] || "N/A"}) - {MNet2Winner[2] === 0 ? 0 : MNet2Winner[2] || "N/A"} - {MNet2Winner[3] === 0 ? 0 : MNet2Winner[3] || "N/A"} = ({MNet2Winner[1] === 0 ? 0 : MNet2Winner[4] || "N/A"})
-                        </p>
-                      )}
-
-                      {MNet3Winner[0]?.name && (
-                        <p className="font-bold text-blue-800">
-                          {MNet3Winner[0]?.name} ({MNet3Winner[1] === 0 ? 0 : MNet3Winner[1] || "N/A"}) - {MNet3Winner[2] === 0 ? 0 : MNet3Winner[2] || "N/A"} - {MNet3Winner[3] === 0 ? 0 : MNet3Winner[3] || "N/A"} = ({MNet3Winner[1] === 0 ? 0 : MNet3Winner[4] || "N/A"})
-                          </p>
-                      )}
-
-                      {MNet4Winner[0]?.name && (
-                        <p className="font-bold text-blue-800">
-                          {MNet4Winner[0]?.name} ({MNet4Winner[1] === 0 ? 0 : MNet4Winner[1] || "N/A"}) - {MNet4Winner[2] === 0 ? 0 : MNet4Winner[2] || "N/A"} - {MNet4Winner[3] === 0 ? 0 : MNet4Winner[3] || "N/A"} = ({MNet4Winner[1] === 0 ? 0 : MNet4Winner[4] || "N/A"})
-                          </p>
-                      )}
-
-                      {MNet5Winner[0]?.name && (
-                        <p className="font-bold text-blue-800">
-                          {MNet5Winner[0]?.name} ({MNet5Winner[1] === 0 ? 0 : MNet5Winner[1] || "N/A"}) - {MNet5Winner[2] === 0 ? 0 : MNet5Winner[2] || "N/A"} - {MNet5Winner[3] === 0 ? 0 : MNet5Winner[3] || "N/A"} = ({MNet5Winner[1] === 0 ? 0 : MNet5Winner[4] || "N/A"})
-                        </p>
-                      )}
-
-                      {WNet1Winner[0]?.name && (
-                        <p className="font-bold text-red-800">
-                          {WNet1Winner[0]?.name} ({WNet1Winner[1] === 0 ? 0 : WNet1Winner[1] || "N/A"}) - {WNet1Winner[2] === 0 ? 0 : WNet1Winner[2] || "N/A"} - {WNet1Winner[3] === 0 ? 0 : WNet1Winner[3] || "N/A"} = ({WNet1Winner[1] === 0 ? 0 : WNet1Winner[4] || "N/A"})
-                          </p>
-                      )}
-
-                      {WNet2Winner[0]?.name && (
-                        <p className="font-bold text-red-800">
-                          {WNet2Winner[0]?.name} ({WNet2Winner[1] === 0 ? 0 : WNet2Winner[1] || "N/A"}) - {WNet2Winner[2] === 0 ? 0 : WNet2Winner[2] || "N/A"} - {WNet2Winner[3] === 0 ? 0 : WNet2Winner[3] || "N/A"} = ({WNet2Winner[1] === 0 ? 0 : WNet2Winner[4] || "N/A"})
-                          </p>
+                      {(MNet1Winner[0]?.name ||
+                        MNet2Winner[0]?.name ||
+                        MNet3Winner[0]?.name ||
+                        MNet4Winner[0]?.name ||
+                        MNet5Winner[0]?.name ||
+                        WNet1Winner[0]?.name ||
+                        WNet2Winner[0]?.name) ? (
+                        <>
+                          {MNet1Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet1Winner[0]?.name} ({MNet1Winner[1] === 0 ? 0 : MNet1Winner[1] || "N/A"}) - {MNet1Winner[2] === 0 ? 0 : MNet1Winner[2] || "N/A"} - {MNet1Winner[3] === 0 ? 0 : MNet1Winner[3] || "N/A"} = ({MNet1Winner[1] === 0 ? 0 : MNet1Winner[4] || "N/A"})
+                            </p>
+                          )}
+                          {MNet2Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet2Winner[0]?.name} ({MNet2Winner[1] === 0 ? 0 : MNet2Winner[1] || "N/A"}) - {MNet2Winner[2] === 0 ? 0 : MNet2Winner[2] || "N/A"} - {MNet2Winner[3] === 0 ? 0 : MNet2Winner[3] || "N/A"} = ({MNet2Winner[1] === 0 ? 0 : MNet2Winner[4] || "N/A"})
+                            </p>
+                          )}
+                          {MNet3Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet3Winner[0]?.name} ({MNet3Winner[1] === 0 ? 0 : MNet3Winner[1] || "N/A"}) - {MNet3Winner[2] === 0 ? 0 : MNet3Winner[2] || "N/A"} - {MNet3Winner[3] === 0 ? 0 : MNet3Winner[3] || "N/A"} = ({MNet3Winner[1] === 0 ? 0 : MNet3Winner[4] || "N/A"})
+                            </p>
+                          )}
+                          {MNet4Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet4Winner[0]?.name} ({MNet4Winner[1] === 0 ? 0 : MNet4Winner[1] || "N/A"}) - {MNet4Winner[2] === 0 ? 0 : MNet4Winner[2] || "N/A"} - {MNet4Winner[3] === 0 ? 0 : MNet4Winner[3] || "N/A"} = ({MNet4Winner[1] === 0 ? 0 : MNet4Winner[4] || "N/A"})
+                            </p>
+                          )}
+                          {MNet5Winner[0]?.name && (
+                            <p className="font-bold text-blue-800">
+                              {MNet5Winner[0]?.name} ({MNet5Winner[1] === 0 ? 0 : MNet5Winner[1] || "N/A"}) - {MNet5Winner[2] === 0 ? 0 : MNet5Winner[2] || "N/A"} - {MNet5Winner[3] === 0 ? 0 : MNet5Winner[3] || "N/A"} = ({MNet5Winner[1] === 0 ? 0 : MNet5Winner[4] || "N/A"})
+                            </p>
+                          )}
+                          {WNet1Winner[0]?.name && (
+                            <p className="font-bold text-red-800">
+                              {WNet1Winner[0]?.name} ({WNet1Winner[1] === 0 ? 0 : WNet1Winner[1] || "N/A"}) - {WNet1Winner[2] === 0 ? 0 : WNet1Winner[2] || "N/A"} - {WNet1Winner[3] === 0 ? 0 : WNet1Winner[3] || "N/A"} = ({WNet1Winner[1] === 0 ? 0 : WNet1Winner[4] || "N/A"})
+                            </p>
+                          )}
+                          {WNet2Winner[0]?.name && (
+                            <p className="font-bold text-red-800">
+                              {WNet2Winner[0]?.name} ({WNet2Winner[1] === 0 ? 0 : WNet2Winner[1] || "N/A"}) - {WNet2Winner[2] === 0 ? 0 : WNet2Winner[2] || "N/A"} - {WNet2Winner[3] === 0 ? 0 : WNet2Winner[3] || "N/A"} = ({WNet2Winner[1] === 0 ? 0 : WNet2Winner[4] || "N/A"})
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        <p className="text-gray-500 col-span-full">無調桿數據</p>
                       )}
                     </div>
                   </div>
+
 
                   {/* 新會員調桿 */}
                   <div className="p-4 border rounded-lg shadow-sm bg-gray-50 mt-2">
                     <h4 className="font-bold text-left text-lg mb-2 text-purple-800">新會員調桿</h4>
                     <h3 className="text-left text-base mb-1 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
                     <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     {NewstrokeList.length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         {NewstrokeList.map((item, idx) => {
@@ -1027,8 +1041,9 @@ return (
                         })}
                       </div>
                     ) : (
-                      <p className="text-gray-600">無調桿數據</p>
+                      <p className="text-gray-500 col-span-full">無調桿數據</p>
                     )}
+                    </div>
                   </div>
                 </div>
               )}

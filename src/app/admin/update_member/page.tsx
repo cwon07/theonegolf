@@ -225,7 +225,7 @@ export default function AdminDashboard() {
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
               className="border border-gray-300 rounded px-2 py-2 h-10 text-sm w-full"
-              placeholder="Enter Member ID"
+              placeholder="輸入會員序號"
             />
             <div className="flex w-full gap-2">
               <button 

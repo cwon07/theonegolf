@@ -82,7 +82,7 @@ export default function AdminLogin() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full p-2 border rounded-md mt-1"
-              placeholder="Enter your username"
+              placeholder="請輸入姓名"
               required
             />
           </div>
@@ -97,7 +97,7 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-2 border rounded-md mt-1"
-              placeholder="Enter your password"
+              placeholder="請輸入密碼"
               required
             />
           </div>
