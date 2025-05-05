@@ -55,13 +55,17 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-    {/* Header & Navbar */}
-    <div className="bg-white shadow-md relative z-50">
-      <div className="container mx-auto flex items-center justify-between p-4">
-        <Header />
-        <Navbar onSelectMenu={handleSelectMenu} />
+      {/* Header & Navbar */}
+      <div className="bg-white shadow-md relative z-50 w-full">
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between border-b border-gray-300 shadow-sm p-4">
+          <div className="flex justify-center md:justify-start">
+            <Header />
+          </div>
+          <div className="flex justify-center md:justify-start md:flex-nowrap">
+            <Navbar onSelectMenu={handleSelectMenu} />
+          </div>
+        </div>
       </div>
-    </div>
 
     <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
       <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">

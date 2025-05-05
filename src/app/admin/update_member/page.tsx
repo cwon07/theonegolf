@@ -202,45 +202,49 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header + Navbar */}
-      <div className="bg-white shadow-md">
-        <div className="container mx-auto flex items-center justify-between p-4">
-          <Header />
-          <Navbar onSelectMenu={handleSelectMenu}/>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header & Navbar */}
+      <div className="bg-white shadow-md relative z-50 w-full">
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between border-b border-gray-300 shadow-sm p-4">
+          <div className="flex justify-center md:justify-start">
+            <Header />
+          </div>
+          <div className="flex justify-center md:justify-start md:flex-nowrap">
+            <Navbar onSelectMenu={handleSelectMenu} />
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
-        <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center mb-4">修改會員</h1>
-        <div className="flex flex-col w-full space-y-2">
-          <input 
-            type="text" 
-            value={searchId}
-            onChange={(e) => setSearchId(e.target.value)}
-            className="border border-gray-300 rounded px-2 py-1 h-10 text-sm w-full"
-            placeholder="Enter Member ID"
-          />
-          <div className="flex justify-between space-x-2">
-            <button 
-              onClick={() => {
-                setShowForm(true);
-                handleSearch();
-              }}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
-            >
-              搜尋
-            </button>
-            <button 
-              onClick={handleDelete}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-gray-600 w-full"
-            >
-              刪除
-            </button>
+      <div className="text-black min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+        <div className="w-full max-w-sm bg-white p-4 rounded-lg shadow-lg">
+          <h1 className="text-2xl font-bold text-center mb-4">修改會員</h1>
+          <div className="flex flex-col w-full space-y-3">
+            <input 
+              type="text" 
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+              className="border border-gray-300 rounded px-2 py-2 h-10 text-sm w-full"
+              placeholder="Enter Member ID"
+            />
+            <div className="flex w-full gap-2">
+              <button 
+                onClick={() => {
+                  setShowForm(true);
+                  handleSearch();
+                }}
+                className="flex-1 bg-blue-500 text-white text-sm py-2 rounded hover:bg-blue-600"
+              >
+                搜尋
+              </button>
+              <button 
+                onClick={handleDelete}
+                className="flex-1 bg-red-500 text-white text-sm py-2 rounded hover:bg-red-600"
+              >
+                刪除
+              </button>
+            </div>
           </div>
-        </div>
         {showForm && (
           <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <div>

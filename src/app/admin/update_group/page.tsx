@@ -270,10 +270,12 @@ export default function UpdateGroupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-white shadow-md">
-        <div className="container mx-auto flex items-center justify-between p-4">
+    <div className="bg-white shadow-md relative z-50 w-full">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between border-b border-gray-300 shadow-sm p-4">
+        <div className="flex justify-center md:justify-start">
           <Header />
+        </div>
+        <div className="flex justify-center md:justify-start md:flex-nowrap">
           <Navbar onSelectMenu={handleSelectMenu} />
         </div>
       </div>

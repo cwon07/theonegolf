@@ -94,22 +94,26 @@ export default function DeleteEventsPage() {
   };  
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header + Navbar */}
-      <div className="bg-white shadow-md">
-        <div className="container mx-auto flex items-center justify-between p-4">
-          <Header />
-          <Navbar onSelectMenu={handleSelectMenu}/>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header & Navbar */}
+      <div className="bg-white shadow-md relative z-50 w-full">
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between border-b border-gray-300 shadow-sm p-4">
+          <div className="flex justify-center md:justify-start">
+            <Header />
+          </div>
+          <div className="flex justify-center md:justify-start md:flex-nowrap">
+            <Navbar onSelectMenu={handleSelectMenu} />
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="text-black min-h-screen bg-gray-100 p-8 flex flex-col items-center">
-      <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
+        <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-center mb-4">刪除賽事&球叙</h1>
 
           {/* Date Selector */}
-          <div className="block flex items-center space-x-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
             <input
               type="date"
               value={selectedDate}
@@ -126,6 +130,7 @@ export default function DeleteEventsPage() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
