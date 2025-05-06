@@ -78,7 +78,7 @@ export default function Home() {
               <span className="font-bold text-purple-600"> 總桿獎</span> （<span className="font-bold text-blue-800">男士</span>&
                 <span className="font-bold text-red-800">女士</span>）
                 <p className="text-black font-bold text-yellow-600"> 獎勵：球（一盒）</p>
-                <p className="text-black">總桿獎一年一次為限， 男女分開計</p>
+                <p className="text-black">總桿獎一年一次為限， 男女分開計算</p>
                 <p className="text-black">最低桿者勝, 如有平手，以下面方案決定勝負</p>
                 <ul className="text-black text-center">
                   <li>1. 差點高者勝</li>
