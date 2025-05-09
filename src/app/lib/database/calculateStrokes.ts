@@ -117,7 +117,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
       return [original, handicap, undefined, undefined, undefined];
     }
   
-    const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - 72) : undefined;
+    const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - 68) : undefined;
     const clampedIndex = lookUpStroke !== undefined ? clamp(lookUpStroke, 0, 28) - 1 : undefined;
     
     const table1Value = (rangeIndex !== undefined && table1?.[placeIndex]?.[rangeIndex] !== undefined) ? table1[placeIndex][rangeIndex] : 0;
@@ -143,7 +143,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
     let table2Value = 0;
     let adjusted = parsedHandicap;
 
-    const lookUpStroke = -1 * (totalScore - parsedHandicap - 72);
+    const lookUpStroke = -1 * (totalScore - parsedHandicap - 68);
     if (lookUpStroke > 0) {
       const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
       table2Value = rangeIndex !== undefined ? table2?.[rangeIndex]?.[clampedIndex] ?? 0 : 0;
