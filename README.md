@@ -16,14 +16,13 @@ A full-stack scoring app for a senior golf community. Built with **Next.js**, **
 Next.js • MongoDB • Node.js • React • GitHub 
 
 ## 🚀 Demo
-[https://theonegolf.vercel.app/](#) | [Demo Video](#)
+[Complete App](https://theonegolf.vercel.app/) | [Demo Video](#)
 
 ## 📸 Screenshots
 (Add screenshots or GIFs of key features)
 
 ## 📁 Setup
 ```bash
-git clone [repo-url]
-cd project-folder
+git clone [Github repo](https://github.com/cwon07/theonegolf/tree/main)
 npm install
 npm run dev
