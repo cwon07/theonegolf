@@ -91,7 +91,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
     [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,10,10,11,11,12,12,13,13,14,14,15],
     [1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9,10,10,11,12,12,13,14,14,15,16,16,17,18,18,19,20],
     [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29],
-    [1, 2, 3, 5, 6, 7, 8, 9,10,12,13,14,15,16,17,19,20,21,23,24,25,26,27,28,29,31,32,33,34],
+    [1, 2, 3, 5, 6, 7, 8, 9,10,12,13,14,16,17,18,19,20,21,22,24,25,26,28,29,30,31,32,33,35],
   ];
 
   const getHandicapRangeIndex = (handicap: number): number => {
@@ -118,7 +118,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
     }
   
     const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - 68) : undefined;
-    const clampedIndex = lookUpStroke !== undefined ? clamp(lookUpStroke, 0, 28) - 1 : undefined;
+    const clampedIndex = lookUpStroke !== undefined ? clamp(lookUpStroke, 0, 28) : undefined;
     
     const table1Value = (rangeIndex !== undefined && table1?.[placeIndex]?.[rangeIndex] !== undefined) ? table1[placeIndex][rangeIndex] : 0;
     const table2Value = (rangeIndex !== undefined && clampedIndex !== undefined && table2?.[rangeIndex]?.[clampedIndex] !== undefined) ? table2[rangeIndex][clampedIndex] : 0;
@@ -145,7 +145,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
 
     const lookUpStroke = -1 * (totalScore - parsedHandicap - 68);
     if (lookUpStroke > 0) {
-      const clampedIndex = clamp(lookUpStroke, 0, 19) - 1;
+      const clampedIndex = clamp(lookUpStroke, 0, 28);
       table2Value = rangeIndex !== undefined ? table2?.[rangeIndex]?.[clampedIndex] ?? 0 : 0;
       adjusted = parsedHandicap - table2Value;
     }
