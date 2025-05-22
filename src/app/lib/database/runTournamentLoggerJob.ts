@@ -190,7 +190,7 @@ export async function runTournamentLoggerJob() {
                 filter: { _id: memberId },
                 update: {
                   $push: { handicap: finalHandicap },
-                  $set: { is_new: false }
+                  //$set: { is_new: false }
                 }
               }
             };
