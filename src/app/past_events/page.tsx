@@ -635,7 +635,7 @@ export default function EventsView() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Male BB Winner */}
                       <div className="flex items-center gap-2">
-                        <p className="text-blue-800 font-bold">BB獎 (男士): </p>
+                        <p className="text-purple-800 font-bold">BB獎: </p>
                         {selectedEvent.m_bb ? (
                           <span className="flex items-center gap-2">
                             <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
@@ -646,23 +646,6 @@ export default function EventsView() {
                         ) : (
                           <span className="text-black">暫無得獎者</span>
                         )}
-                      </div>
-
-                      {/* Female BB Winner */}
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <p className="text-red-800 font-bold">BB獎 (女士): </p>
-                          {selectedEvent.w_bb ? (
-                            <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
-                                {selectedEvent.w_bb.id}
-                              </span>
-                              <span className="text-black">{selectedEvent.w_bb.name}</span>
-                            </span>
-                          ) : (
-                            <span className="text-black">暫無得獎者</span>
-                          )}
-                        </div>
                       </div>
                     </div>
                   </div>

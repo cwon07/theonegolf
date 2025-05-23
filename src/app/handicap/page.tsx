@@ -38,7 +38,7 @@ export default function Home() {
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 得總桿冠軍者，不論男女，調一桿
               </li>
-              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如無參照差點 (完全新手) 則直接以 35 計算 </li>
+              <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 新會員第一次參賽會以比賽成績成立初始差點, 如無參照差點 (完全新手) 則直接以 <span className="text-blue-800"> 30(男)</span>，<span className="text-red-800"> 35(女)</span> 計算 </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md"> 如果已有USGA或其他俱樂部正式差點，經過委員會同意則可以直接採用 (第一場比賽仍需照新會員規則調桿一次) </li>
               <li className="text-black bg-gray-100 p-4 rounded-md shadow-md">
                 净桿得獎者，不論男女，照以下表格調桿

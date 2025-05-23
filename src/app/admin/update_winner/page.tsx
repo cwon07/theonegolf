@@ -477,7 +477,7 @@ function EventContent() {
 
           {/* Best Ball */}
           <div>
-            <label className="block font-semibold text-blue-700 mb-1">BB獎 (男) - 12洞:</label>
+            <label className="block font-semibold text-purple-700 mb-1">BB獎:</label>
             <input
               type="number"
               name="m_bb"
@@ -491,22 +491,7 @@ function EventContent() {
               }
             />
           </div>
-          <div>
-            <label className="block font-semibold text-pink-700 mb-1">BB獎 (女) - 12洞:</label>
-            <input
-              type="number"
-              name="w_bb"
-              value={formData.w_bb}
-              onChange={(e) => setFormData({ ...formData, w_bb: e.target.value })}
-              className="w-full p-2 border rounded-md bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder={
-                event.w_bb?.id
-                  ? `(${event.w_bb.id}) ${event.w_bb.name}`
-                  : "輸入會員編號"
-              }
-            />
-          </div>
-
+          
           {/* Special Scores */}
           <div>
             <label className="block font-semibold text-purple-700 mb-1">小鳥獎:</label>
