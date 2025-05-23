@@ -950,7 +950,7 @@ return (
                           )}
                           {WStrokeWinner[0]?.name && (
                             <p className="font-bold text-red-800">
-                              {WStrokeWinner[0]?.name} ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"}) - 1 = ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"})
+                              {WStrokeWinner[0]?.name} ({WStrokeWinner[1] === 0 ? 0 : WStrokeWinner[1] || "N/A"}) - 1 = ({WStrokeWinner[2] === 0 ? 0 : WStrokeWinner[2] || "N/A"})
                             </p>
                           )}
                         </>
