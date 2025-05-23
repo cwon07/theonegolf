@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Round from './models/round.model';
 
 interface Member {
   _id: mongoose.Types.ObjectId;
@@ -105,7 +106,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
 
   const clamp = (num: number, min: number, max: number) => Math.max(min, Math.min(num, max));
 
-  const getNetStrokeAdjustment = (original: Member, placeIndex: number): any[] => {
+  const getNetStrokeAdjustment = (original: Member, placeIndex: number, courseRating: number): any[] => {
     const handicap = original?.handicap?.at?.(-1);
     const parsedHandicap = handicap !== undefined ? Number(handicap) : undefined;
     const rangeIndex = parsedHandicap !== undefined ? getHandicapRangeIndex(parsedHandicap) : undefined;
@@ -117,7 +118,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
       return [original, handicap, undefined, undefined, undefined];
     }
   
-    const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - 68) : undefined;
+    const lookUpStroke = totalScore !== undefined && parsedHandicap !== undefined ? -1 * (totalScore - parsedHandicap - courseRating) : undefined;
     const clampedIndex = lookUpStroke !== undefined ? clamp(lookUpStroke, 0, 28) : undefined;
     
     const table1Value = (rangeIndex !== undefined && table1?.[placeIndex]?.[rangeIndex] !== undefined) ? table1[placeIndex][rangeIndex] : 0;
@@ -129,7 +130,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
     return [original, handicap, table1Value, table2Value, adjusted];
   };
 
-  const getNewStrokeAdjustment = (original: Member): any[] => {
+  const getNewStrokeAdjustment = (original: Member, courseRating: number): any[] => {
     const handicap = original?.handicap?.at(-1);
     const parsedHandicap = Number(handicap);
     const rangeIndex = !isNaN(parsedHandicap) ? getHandicapRangeIndex(parsedHandicap) : undefined;
@@ -143,7 +144,7 @@ export const calculateStrokes = (eventsData: Event[]) => {
     let table2Value = 0;
     let adjusted = parsedHandicap;
 
-    const lookUpStroke = -1 * (totalScore - parsedHandicap - 68);
+    const lookUpStroke = -1 * (totalScore - parsedHandicap - courseRating);
     if (lookUpStroke > 0) {
       const clampedIndex = clamp(lookUpStroke, 0, 28);
       table2Value = rangeIndex !== undefined ? table2?.[rangeIndex]?.[clampedIndex] ?? 0 : 0;
@@ -153,10 +154,16 @@ export const calculateStrokes = (eventsData: Event[]) => {
     return [original, handicap, table2Value, adjusted];
   };
 
+  const course_male = 68;
+  const course_female = 69;
+
   const newMemberRounds = allRounds.filter((round) => round.is_new === true);
-  const adjustedNewMember = newMemberRounds.map((round) => ({
-    result: getNewStrokeAdjustment(round),
-  }));
+  const adjustedNewMember = newMemberRounds.map((round) => {
+    const courseRating = round.sex === 'Male' ? 68 : 69;
+    return {
+      result: getNewStrokeAdjustment(round, courseRating),
+    };
+  });
 
   const mOriginal = eventsData[0].m_total_stroke || null;
   const mHandicap = mOriginal?.handicap?.at(-1);
@@ -168,14 +175,14 @@ export const calculateStrokes = (eventsData: Event[]) => {
   const wAdjustedHandicap = wHandicap !== undefined ? Number(wHandicap) - 1 : undefined;
   const WWinner = [wOriginal, wHandicap, wAdjustedHandicap];
 
-  const MNet1 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_1, 0);
-  const MNet2 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_2, 1);
-  const MNet3 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_3, 2);
-  const MNet4 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_4, 3);
-  const MNet5 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_5, 4);
+  const MNet1 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_1, 0, course_male);
+  const MNet2 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_2, 1, course_male);
+  const MNet3 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_3, 2, course_male);
+  const MNet4 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_4, 3, course_male);
+  const MNet5 = getNetStrokeAdjustment(eventsData[0].m_net_stroke_5, 4, course_male);
 
-  const WNet1 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_1, 0);
-  const WNet2 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_2, 1);
+  const WNet1 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_1, 0, course_female);
+  const WNet2 = getNetStrokeAdjustment(eventsData[0].w_net_stroke_2, 1, course_female);
 
   return {
     MWinner,

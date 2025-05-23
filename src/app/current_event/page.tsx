@@ -1007,9 +1007,8 @@ return (
                     <h3 className="text-left text-base mb-1 text-purple-800">照表二調桿，下列新會員將成爲正式會員 （移除⭐新會員頭銜)</h3>
                     <h3 className="text-left text-base mb-2 text-purple-800">姓名 差點 - 表二 = 新差點</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    {NewstrokeList.length > 0 ? (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        {NewstrokeList.map((item, idx) => {
+                      {NewstrokeList.length > 0 ? (
+                        NewstrokeList.map((item, idx) => {
                           const [member, handicap, value, adjusted] = item.result;
                           return (
                             <div
@@ -1021,11 +1020,10 @@ return (
                               {member.name} {member.is_new && '⭐'} ({handicap}) - {value} = ({adjusted})
                             </div>
                           );
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 col-span-full">無調桿數據</p>
-                    )}
+                        })
+                      ) : (
+                        <p className="text-gray-500 col-span-full">無調桿數據</p>
+                      )}
                     </div>
                   </div>
                 </div>
