@@ -447,10 +447,10 @@ export default function EventsView() {
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="flex items-center gap-2">
-                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士）:</p>
+                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士):</p>
                           {selectedEvent.m_total_stroke ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {selectedEvent.m_total_stroke.id}
                               </span>
                               <span className="text-black">{selectedEvent.m_total_stroke.name}</span>
@@ -461,10 +461,10 @@ export default function EventsView() {
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <p className="text-red-800 font-bold">冠軍 (女士）: </p>
+                          <p className="text-red-800 font-bold">冠軍 (女士): </p>
                           {selectedEvent.w_total_stroke ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {selectedEvent.w_total_stroke.id}
                               </span>
                               <span className="text-black">{selectedEvent.w_total_stroke.name}</span>
@@ -485,7 +485,7 @@ export default function EventsView() {
                           <p className="text-blue-800 font-bold">遠桿獎 (男士): </p>
                           {selectedEvent.m_long_drive ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {selectedEvent.m_long_drive.id}
                               </span>
                               <span className="text-black">{selectedEvent.m_long_drive.name}</span>
@@ -500,7 +500,7 @@ export default function EventsView() {
                           <p className="text-red-800 font-bold">遠桿獎 (女士): </p>
                           {selectedEvent.w_long_drive ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {selectedEvent.w_long_drive.id}
                               </span>
                               <span className="text-black">{selectedEvent.w_long_drive.name}</span>
@@ -527,7 +527,7 @@ export default function EventsView() {
                               </span>{" "}                              
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -550,7 +550,7 @@ export default function EventsView() {
                               </span>{" "}                              
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -576,7 +576,7 @@ export default function EventsView() {
                               <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -596,7 +596,7 @@ export default function EventsView() {
                               <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -619,7 +619,7 @@ export default function EventsView() {
                         </span>
                         <span className="flex items-center gap-2">
                             {selectedEvent.close_to_center?.id && (
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {selectedEvent.close_to_center.id}
                               </span>
                             )}
@@ -638,7 +638,7 @@ export default function EventsView() {
                         <p className="text-purple-800 font-bold">BB獎: </p>
                         {selectedEvent.m_bb ? (
                           <span className="flex items-center gap-2">
-                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                            <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                               {selectedEvent.m_bb.id}
                             </span>
                             <span className="text-black">{selectedEvent.m_bb.name}</span>
@@ -669,7 +669,7 @@ export default function EventsView() {
                               }, {} as Record<string, { id: string | number; name: string; count: number }>)
                             ).map((winner, i) => (
                               <span key={i} className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                   {winner.id}
                                 </span>
                                 <span className="text-black">
@@ -703,7 +703,7 @@ export default function EventsView() {
                               }, {} as Record<string, { id: string | number; name: string; count: number }>)
                             ).map((winner, i) => (
                               <span key={i} className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                   {winner.id}
                                 </span>
                                 <span className="text-black">
@@ -736,7 +736,7 @@ export default function EventsView() {
                               }, {} as Record<string, { id: string | number; name: string; count: number }>)
                             ).map((winner, i) => (
                               <span key={i} className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                   {winner.id}
                                 </span>
                                 <span className="text-black">
@@ -826,7 +826,7 @@ export default function EventsView() {
                                             : 'text-red-800'
                                         }`}
                                       >
-                                        <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg mr-1">
+                                        <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                           {round.member.id}
                                         </span>
                                         {round.member.name}

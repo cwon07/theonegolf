@@ -600,10 +600,10 @@ return (
                       <h4 className="font-bold text-left text-lg mb-2 text-yellow-600">總桿獎</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="flex items-center gap-2">
-                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士）:</p>
+                          <p className="text-blue-800 font-bold whitespace-nowrap">冠軍 (男士):</p>
                           {event.m_total_stroke ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {event.m_total_stroke.id}
                               </span>
                               <span className="text-black">{event.m_total_stroke.name}</span>
@@ -614,10 +614,10 @@ return (
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <p className="text-red-800 font-bold">冠軍 (女士）: </p>
+                          <p className="text-red-800 font-bold">冠軍 (女士): </p>
                           {event.w_total_stroke ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {event.w_total_stroke.id}
                               </span>
                               <span className="text-black">{event.w_total_stroke.name}</span>
@@ -638,7 +638,7 @@ return (
                           <p className="text-blue-800 font-bold">遠桿獎 (男士): </p>
                           {event.m_long_drive ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {event.m_long_drive.id}
                               </span>
                               <span className="text-black">{event.m_long_drive.name}</span>
@@ -653,7 +653,7 @@ return (
                           <p className="text-red-800 font-bold">遠桿獎 (女士): </p>
                           {event.w_long_drive ? (
                             <span className="flex items-center gap-2">
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {event.w_long_drive.id}
                               </span>
                               <span className="text-black">{event.w_long_drive.name}</span>
@@ -680,7 +680,7 @@ return (
                               </span>{" "}                              
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -703,7 +703,7 @@ return (
                               </span>{" "}                              
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -729,7 +729,7 @@ return (
                               <span className="font-bold">第{[" 2", " 7", "12", "16"][i]}洞 (男士):</span>{" "}
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -749,7 +749,7 @@ return (
                               <span className="font-bold">第{[" 7", "12"][i]}洞 (女士):</span>{" "}
                               <span className="flex items-center gap-2">
                                 {winner?.id && (
-                                  <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                  <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                     {winner.id}
                                   </span>
                                 )}
@@ -772,7 +772,7 @@ return (
                         </span>
                         <span className="flex items-center gap-2">
                             {event.close_to_center?.id && (
-                              <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {event.close_to_center.id}
                               </span>
                             )}
@@ -791,7 +791,7 @@ return (
                         <p className="text-purple-800 font-bold">BB獎: </p>
                         {event.m_bb ? (
                           <span className="flex items-center gap-2">
-                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                            <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                               {event.m_bb.id}
                             </span>
                             <span className="text-black">{event.m_bb.name}</span>
@@ -822,7 +822,7 @@ return (
                               }, {} as Record<string, { id: string | number; name: string; count: number }>)
                             ).map((winner, i) => (
                               <span key={i} className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                   {winner.id}
                                 </span>
                                 <span className="text-black">
@@ -856,7 +856,7 @@ return (
                               }, {} as Record<string, { id: string | number; name: string; count: number }>)
                             ).map((winner, i) => (
                               <span key={i} className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                   {winner.id}
                                 </span>
                                 <span className="text-black">
@@ -889,7 +889,7 @@ return (
                               }, {} as Record<string, { id: string | number; name: string; count: number }>)
                             ).map((winner, i) => (
                               <span key={i} className="flex items-center gap-2">
-                                <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg">
+                                <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                   {winner.id}
                                 </span>
                                 <span className="text-black">
@@ -1060,7 +1060,7 @@ return (
                                 player.sex === 'Male' ? 'text-blue-800' : 'text-red-800'
                               }`}
                             >
-                              <span className="px-1.5 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-md">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {player.id}
                               </span>{' '}
                               {player.name} ({player.handicap}){player.is_new ? '⭐' : ''}
@@ -1094,7 +1094,7 @@ return (
                                 player.sex === 'Male' ? 'text-blue-800' : 'text-red-800'
                               }`}
                             >
-                              <span className="px-1.5 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-md">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {player.id}
                               </span>{' '}
                               {player.name} ({player.handicap}){player.is_new ? '⭐' : ''}
@@ -1142,7 +1142,7 @@ return (
                                 player.sex === 'Male' ? 'text-blue-800' : 'text-red-800'
                               }`}
                             >
-                              <span className="px-1.5 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-md">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {player.id}
                               </span>{' '}
                               {player.name} ({player.handicap}){player.is_new ? '⭐' : ''}
@@ -1176,7 +1176,7 @@ return (
                                 player.sex === 'Male' ? 'text-blue-800' : 'text-red-800'
                               }`}
                             >
-                              <span className="px-1.5 py-0.5 text-xs font-semibold text-white bg-gray-500 rounded-md">
+                              <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                 {player.id}
                               </span>{' '}
                               {player.name} ({player.handicap}){player.is_new ? '⭐' : ''}
@@ -1299,7 +1299,7 @@ return (
                                               : 'text-red-800'
                                           }`}
                                         >
-                                          <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg mr-1">
+                                          <span className="inline-block min-w-[2rem] h-6 px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-lg text-center mr-1">
                                             {round.member.id}
                                           </span>
                                           {round.member.name} ({round.member.handicap.at(-1)})
