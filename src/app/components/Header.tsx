@@ -70,7 +70,7 @@ export default function Header() {
   onClick={handleLogoClick}
 >
   <Image 
-    src="/MClogo.svg" 
+    src="/TFlogo.png" 
     alt="Logo" 
     width={300} 
     height={90} 
