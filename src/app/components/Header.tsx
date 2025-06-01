@@ -108,7 +108,7 @@ export default function Header() {
             }}
             onClick={(e) => e.stopPropagation()} // Prevent modal from closing when image is clicked
           >
-            <Image src="/MClogo.svg" alt="Larger Logo" width={500} height={400} priority />
+            <Image src="/TFlogo.png" alt="Larger Logo" width={500} height={400} priority />
           </div>
         </div>
       )}
